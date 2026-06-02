@@ -230,15 +230,18 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
             GetBattery -> {
                 return
             }
-            is SetRoomCorrectionMode -> {
-                binding.cvSliderBorder.isVisible = true
-            }
-            is SetVolume, is SetLastVolume -> {
+            is SetVolume, is SetLastVolume, is SetRoomCorrectionMode -> {
                 binding.cvSliderBorder.isVisible = true
 
                 val info = viewModel.connectedDeviceInfo
                 val volume = (info.volume.value ?: 0)
-                val maxVolume = info.maxValue
+                var maxVolume = info.maxValue
+
+                // SetRoomCorrectionMode 0-1
+                if (item.commandType is SetRoomCorrectionMode) {
+                    maxVolume = 1
+                }
+
                 binding.slSlider.valueFrom = 0.toFloat()
                 binding.slSlider.value = volume.toFloat()
                 binding.slSlider.valueTo = maxVolume.toFloat()

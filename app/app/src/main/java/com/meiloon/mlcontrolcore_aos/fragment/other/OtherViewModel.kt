@@ -27,10 +27,12 @@ import com.meiloon.controlcore.main.api.EQRange
 import com.meiloon.controlcore.main.api.FirmwareVer
 import com.meiloon.controlcore.main.api.PreEQMode
 import com.meiloon.controlcore.main.api.RoomCorrectionMode
+import com.meiloon.controlcore.main.api.SPKMute
 import com.meiloon.controlcore.main.api.Volume
 import com.meiloon.controlcore.main.api.enums.APIMethod
 import com.meiloon.controlcore.main.api.enums.Mp3PlayerState
 import com.meiloon.controlcore.main.api.enums.PairingStatus
+import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
 import com.meiloon.controlcore.main.container.chart.data.EQData
 import com.meiloon.controlcore.main.container.chart.widget.ChartStorage
 import com.meiloon.controlcore.widget.app.android.AppViewModel
@@ -225,6 +227,11 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                 }
                 connectedDeviceInfo.eqParas.value = eqParas.get()
             }
+            APIMethod.SPKMute -> {
+                val status = apiData.getData(SPKMute::class.java).get()
+                addLogItem(listOf("[$currentTime] [SPKMute: ${status.name}}]"))
+                connectedDeviceInfo.isMuteOn.value = (status == SPKMuteStatus.MUTE)
+            }
             APIMethod.CmdDone -> {
                 val cmdDone = apiData.getData(CmdDone::class.java)
                 when (cmdDone.cmd) {
@@ -262,7 +269,7 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                     }
                     "StartBTPairing" -> addLogItem(listOf("[$currentTime] 收到回應[CmdDone StartBTPairing] [結果:成功]]"))
                     "SetBTDeviceName" -> addLogItem(listOf("[$currentTime] 收到回應[CmdDone SetBTDeviceName] [結果:成功]]"))
-                    "GetMqttInfo" -> if (cmdDone.cmdResult == 5) Log.w("CmdDone GetMute", "設備不支援MQTT")
+                    "GetMqttInfo" -> if (cmdDone.cmdResult == 5) Log.w("CmdDone GetMqttInfo", "設備不支援MQTT")
                     "SetLastVolume" -> addLogItem(listOf("[$currentTime] 收到回應[CmdDone SetLastVolume] [結果:成功]]"))
                     "SetRoomCorrectionMode" -> addLogItem(listOf("[$currentTime] 收到回應[CmdDone SetRoomCorrectionMode] [結果:成功]]"))
                     "GetAudioSampleRate" -> addLogItem(listOf("[$currentTime] 收到回應[CmdDone GetAudioSampleRate] [結果:成功]]"))
