@@ -177,12 +177,12 @@ class PeqFragment : AppFragment<FragmentPeqBinding>() {
             val selectedId = menuItem.itemId
             data.type = selectedId
             viewModel.bandAdapter.notifyItemChanged(position)
-            
+
             // 更新並存檔
             viewModel.chartStorage.saveData(
                 viewModel.showingChipChannel.chip,
                 viewModel.showingChipChannel.channel,
-                data.index + 1,
+                data.index,
                 data
             )
             true

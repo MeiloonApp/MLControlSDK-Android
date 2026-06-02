@@ -31,7 +31,7 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
 
             binding.etFreqValue.setText(data.freq.toString())
             binding.etQValue.setText(String.format("%.2f", data.q))
-            binding.tvBandTitle.text = "B${data.index + 1}"
+            binding.tvBandTitle.text = "B${data.index}"
             binding.tvDbValue.text = "${data.gain} dB"
 
             binding.etQValue.doAfterTextChanged { text ->
@@ -45,7 +45,7 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
 
             binding.etQValue.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
-                    onDataUpdateListener?.invoke(data.index + 1, data)
+                    onDataUpdateListener?.invoke(data.index, data)
                 }
             }
 
@@ -60,7 +60,7 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
 
             binding.etFreqValue.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
-                    onDataUpdateListener?.invoke(data.index + 1, data)
+                    onDataUpdateListener?.invoke(data.index, data)
                 }
             }
 
@@ -103,7 +103,7 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
                     val roundedGain = (newGain * 10).roundToInt() / 10f
                     data.gain = roundedGain
                     // chartStorage的起始資料是從1開始
-                    onSliderStopChangeListener?.invoke(p0, (position + 1), data)
+                    onSliderStopChangeListener?.invoke(p0, data.index, data)
                 }
             })
         }
