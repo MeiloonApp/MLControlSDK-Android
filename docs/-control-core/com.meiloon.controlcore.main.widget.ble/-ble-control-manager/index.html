@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>BleControlManager</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            ControlCore
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":ControlCore:dokkaHtml/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="ControlCore::com.meiloon.controlcore.main.widget.ble/BleControlManager///PointingToDeclaration//-736023332">
+  <div class="breadcrumbs"><a href="../../../index.html">ControlCore</a><span class="delimiter">/</span><a href="../index.html">com.meiloon.controlcore.main.widget.ble</a><span class="delimiter">/</span><span class="current">BleControlManager</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Ble</span><wbr></wbr><span>Control</span><wbr></wbr><span><span>Manager</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">BleControlManager</a></div><p class="paragraph">藍牙與 MQTT 通訊控制中樞。 本類別是與美隆硬體設備進行互動的核心入口。它負責處理： - 多協定連線管理 (BLE, ESP32/BluFi, Jieli, MQTT)。 - 指令封裝與發送 (Protocol)。 - 接收設備回傳資料的解碼與廣播。 ### 通訊協定 (Protocol) 說明： SDK 的指令協定基於特定的字串格式，通常為 &quot;CommandName|Param1|Param2&quot;。</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="364653069%2FFunctions%2F-736023332" anchor-label="connect" id="364653069%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="connect.html"><span><span>connect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="364653069%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="connect.html"><span class="token function">connect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">device<span class="token operator">: </span><a href="../../com.meiloon.controlcore.global.database.entity/-bluetooth-entity/index.html">BluetoothEntity</a><span class="token punctuation">, </span></span><span class="parameter ">isMQTT<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-788695659%2FFunctions%2F-736023332" anchor-label="disconnect" id="-788695659%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="disconnect.html"><span><span>disconnect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-788695659%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="disconnect.html"><span class="token function">disconnect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1625448353%2FFunctions%2F-736023332" anchor-label="disconnectAll" id="-1625448353%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="disconnect-all.html"><span>disconnect</span><wbr></wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1625448353%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="disconnect-all.html"><span class="token function">disconnectAll</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2110908038%2FFunctions%2F-736023332" anchor-label="getAllEQPara" id="-2110908038%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-all-e-q-para.html"><span>get</span><wbr></wbr><span>All</span><wbr></wbr><span><span>EQPara</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2110908038%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-all-e-q-para.html"><span class="token function">getAllEQPara</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-46223460%2FFunctions%2F-736023332" anchor-label="getAudioBand" id="-46223460%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-audio-band.html"><span>get</span><wbr></wbr><span>Audio</span><wbr></wbr><span><span>Band</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-46223460%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-audio-band.html"><span class="token function">getAudioBand</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-185797380%2FFunctions%2F-736023332" anchor-label="getAudioChannel" id="-185797380%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-audio-channel.html"><span>get</span><wbr></wbr><span>Audio</span><wbr></wbr><span><span>Channel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-185797380%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-audio-channel.html"><span class="token function">getAudioChannel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1359618410%2FFunctions%2F-736023332" anchor-label="getAudioChipID" id="1359618410%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-audio-chip-i-d.html"><span>get</span><wbr></wbr><span>Audio</span><wbr></wbr><span>Chip</span><wbr></wbr><span><span>ID</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1359618410%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-audio-chip-i-d.html"><span class="token function">getAudioChipID</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="863175809%2FFunctions%2F-736023332" anchor-label="getAudioChipNumbers" id="863175809%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-audio-chip-numbers.html"><span>get</span><wbr></wbr><span>Audio</span><wbr></wbr><span>Chip</span><wbr></wbr><span><span>Numbers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="863175809%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-audio-chip-numbers.html"><span class="token function">getAudioChipNumbers</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2020635385%2FFunctions%2F-736023332" anchor-label="getAudioSampleRate" id="-2020635385%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-audio-sample-rate.html"><span>get</span><wbr></wbr><span>Audio</span><wbr></wbr><span>Sample</span><wbr></wbr><span><span>Rate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2020635385%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-audio-sample-rate.html"><span class="token function">getAudioSampleRate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2129247558%2FFunctions%2F-736023332" anchor-label="getBattery" id="-2129247558%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-battery.html"><span>get</span><wbr></wbr><span><span>Battery</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2129247558%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-battery.html"><span class="token function">getBattery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1586514703%2FFunctions%2F-736023332" anchor-label="getBTPairing" id="-1586514703%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-b-t-pairing.html"><span>get</span><wbr></wbr><span><span>BTPairing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1586514703%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-b-t-pairing.html"><span class="token function">getBTPairing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1261231805%2FFunctions%2F-736023332" anchor-label="getBTVolume" id="1261231805%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-b-t-volume.html"><span>get</span><wbr></wbr><span><span>BTVolume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1261231805%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-b-t-volume.html"><span class="token function">getBTVolume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1309865856%2FFunctions%2F-736023332" anchor-label="getChannelEQPara" id="-1309865856%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-channel-e-q-para.html"><span>get</span><wbr></wbr><span>Channel</span><wbr></wbr><span><span>EQPara</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1309865856%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-channel-e-q-para.html"><span class="token function">getChannelEQPara</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">chip<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">channel<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="588137698%2FFunctions%2F-736023332" anchor-label="getChipID" id="588137698%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-chip-i-d.html"><span>get</span><wbr></wbr><span>Chip</span><wbr></wbr><span><span>ID</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="588137698%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-chip-i-d.html"><span class="token function">getChipID</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1873424102%2FFunctions%2F-736023332" anchor-label="getConnectedDevices" id="-1873424102%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-connected-devices.html"><span>get</span><wbr></wbr><span>Connected</span><wbr></wbr><span><span>Devices</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1873424102%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-connected-devices.html"><span class="token function">getConnectedDevices</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/util/List.html">List</a><span class="token operator">&lt;</span><a href="../-connected-device/index.html">ConnectedDevice</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="169369523%2FFunctions%2F-736023332" anchor-label="getCrossOver" id="169369523%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-cross-over.html"><span>get</span><wbr></wbr><span>Cross</span><wbr></wbr><span><span>Over</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="169369523%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-cross-over.html"><span class="token function">getCrossOver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="4058572%2FFunctions%2F-736023332" anchor-label="getDeviceIP" id="4058572%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-device-i-p.html"><span>get</span><wbr></wbr><span>Device</span><wbr></wbr><span><span>IP</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="4058572%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-device-i-p.html"><span class="token function">getDeviceIP</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1454678471%2FFunctions%2F-736023332" anchor-label="getDeviceType" id="-1454678471%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-device-type.html"><span>get</span><wbr></wbr><span>Device</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1454678471%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-device-type.html"><span class="token function">getDeviceType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.meiloon.controlcore.main.widget.ble.enums/DeviceType///PointingToDeclaration/">DeviceType</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-757178117%2FFunctions%2F-736023332" anchor-label="getEQEngine" id="-757178117%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-e-q-engine.html"><span>get</span><wbr></wbr><span><span>EQEngine</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-757178117%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-e-q-engine.html"><span class="token function">getEQEngine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="301983284%2FFunctions%2F-736023332" anchor-label="getEQGroup" id="301983284%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-e-q-group.html"><span>get</span><wbr></wbr><span><span>EQGroup</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="301983284%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-e-q-group.html"><span class="token function">getEQGroup</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-642404358%2FFunctions%2F-736023332" anchor-label="getEQMode" id="-642404358%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-e-q-mode.html"><span>get</span><wbr></wbr><span><span>EQMode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-642404358%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-e-q-mode.html"><span class="token function">getEQMode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1823043165%2FFunctions%2F-736023332" anchor-label="getEQPara" id="1823043165%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-e-q-para.html"><span>get</span><wbr></wbr><span><span>EQPara</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1823043165%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-e-q-para.html"><span class="token function">getEQPara</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="664555830%2FFunctions%2F-736023332" anchor-label="getEQRange" id="664555830%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-e-q-range.html"><span>get</span><wbr></wbr><span><span>EQRange</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="664555830%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-e-q-range.html"><span class="token function">getEQRange</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1129331647%2FFunctions%2F-736023332" anchor-label="getFirmwareVer" id="1129331647%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-firmware-ver.html"><span>get</span><wbr></wbr><span>Firmware</span><wbr></wbr><span><span>Ver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1129331647%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-firmware-ver.html"><span class="token function">getFirmwareVer</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1781659193%2FFunctions%2F-736023332" anchor-label="getInstance" id="1781659193%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-instance.html"><span>get</span><wbr></wbr><span><span>Instance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1781659193%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-instance.html"><span class="token function">getInstance</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">BleControlManager</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="781167911%2FFunctions%2F-736023332" anchor-label="getMicMute" id="781167911%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-mic-mute.html"><span>get</span><wbr></wbr><span>Mic</span><wbr></wbr><span><span>Mute</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="781167911%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-mic-mute.html"><span class="token function">getMicMute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1833028054%2FFunctions%2F-736023332" anchor-label="getMP3Count" id="-1833028054%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-m-p3-count.html"><span>get</span><wbr></wbr><span><span>MP3Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1833028054%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-m-p3-count.html"><span class="token function">getMP3Count</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-140499776%2FFunctions%2F-736023332" anchor-label="getMP3Current" id="-140499776%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-m-p3-current.html"><span>get</span><wbr></wbr><span><span>MP3Current</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-140499776%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-m-p3-current.html"><span class="token function">getMP3Current</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1392738596%2FFunctions%2F-736023332" anchor-label="getMP3PlayerStatus" id="1392738596%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-m-p3-player-status.html"><span>get</span><wbr></wbr><span>MP3Player</span><wbr></wbr><span><span>Status</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1392738596%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-m-p3-player-status.html"><span class="token function">getMP3PlayerStatus</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1033263753%2FFunctions%2F-736023332" anchor-label="getMqttInfo" id="-1033263753%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-mqtt-info.html"><span>get</span><wbr></wbr><span>Mqtt</span><wbr></wbr><span><span>Info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1033263753%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-mqtt-info.html"><span class="token function">getMqttInfo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-994855504%2FFunctions%2F-736023332" anchor-label="getMute" id="-994855504%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-mute.html"><span>get</span><wbr></wbr><span><span>Mute</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994855504%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-mute.html"><span class="token function">getMute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1851386572%2FFunctions%2F-736023332" anchor-label="getPhase" id="1851386572%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-phase.html"><span>get</span><wbr></wbr><span><span>Phase</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1851386572%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-phase.html"><span class="token function">getPhase</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2133178923%2FFunctions%2F-736023332" anchor-label="getPreEQMode" id="-2133178923%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-pre-e-q-mode.html"><span>get</span><wbr></wbr><span>Pre</span><wbr></wbr><span><span>EQMode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2133178923%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-pre-e-q-mode.html"><span class="token function">getPreEQMode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1481819533%2FFunctions%2F-736023332" anchor-label="getRoomCorrectionMode" id="1481819533%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-room-correction-mode.html"><span>get</span><wbr></wbr><span>Room</span><wbr></wbr><span>Correction</span><wbr></wbr><span><span>Mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1481819533%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-room-correction-mode.html"><span class="token function">getRoomCorrectionMode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1389595360%2FFunctions%2F-736023332" anchor-label="getSPKMute" id="-1389595360%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-s-p-k-mute.html"><span>get</span><wbr></wbr><span><span>SPKMute</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1389595360%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-s-p-k-mute.html"><span class="token function">getSPKMute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1927089687%2FFunctions%2F-736023332" anchor-label="getUACMute" id="1927089687%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-u-a-c-mute.html"><span>get</span><wbr></wbr><span><span>UACMute</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1927089687%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-u-a-c-mute.html"><span class="token function">getUACMute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2041014218%2FFunctions%2F-736023332" anchor-label="getUACVolume" id="-2041014218%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-u-a-c-volume.html"><span>get</span><wbr></wbr><span><span>UACVolume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2041014218%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-u-a-c-volume.html"><span class="token function">getUACVolume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1121731185%2FFunctions%2F-736023332" anchor-label="getVolume" id="-1121731185%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-volume.html"><span>get</span><wbr></wbr><span><span>Volume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1121731185%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-volume.html"><span class="token function">getVolume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-150168645%2FFunctions%2F-736023332" anchor-label="inputKeyDigit" id="-150168645%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="input-key-digit.html"><span>input</span><wbr></wbr><span>Key</span><wbr></wbr><span><span>Digit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-150168645%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="input-key-digit.html"><span class="token function">inputKeyDigit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">number<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1218633695%2FFunctions%2F-736023332" anchor-label="loadEQPara" id="1218633695%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="load-e-q-para.html"><span>load</span><wbr></wbr><span><span>EQPara</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1218633695%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="load-e-q-para.html"><span class="token function">loadEQPara</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-796543189%2FFunctions%2F-736023332" anchor-label="onMessageEvent" id="-796543189%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-message-event.html"><span>on</span><wbr></wbr><span>Message</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-796543189%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.greenrobot.eventbus/Subscribe///PointingToDeclaration/"><span class="token annotation builtin">Subscribe</span></span><span class="token punctuation">(</span><span>threadMode<span class="token operator"> = </span><span data-unresolved-link="org.greenrobot.eventbus/ThreadMode///PointingToDeclaration/">ThreadMode.MAIN</span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-message-event.html"><span class="token function">onMessageEvent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">event<span class="token operator">: </span><span data-unresolved-link="com.meiloon.controlcore.main.widget.ble.event/ConnectionResponse///PointingToDeclaration/">ConnectionResponse</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="org.greenrobot.eventbus/Subscribe///PointingToDeclaration/"><span class="token annotation builtin">Subscribe</span></span><span class="token punctuation">(</span><span>threadMode<span class="token operator"> = </span><span data-unresolved-link="org.greenrobot.eventbus/ThreadMode///PointingToDeclaration/">ThreadMode.MAIN</span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-message-event.html"><span class="token function">onMessageEvent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">event<span class="token operator">: </span><span data-unresolved-link="com.meiloon.controlcore.widget.app.mqtt/MQTTMessage///PointingToDeclaration/">MQTTMessage</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1437805830%2FFunctions%2F-736023332" anchor-label="playDJEffect" id="-1437805830%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="play-d-j-effect.html"><span>play</span><wbr></wbr><span><span>DJEffect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1437805830%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="play-d-j-effect.html"><span class="token function">playDJEffect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">number<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1673102516%2FFunctions%2F-736023332" anchor-label="send" id="-1673102516%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="send.html"><span><span>send</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1673102516%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="send.html"><span class="token function">send</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">data<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-byte/index.html">Byte</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-61205697%2FFunctions%2F-736023332" anchor-label="sendAllEQPara" id="-61205697%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="send-all-e-q-para.html"><span>send</span><wbr></wbr><span>All</span><wbr></wbr><span><span>EQPara</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-61205697%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="send-all-e-q-para.html"><span class="token function">sendAllEQPara</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">chipIndex<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">channelIndex<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">eqDataList<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/util/List.html">List</a><span class="token operator">&lt;</span><a href="../../com.meiloon.controlcore.main.container.chart.data/-e-q-data/index.html">EQData</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1981578712%2FFunctions%2F-736023332" anchor-label="sendEQPara" id="1981578712%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="send-e-q-para.html"><span>send</span><wbr></wbr><span><span>EQPara</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1981578712%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="send-e-q-para.html"><span class="token function">sendEQPara</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">chipIndex<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">channelIndex<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">eqData<span class="token operator">: </span><a href="../../com.meiloon.controlcore.main.container.chart.data/-e-q-data/index.html">EQData</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1608367408%2FFunctions%2F-736023332" anchor-label="setBtDeviceName" id="1608367408%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-bt-device-name.html"><span>set</span><wbr></wbr><span>Bt</span><wbr></wbr><span>Device</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1608367408%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-bt-device-name.html"><span class="token function">setBtDeviceName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1165738181%2FFunctions%2F-736023332" anchor-label="setBTVolume" id="1165738181%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-b-t-volume.html"><span>set</span><wbr></wbr><span><span>BTVolume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1165738181%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-b-t-volume.html"><span class="token function">setBTVolume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">volume<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1687576659%2FFunctions%2F-736023332" anchor-label="setCrossOver" id="1687576659%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-cross-over.html"><span>set</span><wbr></wbr><span>Cross</span><wbr></wbr><span><span>Over</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1687576659%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-cross-over.html"><span class="token function">setCrossOver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">crossOver<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1967225849%2FFunctions%2F-736023332" anchor-label="setDeskEQ" id="-1967225849%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-desk-e-q.html"><span>set</span><wbr></wbr><span>Desk</span><wbr></wbr><span><span>EQ</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1967225849%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-desk-e-q.html"><span class="token function">setDeskEQ</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">isOn<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Boolean.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1742483063%2FFunctions%2F-736023332" anchor-label="setDeskEQOff" id="-1742483063%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-desk-e-q-off.html"><span>set</span><wbr></wbr><span>Desk</span><wbr></wbr><span><span>EQOff</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1742483063%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-desk-e-q-off.html"><span class="token function">setDeskEQOff</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="486252121%2FFunctions%2F-736023332" anchor-label="setDeskEQOn" id="486252121%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-desk-e-q-on.html"><span>set</span><wbr></wbr><span>Desk</span><wbr></wbr><span><span>EQOn</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="486252121%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-desk-e-q-on.html"><span class="token function">setDeskEQOn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-573692118%2FFunctions%2F-736023332" anchor-label="setEQEngine" id="-573692118%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-e-q-engine.html"><span>set</span><wbr></wbr><span><span>EQEngine</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-573692118%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-e-q-engine.html"><span class="token function">setEQEngine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">isEngine<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2100261883%2FFunctions%2F-736023332" anchor-label="setEQGroup" id="2100261883%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-e-q-group.html"><span>set</span><wbr></wbr><span><span>EQGroup</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2100261883%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-e-q-group.html"><span class="token function">setEQGroup</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">isSync<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="429031714%2FFunctions%2F-736023332" anchor-label="setHFEQ" id="429031714%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-h-f-e-q.html"><span>set</span><wbr></wbr><span><span>HFEQ</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="429031714%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-h-f-e-q.html"><span class="token function">setHFEQ</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">isOn<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Boolean.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1705419214%2FFunctions%2F-736023332" anchor-label="setHFEQOff" id="1705419214%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-h-f-e-q-off.html"><span>set</span><wbr></wbr><span><span>HFEQOff</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1705419214%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-h-f-e-q-off.html"><span class="token function">setHFEQOff</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1567306100%2FFunctions%2F-736023332" anchor-label="setHFEQOn" id="1567306100%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-h-f-e-q-on.html"><span>set</span><wbr></wbr><span><span>HFEQOn</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1567306100%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-h-f-e-q-on.html"><span class="token function">setHFEQOn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1936521317%2FFunctions%2F-736023332" anchor-label="setKeySoundEnable" id="1936521317%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-key-sound-enable.html"><span>set</span><wbr></wbr><span>Key</span><wbr></wbr><span>Sound</span><wbr></wbr><span><span>Enable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1936521317%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-key-sound-enable.html"><span class="token function">setKeySoundEnable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">enable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-665320799%2FFunctions%2F-736023332" anchor-label="setLastVolume" id="-665320799%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-last-volume.html"><span>set</span><wbr></wbr><span>Last</span><wbr></wbr><span><span>Volume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-665320799%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-last-volume.html"><span class="token function">setLastVolume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">volume<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1982865586%2FFunctions%2F-736023332" anchor-label="setLedColor" id="-1982865586%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-led-color.html"><span>set</span><wbr></wbr><span>Led</span><wbr></wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1982865586%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-led-color.html"><span class="token function">setLedColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">color<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-led-color.html"><span class="token function">setLedColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">r<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">g<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">b<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1277183872%2FFunctions%2F-736023332" anchor-label="setLedEnable" id="-1277183872%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-led-enable.html"><span>set</span><wbr></wbr><span>Led</span><wbr></wbr><span><span>Enable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1277183872%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-led-enable.html"><span class="token function">setLedEnable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">enable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1755223327%2FFunctions%2F-736023332" anchor-label="setLedShow" id="1755223327%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-led-show.html"><span>set</span><wbr></wbr><span>Led</span><wbr></wbr><span><span>Show</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1755223327%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-led-show.html"><span class="token function">setLedShow</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">number<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-100280558%2FFunctions%2F-736023332" anchor-label="setLFEQ" id="-100280558%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-l-f-e-q.html"><span>set</span><wbr></wbr><span><span>LFEQ</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-100280558%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-l-f-e-q.html"><span class="token function">setLFEQ</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">isOn<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1288776010%2FFunctions%2F-736023332" anchor-label="setLFEQOff" id="1288776010%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-l-f-e-q-off.html"><span>set</span><wbr></wbr><span><span>LFEQOff</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1288776010%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-l-f-e-q-off.html"><span class="token function">setLFEQOff</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="861129336%2FFunctions%2F-736023332" anchor-label="setLFEQOn" id="861129336%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-l-f-e-q-on.html"><span>set</span><wbr></wbr><span><span>LFEQOn</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="861129336%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-l-f-e-q-on.html"><span class="token function">setLFEQOn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1024610030%2FFunctions%2F-736023332" anchor-label="setMicMuteOff" id="1024610030%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-mic-mute-off.html"><span>set</span><wbr></wbr><span>Mic</span><wbr></wbr><span>Mute</span><wbr></wbr><span><span>Off</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1024610030%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-mic-mute-off.html"><span class="token function">setMicMuteOff</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="21323860%2FFunctions%2F-736023332" anchor-label="setMicMuteOn" id="21323860%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-mic-mute-on.html"><span>set</span><wbr></wbr><span>Mic</span><wbr></wbr><span>Mute</span><wbr></wbr><span><span>On</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="21323860%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-mic-mute-on.html"><span class="token function">setMicMuteOn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1496208718%2FFunctions%2F-736023332" anchor-label="setMP3PlaySong" id="1496208718%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-m-p3-play-song.html"><span>set</span><wbr></wbr><span>MP3Play</span><wbr></wbr><span><span>Song</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1496208718%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-m-p3-play-song.html"><span class="token function">setMP3PlaySong</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="965411677%2FFunctions%2F-736023332" anchor-label="setMuteOff" id="965411677%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-mute-off.html"><span>set</span><wbr></wbr><span>Mute</span><wbr></wbr><span><span>Off</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="965411677%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-mute-off.html"><span class="token function">setMuteOff</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1404887557%2FFunctions%2F-736023332" anchor-label="setMuteOn" id="1404887557%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-mute-on.html"><span>set</span><wbr></wbr><span>Mute</span><wbr></wbr><span><span>On</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1404887557%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-mute-on.html"><span class="token function">setMuteOn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-195939437%2FFunctions%2F-736023332" anchor-label="setPhase" id="-195939437%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-phase.html"><span>set</span><wbr></wbr><span><span>Phase</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-195939437%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-phase.html"><span class="token function">setPhase</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">isPhase<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1037329781%2FFunctions%2F-736023332" anchor-label="setPreEQMode" id="1037329781%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-pre-e-q-mode.html"><span>set</span><wbr></wbr><span>Pre</span><wbr></wbr><span><span>EQMode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1037329781%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-pre-e-q-mode.html"><span class="token function">setPreEQMode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">mode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-664781163%2FFunctions%2F-736023332" anchor-label="setRoomCorrectionMode" id="-664781163%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-room-correction-mode.html"><span>set</span><wbr></wbr><span>Room</span><wbr></wbr><span>Correction</span><wbr></wbr><span><span>Mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-664781163%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-room-correction-mode.html"><span class="token function">setRoomCorrectionMode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">number<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-64140601%2FFunctions%2F-736023332" anchor-label="setSoundEffect" id="-64140601%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-sound-effect.html"><span>set</span><wbr></wbr><span>Sound</span><wbr></wbr><span><span>Effect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-64140601%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-sound-effect.html"><span class="token function">setSoundEffect</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">number<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-263910469%2FFunctions%2F-736023332" anchor-label="setSPKMute" id="-263910469%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-s-p-k-mute.html"><span>set</span><wbr></wbr><span><span>SPKMute</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-263910469%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-s-p-k-mute.html"><span class="token function">setSPKMute</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">isOn<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Boolean.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1514797058%2FFunctions%2F-736023332" anchor-label="setUACMuteOff" id="-1514797058%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-u-a-c-mute-off.html"><span>set</span><wbr></wbr><span>UACMute</span><wbr></wbr><span><span>Off</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1514797058%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-u-a-c-mute-off.html"><span class="token function">setUACMuteOff</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1740522820%2FFunctions%2F-736023332" anchor-label="setUACMuteOn" id="1740522820%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-u-a-c-mute-on.html"><span>set</span><wbr></wbr><span>UACMute</span><wbr></wbr><span><span>On</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1740522820%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-u-a-c-mute-on.html"><span class="token function">setUACMuteOn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-584016042%2FFunctions%2F-736023332" anchor-label="setUACVolume" id="-584016042%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-u-a-c-volume.html"><span>set</span><wbr></wbr><span><span>UACVolume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-584016042%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-u-a-c-volume.html"><span class="token function">setUACVolume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">volume<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="992015255%2FFunctions%2F-736023332" anchor-label="setVolume" id="992015255%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-volume.html"><span>set</span><wbr></wbr><span><span>Volume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="992015255%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="set-volume.html"><span class="token function">setVolume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">volume<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2146319171%2FFunctions%2F-736023332" anchor-label="startBTPairing" id="-2146319171%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-b-t-pairing.html"><span>start</span><wbr></wbr><span><span>BTPairing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2146319171%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="start-b-t-pairing.html"><span class="token function">startBTPairing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-244176988%2FFunctions%2F-736023332" anchor-label="startRoomCorrection" id="-244176988%2FFunctions%2F-736023332" data-filterable-set=":ControlCore:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":ControlCore:dokkaHtml/release" data-filterable-set=":ControlCore:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-room-correction.html"><span>start</span><wbr></wbr><span>Room</span><wbr></wbr><span><span>Correction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-244176988%2FFunctions%2F-736023332"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ControlCore:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="start-room-correction.html"><span class="token function">startRoomCorrection</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">macAddress<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/String.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2026 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
