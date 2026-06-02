@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/system_gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.other.OtherFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBorder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/system_gray">
+
+                <TextView
+                    android:id="@+id/tVTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="Command Lab"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    app:layout_constrainedWidth="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSelectCommand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="1.選擇Command"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constrainedWidth="false"
+                    app:layout_constraintTop_toBottomOf="@+id/tVTitle"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvCommandBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="0dp"
+                    app:cardMaxElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSelectCommand"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
+
+                        <TextView
+                            android:id="@+id/tvCommandList"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20sp"
+                            android:text="指令列表"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                        <AutoCompleteTextView
+                            android:id="@+id/actvSelectCommand"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center_vertical|end"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:text="請選擇..."
+                            android:textColor="@color/system_blue"
+                            android:backgroundTint="@color/transparent"
+                            android:textCursorDrawable="@color/transparent"
+                            android:clickable="true"
+                            android:inputType="none"
+                            android:focusable="true"
+                            android:focusableInTouchMode="false"
+                            android:cursorVisible="false"
+                            app:autoSizeTextType="uniform"
+                            app:layout_constraintStart_toEndOf="@+id/tvCommandList"
+                            app:layout_constraintEnd_toStartOf="@+id/imageView"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="14dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:src="@drawable/keyboard_arrow_down_24px"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:tint="@color/system_blue" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvParameterSetting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="2.參數配置"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constrainedWidth="false"
+                    app:layout_constraintTop_toBottomOf="@+id/cvCommandBorder"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvtvParameterSettingBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="0dp"
+                    app:cardMaxElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvParameterSetting"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
+
+                        <TextView
+                            android:id="@+id/tvSendCommandDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center_vertical"
+                            android:text="此指令不需要額外參數"
+                            android:textSize="14sp"
+                            android:textColor="@color/system_dark_gray"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/vSplite"/>
+
+                        <EditText
+                            android:id="@+id/edText"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:hint="請輸入使用者名稱"
+                            android:inputType="text"
+                            android:text=""
+                            android:textSize="14sp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:visibility="gone"
+                            android:background="@color/white"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/vSplite"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cvSwitchBorder"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:visibility="gone"
+                            app:cardElevation="0dp"
+                            app:cardMaxElevation="0dp"
+                            app:layout_constraintStart_toStartOf="@id/tvSendCommandDesc"
+                            app:layout_constraintEnd_toEndOf="@id/tvSendCommandDesc"
+                            app:layout_constraintTop_toTopOf="@id/tvSendCommandDesc"
+                            app:layout_constraintBottom_toBottomOf="@id/tvSendCommandDesc">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/tvSwitchStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="開關狀態:OFF"
+                                    android:textSize="18sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"/>
+
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/swBtn"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cvSliderBorder"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:visibility="gone"
+                            app:cardElevation="0dp"
+                            app:cardMaxElevation="0dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@+id/vSplite">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/tvSliderTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:text="數值:0"
+                                    android:textSize="18sp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@id/slSlider"
+                                    app:layout_constraintTop_toTopOf="parent"/>
+
+                                <TextView
+                                    android:id="@+id/tvRange"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:text="範圍:0~1"
+                                    android:textSize="18sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@id/slSlider"
+                                    app:layout_constraintTop_toTopOf="parent"/>
+
+                                <com.google.android.material.slider.Slider
+                                    android:id="@+id/slSlider"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:valueFrom="0.0"
+                                    android:valueTo="1.0"
+                                    android:value="1"
+                                    android:stepSize="1.0"
+                                    app:thumbRadius="10dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <View
+                            android:id="@+id/vSplite"
+                            android:layout_width="match_parent"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_height="1dp"
+                            android:background="@color/system_gray"
+                            app:layout_constraintStart_toStartOf="@id/tvSendCommandDesc"
+                            app:layout_constraintEnd_toEndOf="@id/tvSendCommandDesc"
+                            app:layout_constraintTop_toBottomOf="@id/tvSendCommandDesc"
+                            app:layout_constraintBottom_toTopOf="@id/btSendCommand"
+                            />
+
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                            android:id="@+id/btSendCommand"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:text="發送指令"
+                            android:textSize="20dp"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginStart="20dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:textStyle="bold"
+                            android:ellipsize="end"
+                            app:backgroundTint="@color/system_blue"
+                            app:cornerRadius="22dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/vSplite"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:elevation="0dp"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvAPISpec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="3.API定義"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constrainedWidth="false"
+                    app:layout_constraintTop_toBottomOf="@id/cvtvParameterSettingBorder"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvAPISpecBorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="0dp"
+                    app:cardMaxElevation="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAPISpec"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cvAPIName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="10dp"
+                            app:cardBackgroundColor="@color/system_light_purple"
+                            app:cardCornerRadius="8sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvAPISpecType"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:gravity="center_vertical"
+                                android:text="case getChipID"
+                                android:textSize="14sp"
+                                android:textColor="@color/system_dark_purple"
+                                android:textStyle="bold"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/tvAPISpecDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="取得晶片唯一識別碼"
+                            android:minHeight="30dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/system_dark_gray"
+                            android:textStyle="bold"
+                            android:maxLines="2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/cvAPIName" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_height="1dp"
+                            android:background="@color/system_gray"
+                            app:layout_constraintStart_toStartOf="@id/tvAPISpecDesc"
+                            app:layout_constraintEnd_toEndOf="@id/tvAPISpecDesc"
+                            app:layout_constraintTop_toBottomOf="@id/tvAPISpecDesc"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvDemo"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="0dp"
+                            android:gravity="center_vertical"
+                            android:text="代碼範例:"
+                            android:textSize="10sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvAPISpecDesc" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cvDemoBorder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="10dp"
+                            app:cardBackgroundColor="@color/system_light_gray"
+                            app:cardCornerRadius="8sp"
+                            app:layout_constraintTop_toBottomOf="@id/tvDemo"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/transparent">
+
+                                <TextView
+                                    android:id="@+id/tvDemoValue"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center_vertical"
+                                    android:text="appManager.sendCommand(.setBTVolume(10))"
+                                    android:textSize="10sp"
+                                    android:textColor="@color/system_blue"
+                                    android:textStyle="bold"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:background="@color/transparent"
+                                    app:autoSizeMinTextSize="6sp"
+                                    app:autoSizeMaxTextSize="10sp"
+                                    app:autoSizeTextType="uniform"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/persistent_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="16dp"
+        app:behavior_peekHeight="100dp"
+        app:behavior_skipCollapsed="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <include
+            android:id="@+id/layoutBottomSheetContent"
+            layout="@layout/bottom_sheet_log"/>
+
+    </androidx.cardview.widget.CardView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

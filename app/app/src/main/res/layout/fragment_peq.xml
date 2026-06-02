@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/system_gray"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PEQ 進階控制"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gLBtns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        app:columnCount="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:rowCount="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReadAll"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginVertical="2dp"
+            android:insetLeft="0dp"
+            android:insetRight="5dp"
+            app:layout_gravity="fill"
+            android:backgroundTint="#3B82F6"
+            android:text="讀取全部"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/home_24px"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:layout_columnWeight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnWriteAll"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginVertical="2dp"
+            android:insetLeft="5dp"
+            android:insetRight="0dp"
+            app:layout_gravity="fill"
+            android:backgroundTint="#3B82F6"
+            android:text="寫入全部"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/home_24px"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:layout_columnWeight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveToDevice"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginVertical="2dp"
+            android:insetLeft="0dp"
+            android:insetRight="5dp"
+            app:layout_gravity="fill"
+            android:backgroundTint="#3B82F6"
+            android:text="儲存到設備"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/home_24px"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:layout_columnWeight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCopySteps"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginVertical="2dp"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            app:layout_gravity="fill"
+            android:visibility="gone"
+            android:backgroundTint="#3B82F6"
+            android:text="複製步驟"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="30dp"
+            app:icon="@drawable/home_24px"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:layout_columnWeight="1" />
+    </androidx.gridlayout.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/tvChannelCountTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:text="偵測到數據的通道："
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gLBtns" />
+
+    <TextView
+        android:id="@+id/tvChipAndChannel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="12dp"
+        android:text="當前:Chip1 CH1"
+        android:textColor="@color/system_blue"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gLBtns" />
+
+    <TextView
+        android:id="@+id/tvNoDataHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:text="尚無數據，請點擊「讀取全部」"
+        android:textColor="#888888"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvChannelCountTitle" />
+
+    <!-- 數據顯示容器：用於控制顯示或隱藏 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clDataContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:background="@color/system_gray"
+        app:layout_constraintTop_toTopOf="@id/tvNoDataHint"
+        app:layout_constraintBottom_toTopOf="@id/vDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChannel"
+            android:layout_width="match_parent"
+            android:layout_height="44sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="10sp"
+            android:background="@color/system_gray"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPeqList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvChannel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/vDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E5E7EB"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar" />
+
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="44sp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="0dp"
+        android:background="@color/system_light_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/btnSaveText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:baselineAligned="false"
+            android:paddingHorizontal="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/home_24px"
+                app:tint="@color/system_blue"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text="Save Text"
+                android:textColor="@color/system_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/btnLoadText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:baselineAligned="false"
+            android:paddingHorizontal="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/home_24px"
+                app:tint="@color/system_blue"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text="Load Text"
+                android:textColor="@color/system_blue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

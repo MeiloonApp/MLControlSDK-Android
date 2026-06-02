@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.MLControlCore" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- 允許 Activity 繪製系統列背景 -->
+<!--        <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+<!--        &lt;!&ndash; 將預設狀態列顏色設為透明，這樣才會露出 Activity 或 Fragment 的背景色 &ndash;&gt;-->
+<!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+<!--        &lt;!&ndash; 導航列建議也設為透明 &ndash;&gt;-->
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+
+<!--        &lt;!&ndash; 如果你的背景是淺色的，這行能確保狀態列圖示變成深色 (API 23+) &ndash;&gt;-->
+<!--        <item name="android:windowLightStatusBar">true</item>-->
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="IndicatorStyle" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/system_light_gray</item>
+        <item name="android:height">34dp</item>
+    </style>
+
+    <style name="TextAppearance">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+</resources>

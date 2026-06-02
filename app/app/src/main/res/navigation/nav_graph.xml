@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/bleScanFragment">
+
+    <fragment
+        android:id="@+id/bleScanFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.blescan.BleScanFragment"
+        android:label="fragment_ble_scan"
+        tools:layout="@layout/fragment_ble_scan" />
+
+    <fragment
+        android:id="@+id/otherFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.other.OtherFragment"
+        android:label="others"
+        tools:layout="@layout/fragment_others" />
+
+    <fragment
+        android:id="@+id/peqFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.peq.PeqFragment"
+        android:label="PeqFragment"
+        tools:layout="@layout/fragment_peq" />
+</navigation>

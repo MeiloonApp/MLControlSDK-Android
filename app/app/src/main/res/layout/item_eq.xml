@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
+
+    <TextView
+        android:id="@+id/tv_band_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/sl_frequency"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="B1" />
+
+    <EditText
+        android:id="@+id/et_freq_value"
+        android:layout_width="75dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/bg_edittext_border"
+        android:gravity="center"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_band_title"
+        app:layout_constraintStart_toEndOf="@+id/tv_band_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_band_title"
+        tools:text="50" />
+
+    <TextView
+        android:id="@+id/tv_db_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_freq_value"
+        app:layout_constraintEnd_toStartOf="@+id/iv_send_btn"
+        app:layout_constraintTop_toTopOf="@+id/et_freq_value"
+        tools:text="0.0 dB" />
+
+    <ImageView
+        android:id="@+id/iv_send_btn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@android:drawable/ic_menu_send"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_db_value"
+        app:layout_constraintEnd_toStartOf="@+id/switch_toggle"
+        app:layout_constraintTop_toTopOf="@+id/tv_db_value"
+        app:tint="#2F80ED" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_send_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_send_btn"
+        app:thumbTint="@android:color/white"
+        app:trackTint="@color/switch_on"
+        tools:checked="true" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sl_frequency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:max="1"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:thumb="@color/system_blue"
+        app:layout_constraintBottom_toTopOf="@+id/tv_q_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_band_title" />
+
+    <TextView
+        android:id="@+id/tv_q_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Q:"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sl_frequency" />
+
+    <EditText
+        android:id="@+id/et_q_value"
+        android:layout_width="65dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="@drawable/bg_edittext_border"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_q_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_q_label"
+        app:layout_constraintTop_toTopOf="@+id/tv_q_label"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/tv_dropdown_off"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:drawablePadding="4dp"
+        android:text="Off"
+        android:textColor="#2F80ED"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:drawableEndCompat="@android:drawable/arrow_down_float"
+        app:drawableTint="#2F80ED"
+        app:layout_constraintBottom_toBottomOf="@+id/et_q_value"
+        app:layout_constraintStart_toEndOf="@+id/et_q_value"
+        app:layout_constraintTop_toTopOf="@+id/et_q_value" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="#E0E0E0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_q_value" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

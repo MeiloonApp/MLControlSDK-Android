@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 聚焦狀態時的顏色 -->
+    <item android:state_focused="true" android:color="@color/system_blue" />
+    <!-- 預設（未聚焦）狀態時的顏色 -->
+    <item android:color="@color/system_blue" />
+</selector>

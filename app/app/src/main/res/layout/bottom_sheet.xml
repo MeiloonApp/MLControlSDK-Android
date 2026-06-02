@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/system_gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvDeviceStatus"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center_vertical"
+                android:text="設備狀態(自動同步)"
+                android:textSize="20sp"
+                android:textStyle="bold"
+android:ellipsize="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvDeviceInfo"
+                android:layout_width="match_parent"
+                android:layout_height="308dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeviceStatus" >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvDeviceNameBorder"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvDemoDeviceName"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="設備名稱"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintWidth_min="wrap"
+                                app:layout_constraintEnd_toStartOf="@+id/tvDemoDeviceNameValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvDemoDeviceNameValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constrainedWidth="true"
+                                app:layout_constraintStart_toEndOf="@+id/tvDemoDeviceName"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvDemoFirmwareVersionBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cvDeviceNameBorder" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvDemoFirmwareVersion"
+                                android:layout_width="82dp"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="韌體版本"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintEnd_toStartOf="@+id/tvDemoFirmwareValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_min="wrap" />
+
+                            <TextView
+                                android:id="@+id/tvDemoFirmwareValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:ellipsize="end"
+                                app:autoSizeTextType="uniform"
+                                app:layout_constrainedWidth="true"
+                                app:layout_constraintStart_toEndOf="@+id/tvDemoFirmwareVersion"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvVolumeBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvDemoFirmwareVersionBoard" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvVolume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="主音量"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintWidth_min="wrap"
+                                app:layout_constraintEnd_toStartOf="@+id/tvVolumeValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvVolumeValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintStart_toEndOf="@+id/tvVolume"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvPowerBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvVolumeBoard" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvPower"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="電池電量"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintEnd_toStartOf="@+id/tvPowerValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvPowerValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintStart_toEndOf="@+id/tvPower"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvChipCountBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPowerBoard" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvChipCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="晶片數量"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintEnd_toStartOf="@+id/tvChipCountValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvChipCountValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintStart_toEndOf="@+id/tvChipCount"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvChipIDBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvChipCountBoard" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvChipID"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="晶片 ID"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintEnd_toStartOf="@+id/tvChipIDValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvChipIDValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintStart_toEndOf="@+id/tvChipID"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvProductIDBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvChipIDBoard" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvProductID"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="產品 ID"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintEnd_toStartOf="@+id/tvProductIDValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvProductIDValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintStart_toEndOf="@+id/tvProductID"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvFlag"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center_vertical"
+                android:text="音訊旗標"
+                android:textSize="20sp"
+                android:textStyle="bold"
+android:ellipsize="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvDeviceInfo" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFlag" >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvMuteBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent">
+
+                            <TextView
+                                android:id="@+id/tvMuteStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="44dp"
+                                android:gravity="center_vertical"
+                                android:text="靜音狀態"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintEnd_toStartOf="@+id/tvMuteValue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvMuteValue"
+                                android:layout_width="0dp"
+                                android:layout_height="44dp"
+                                android:layout_marginStart="5dp"
+                                android:gravity="center_vertical|end"
+                                android:lines="1"
+                                android:text=""
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+android:ellipsize="end"
+                                app:layout_constraintStart_toEndOf="@+id/tvMuteStatus"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvRoomCorrectionBoard"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvMuteBoard" >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent">
+
+                        <TextView
+                            android:id="@+id/tvRoomCorrection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="44dp"
+                            android:gravity="center_vertical"
+                            android:text="房間校正"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+android:ellipsize="end"
+                            app:layout_constraintEnd_toStartOf="@+id/tvRoomCorrectionValue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvRoomCorrectionValue"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center_vertical|end"
+                            android:lines="1"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+android:ellipsize="end"
+                            app:layout_constraintStart_toEndOf="@+id/tvRoomCorrection"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvEQModeBoard"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:visibility="gone"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvRoomCorrectionBoard" >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent">
+
+                        <TextView
+                            android:id="@+id/tvEQMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="44dp"
+                            android:gravity="center_vertical"
+                            android:text="EQ模式索引"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+android:ellipsize="end"
+                            app:layout_constraintEnd_toStartOf="@+id/tvEQModeValue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvEQModeValue"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center_vertical|end"
+                            android:lines="1"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+android:ellipsize="end"
+                            app:layout_constraintStart_toEndOf="@+id/tvEQMode"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

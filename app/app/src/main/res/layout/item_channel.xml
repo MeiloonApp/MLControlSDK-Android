@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100sp"
+    android:layout_height="44sp">
+
+    <TextView
+        android:id="@+id/tvChannelName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="1-1"
+        android:textStyle="bold"
+        android:textColor="@color/channel_text_color"
+        android:layout_marginEnd="4sp"
+        android:background="@drawable/bg_channel_item"
+        android:textSize="26sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

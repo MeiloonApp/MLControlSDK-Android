@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bleScanFragment"
+        android:icon="@drawable/home_24px"
+        android:title="首頁" />
+    <item
+        android:id="@+id/peqFragment"
+        android:icon="@drawable/link_24px"
+        android:title="@string/title_peq" />
+    <item
+        android:id="@+id/otherFragment"
+        android:icon="@drawable/other_houses_24px"
+        android:title="其他" />
+</menu>
