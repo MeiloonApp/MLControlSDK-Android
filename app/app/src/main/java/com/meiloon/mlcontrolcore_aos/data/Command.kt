@@ -44,6 +44,7 @@ class Command {
             CommandItem("[Monitor 專屬] 設定Desk EQ", SetDeskEQ()),
             CommandItem("[Monitor 專屬] 設定HF EQ", SetHFEQ()),
             CommandItem("[Monitor 專屬] 設定LF EQ", SetLFEQ()),
+            CommandItem("[Jieli 專屬] 取得 EQ 模式", GetEQMode),
 
             CommandItem("[Jieli 專屬] 取得房間校正模式", GetRoomCorrectionMode),
             CommandItem("[Jieli 專屬] 設定房間校正模式", SetRoomCorrectionMode()),
@@ -56,7 +57,6 @@ class Command {
             CommandItem("[PEQ 進階] 取得取樣率", GetAudioSampleRate),
             CommandItem("[PEQ 進階] 取得 PEQ 段數", GetAudioBand),
             CommandItem("[PEQ 進階] 取得 EQ 範圍", GetEQRange),
-            CommandItem("[Jieli 專屬] 取得 EQ 模式", GetEQMode),
 
             CommandItem("[PEQ 進階] 讀取所有 PEQ", GetAllEQPara),
 //            CommandItem("[PEQ 進階] 設定所有 PEQ", SetAllEQPara()),
