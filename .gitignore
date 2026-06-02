@@ -1,16 +1,19 @@
+# 1. 萬用資料夾忽略 (不論在哪一層，只要叫這些名字的資料夾通通擋掉)
+**/.gradle/
+**/.idea/
+**/build/
+**/.cxx/
+**/.externalNativeBuild/
+**/captures/
+
+# 2. 萬用特定檔案忽略
 *.iml
-.gradle
-/local.properties
-.idea/
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+*.iws
+*.ipr
+*.log
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+Thumbs.db
+
+# 3. 本地開發者設定檔與隱私金鑰 (每台電腦不同，絕對不進 Git)
+**/local.properties
+**/signingConfigs/
