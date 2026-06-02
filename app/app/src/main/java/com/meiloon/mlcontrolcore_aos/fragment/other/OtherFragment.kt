@@ -249,7 +249,7 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
             is SetBTDeviceName -> {
                 binding.edText.isVisible = true
             }
-            is SetHFEQ, is SetLFEQ, is SetDeskEQ -> {
+            is SetHFEQ, is SetLFEQ, is SetDeskEQ, is SetSPKMute -> {
                 binding.cvSwitchBorder.isVisible = true
             }
             else -> {

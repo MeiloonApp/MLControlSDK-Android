@@ -129,7 +129,7 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                 val mode = apiData.getData(RoomCorrectionMode::class.java)
                 connectedDeviceInfo.roomCorrectionMode.value = mode.get()
                 val value = if (mode.get() == 1) "開" else "關"
-                addLogItem(listOf("[$currentTime] 收到回應[RoomCorrectionStatus: $value] [結果:成功]]"))
+                addLogItem(listOf("[$currentTime] 收到回應[RoomCorrectionMode: $value] [結果:成功]]"))
             }
 
             APIMethod.BTPairing -> {
@@ -168,14 +168,14 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                 val data = apiData.getData(AudioSampleRate::class.java)
                 val audioSampleRates = data.audioSampleRates
                 connectedDeviceInfo.audioSampleRates.value = audioSampleRates
-                addLogItem(listOf("[$currentTime] 收到回應 [AudioChannel: ${audioSampleRates.joinToString(", ") }}] [結果:成功]]"))
+                addLogItem(listOf("[$currentTime] 收到回應 [AudioSampleRate: ${audioSampleRates.joinToString(", ") }}] [結果:成功]]"))
             }
 
             APIMethod.AudioBand -> {
                 val data = apiData.getData(AudioBand::class.java)
                 val bands = data.audioBands
                 connectedDeviceInfo.audioBands.value = bands
-                addLogItem(listOf("[$currentTime] 收到回應 [AudioChannel: ${bands.joinToString(", ") }}] [結果:成功]]"))
+                addLogItem(listOf("[$currentTime] 收到回應 [AudioBand: ${bands.joinToString(", ") }}] [結果:成功]]"))
             }
 
             APIMethod.EQEngine -> {

@@ -1,5 +1,6 @@
 package com.meiloon.mlcontrolcore_aos.data
 
+import com.meiloon.controlcore.main.api.EQMode
 import com.meiloon.controlcore.main.api.enums.CommandType.*
 import com.meiloon.controlcore.main.api.enums.CommandType.GetAllEQPara
 import com.meiloon.controlcore.main.api.enums.CommandType.GetAudioBand
@@ -38,6 +39,7 @@ class Command {
             CommandItem("[音量狀態] 設定主音量", SetVolume()),
             CommandItem("[音量狀態] 設定最後音量", SetLastVolume()),
             CommandItem("[音量狀態] 取得靜音狀態", GetMute),
+            CommandItem("[音量狀態] 設定靜音狀態", SetSPKMute()),
 
             CommandItem("[Monitor 專屬] 設定Desk EQ", SetDeskEQ()),
             CommandItem("[Monitor 專屬] 設定HF EQ", SetHFEQ()),
@@ -54,6 +56,7 @@ class Command {
             CommandItem("[PEQ 進階] 取得取樣率", GetAudioSampleRate),
             CommandItem("[PEQ 進階] 取得 PEQ 段數", GetAudioBand),
             CommandItem("[PEQ 進階] 取得 EQ 範圍", GetEQRange),
+            CommandItem("[Jieli 專屬] 取得 EQ 模式", GetEQMode),
 
             CommandItem("[PEQ 進階] 讀取所有 PEQ", GetAllEQPara),
 //            CommandItem("[PEQ 進階] 設定所有 PEQ", SetAllEQPara()),
@@ -69,7 +72,7 @@ class Command {
 //            CommandItem("[音量狀態] 取得 UAC 音量", APIMethod.UACVol),
 //            CommandItem("[音量狀態] 設定 UAC 音量", APIMethod.UACVol),
 //
-//            CommandItem("[Jieli 專屬] 取得 EQ 模式", APIMethod.EQMode),
+
 
 //            CommandItem("[PEQ 進階] 讀取 PEQ", APIMethod.PreEQMode),
 
