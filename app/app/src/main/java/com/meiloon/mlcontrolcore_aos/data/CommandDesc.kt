@@ -235,6 +235,30 @@ class CommandDesc(var type: String, var desc: String, var demo: String) {
                     )
                 }
 
+                is CommandType.GetEQPara -> {
+                    CommandDesc(
+                        "case GetEQPara",
+                        "取得單筆PEQ資訊",
+                        "BleControlManager.getInstance().getEQPara(address, chipIndex, channel, bandIndex)"
+                    )
+                }
+
+                is CommandType.GetChannelEQPara -> {
+                    CommandDesc(
+                        "case GetChannelEQPara",
+                        "讀取指定通道全部參數",
+                        "BleControlManager.getInstance().sendAllEQPara(address, chipIndex, channelIndex)"
+                    )
+                }
+
+                is CommandType.SaveEQPara -> {
+                    CommandDesc(
+                        "case SaveEQPara",
+                        "寫入PEQ到設備",
+                        "BleControlManager.getInstance().saveEQPara(address)"
+                    )
+                }
+
                 CommandType.StartBTPairing -> {
                     CommandDesc(
                         "case StartBTPairing",

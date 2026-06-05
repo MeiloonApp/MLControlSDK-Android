@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.meiloon.mlcontrolcore_aos.R
@@ -49,6 +50,11 @@ import com.meiloon.controlcore.widget.library.blufi.params.BlufiParameter
 import com.meiloon.controlcore.widget.library.jieli.JieliManager
 import com.permissionx.guolindev.callback.RequestCallback
 import com.polidea.rxandroidble3.scan.ScanResult
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.Lifecycle
+import com.meiloon.controlcore.main.api.EQEngine
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.Locale
@@ -63,7 +69,6 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
     private var isConnecting = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<CardView>
     private var clickAddress: String? = ""
-
     private var lastClickTime = 0L
 
     override fun onClick(v: View?) {
@@ -188,9 +193,6 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         observe(viewModel.onScanDevice, { scanResult ->
             if (scanResult != null) {
                 if (viewModel.isMeiLoonDevice(scanResult)) {
-//                for (BluetoothEntity bluetoothEntity : deviceAdapter.getItems()) {
-//                    Log.e("目前列表裝置: " + bluetoothEntity.getBluetoothDevice().getAddress());
-//                }
                     val macAddress = scanResult.bleDevice.bluetoothDevice.address
 
                     for (old in viewModel.deviceAdapter.items) {
@@ -207,24 +209,26 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         })
 
         observe(viewModel.scanState, { isScan ->
-            viewModel.isScanning = isScan!!
-            if (isScan) {
-                viewModel.isScanScheduled = false
+            val scanning = isScan ?: false
+            if (scanning) {
+                viewModel.isEnd.let { if (it) {} }
                 return@observe
-            }
-
-            if (!viewModel.isScanScheduled && !viewModel.isStopScan) {
-                viewModel.isScanScheduled = true
-
-                post({
-                    viewModel.isScanScheduled = false
-                    if (!isFragmentVisible()) return@post
-                    scan()
-                }, 1000)
             }
         })
 
         observe(viewModel.refreshNear, viewModel.deviceAdapter::refreshNear)
+
+        observe(viewModel.logData) { data ->
+            (activity as? MainActivity)?.logDataBridge?.value = data.reversed()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    updateScanBtnUI(state)
+                }
+            }
+        }
 
         observeCurrentArgument<Any>(
             MAC_ADDRESS,
@@ -240,7 +244,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         observe(jieliManager.onConnectionChange, { response ->
             if (!Method.permission.checkConnectPermission(getAppActivity())) return@observe
             if (isNotSelectedDevice(response.bluetooth) || !isNewConnect) return@observe
-            if (!viewModel.isBonding) dismissProgressDialog()
+            dismissProgressDialog()
             viewModel.scanResultMap.get(response.bluetooth.address)?.let {
                 if (response.connected) {
                     saveMQTTDatabase(
@@ -268,6 +272,11 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         })
 
         observe((activity as? MainActivity)?.selectedResult, { scanResult ->
+            if (scanResult != null) {
+                viewModel.updateState(ScanUiState.Connected(scanResult.bleDevice.macAddress))
+            } else if (!viewModel.isScanningNow()) {
+                viewModel.updateState(ScanUiState.Idle)
+            }
             val bottomSheet = getGlobalBottomSheetData() ?: BottomSheet()
             setupConnectionStatus(scanResult, bottomSheet)
         })
@@ -292,13 +301,12 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
 
     override fun onVisibleChange(visible: Boolean) {
         if (visible) {
-            val scanResult = getGlobalSelectedResult() ?: return
+            val scanResult = getGlobalSelectedResult()
             val bottomSheet = getGlobalBottomSheetData() ?: BottomSheet()
             setupConnectionStatus(scanResult, bottomSheet)
-            setupScanBtn(false)
         } else {
             addLog("停止掃描")
-            viewModel.stopScan()
+            viewModel.stopScanAction()
         }
     }
 
@@ -317,17 +325,13 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
     private fun saveMQTTDatabase(notifyUUID: String?, writeUUID: String?) {
         val selectedResult = getGlobalSelectedResult() ?: return
         val device = BluetoothEntity(selectedResult)
-        device.setNotifyUuid(notifyUUID!!)
-        device.setWriteUuid(writeUUID!!)
-        device.setNear(true)
-        saveDeviceToDatabase(device, notifyUUID, writeUUID)
+        device.notifyUuid = notifyUUID!!
+        device.writeUuid = writeUUID!!
+        device.isNear = true
+        saveDeviceToDatabase(device)
     }
 
-    private fun saveDeviceToDatabase(
-        device: BluetoothEntity,
-        notifyUUID: String?,
-        writeUUID: String?
-    ) {
+    private fun saveDeviceToDatabase(device: BluetoothEntity) {
         subscribeCompleteAuto(viewModel.insertDevice(device), CompletableObserver({
             initValue()
             dismissProgressDialog()
@@ -337,26 +341,24 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
     }
 
     private fun scan() {
-        if (viewModel.isScanning || viewModel.isStopScan) return
+        if (viewModel.isScanningNow()) return
 
-        if (Method.permission.checkBluetoothPermission(getContext())) {
-            viewModel.isScanning = true
-            addLog("開始掃描...")
-            subscribeObservableAuto(viewModel.startScanUntilStopped(), { scanResult ->
-                val name: kotlin.String? = scanResult.getScanRecord().getDeviceName()
+        if (Method.permission.checkBluetoothPermission(context)) {
+            addLog("開始掃描(15秒 後自動停止)...")
+            showToast("開始掃描(15秒 後自動停止)")
+            viewModel.startScanLoop { scanResult ->
+                val name: String? = scanResult.scanRecord.deviceName
                 if (!Method.data.isEmpty(name)) {
-//                    Log.d("Device ScanResult: " + name + "\n" + scanResult.getBleDevice().getMacAddress());
-                    setupScanBtn(true)
                     viewModel.onScanDevice.postValue(scanResult)
                 }
-            })
+            }
         } else {
-            val permissions: Array<kotlin.String?> = viewModel.merge(
+            val permissions: Array<String?> = viewModel.merge(
                 Method.permission.getNotificationsPermissions(),
                 Method.permission.getBluetoothPermissions()
             )
             requestPermissions(permissions, RequestCallback { allGranted, grantedList, deniedList ->
-                    if (Method.permission.checkBluetoothPermission(getContext())) scan()
+                    if (Method.permission.checkBluetoothPermission(context)) scan()
                 })
         }
     }
@@ -446,24 +448,29 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         }
     }
 
-    private fun setupScanBtn(scanning: Boolean) {
-        if (getGlobalSelectedResult() != null)  {
-            binding.btScan.text = "中斷連線"
-            binding.btScan.setTextColor(Method.resource.getColor(R.color.system_red))
-            binding.btScan.setBackgroundColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.system_pink
+    private fun updateScanBtnUI(state: ScanUiState) {
+        when (state) {
+            is ScanUiState.Connected -> {
+                binding.btScan.text = "中斷連線"
+                binding.btScan.isSelected = false
+                binding.btScan.setTextColor(Method.resource.getColor(R.color.system_red))
+                binding.btScan.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.system_pink
+                    )
                 )
-            )
-        } else {
-            binding.btScan.setTextColor(Method.resource.getColor(R.color.white))
-
-            if (scanning) {
+            }
+            is ScanUiState.Scanning -> {
+                binding.btScan.isSelected = true
                 binding.btScan.text = "停止掃描"
+                binding.btScan.setTextColor(Method.resource.getColor(R.color.white))
                 binding.btScan.setBackgroundColor(Method.resource.getColor(R.color.system_red))
-            } else {
+            }
+            is ScanUiState.Idle -> {
+                binding.btScan.isSelected = false
                 binding.btScan.text = "開始掃描"
+                binding.btScan.setTextColor(Method.resource.getColor(R.color.white))
                 binding.btScan.setBackgroundColor(Method.resource.getColor(R.color.system_blue))
             }
         }
@@ -657,9 +664,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
     }
 
     private fun addLog(text: String) {
-        (getAppActivity() as? MainActivity)?.let {
-            viewModel.addLog(text, it)
-        }
+        viewModel.addLog(text)
     }
 
     fun avoidFastClick(view: View?) {
@@ -669,28 +674,22 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
                 return
             }
 
-            // 如果目前有連線裝置，點擊按鈕一律執行「中斷連線」
-            if (getGlobalSelectedResult() != null) {
-                val address = getGlobalSelectedResult()!!.bleDevice.macAddress
-                viewModel.stopScan()
+            val selectedResult = getGlobalSelectedResult()
+            if (selectedResult != null) {
+                // 如果目前有連線裝置，點擊按鈕執行「中斷連線」
+                val address = selectedResult.bleDevice.macAddress
+                viewModel.stopScanAction()
                 setGlobalBottomSheetData(BottomSheet())
                 BleControlManager.getInstance().disconnect(address)
                 setGlobalSelectedResult(null)
-                view.isSelected = false
-                setupScanBtn(false)
             } else {
                 // 沒有連線裝置時，切換「掃描/停止」狀態
-                view.isSelected = !view.isSelected
-                val isScanning = view.isSelected
-                setupScanBtn(isScanning)
-
-                if (isScanning) {
-                    viewModel.isStopScan = false
-                    viewModel.deviceAdapter.replaceAllItems(ArrayList())
-                    viewModel.scanState.value = false
-                } else {
-                    viewModel.stopScan()
+                if (viewModel.isScanningNow()) {
+                    viewModel.stopScanAction()
                     addLog("停止掃描")
+                } else {
+                    viewModel.deviceAdapter.replaceAllItems(ArrayList())
+                    scan()
                 }
             }
         } else {
@@ -722,7 +721,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
     fun setupConnectionStatus(scanResult: ScanResult?, bottomSheet: BottomSheet) {
         val status = if (scanResult != null) BleConnectStatus.CONNECTED else BleConnectStatus.DISCONNECT
 
-        setupScanBtn(!bottomSheet.isEmpty())
+        updateScanBtnUI(viewModel.uiState.value)
         setupConnectStatus(status)
         setupBottomSheet(!bottomSheet.isEmpty())
 

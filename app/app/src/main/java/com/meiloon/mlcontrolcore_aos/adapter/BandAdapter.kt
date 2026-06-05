@@ -1,6 +1,7 @@
 package com.meiloon.mlcontrolcore_aos.adapter
 
 import android.content.Context
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
@@ -34,7 +35,8 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
             binding.tvBandTitle.text = "B${data.index}"
             binding.tvDbValue.text = "${data.gain} dB"
 
-            binding.etQValue.doAfterTextChanged { text ->
+            (binding.etQValue.tag as? TextWatcher)?.let { binding.etQValue.removeTextChangedListener(it) }
+            val qWatcher = binding.etQValue.doAfterTextChanged { text ->
                 if (binding.etQValue.hasFocus()) {
                     val newQ = text.toString().toFloatOrNull()
                     if (newQ != null) {
@@ -42,6 +44,7 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
                     }
                 }
             }
+            binding.etQValue.tag = qWatcher
 
             binding.etQValue.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
@@ -49,7 +52,8 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
                 }
             }
 
-            binding.etFreqValue.doAfterTextChanged { text ->
+            (binding.etFreqValue.tag as? TextWatcher)?.let { binding.etFreqValue.removeTextChangedListener(it) }
+            val freqWatcher = binding.etFreqValue.doAfterTextChanged { text ->
                 if (binding.etFreqValue.hasFocus()) {
                     val newFreq = text.toString().toIntOrNull()
                     if (newFreq != null) {
@@ -57,6 +61,7 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
                     }
                 }
             }
+            binding.etFreqValue.tag = freqWatcher
 
             binding.etFreqValue.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
@@ -64,13 +69,11 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
                 }
             }
 
-            val sliderValue = (data.gain - MIN_GAIN) / (MAX_GAIN - MIN_GAIN)
-            binding.slFrequency.value = sliderValue.coerceIn(0f, 1f)
+            binding.slFrequency.value = data.gain.coerceIn(MIN_GAIN, MAX_GAIN)
             binding.slFrequency.clearOnChangeListeners()
             binding.slFrequency.addOnChangeListener { _, value, fromUser ->
                 if (fromUser) {
-                    val newGain = MIN_GAIN + (value * (MAX_GAIN - MIN_GAIN))
-                    val roundedGain = Math.round(newGain * 10) / 10f
+                    val roundedGain = Math.round(value * 10) / 10f
                     
                     data.gain = roundedGain
                     binding.tvDbValue.text = "$roundedGain dB"
@@ -87,20 +90,12 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
                 onDropdownClickListener?.invoke(view, position, data)
             }
             
-//            binding.slFrequency.clearOnChangeListeners()
-//            binding.slFrequency.addOnChangeListener { slider, value, fromUser ->
-//                if (fromUser) else return@addOnChangeListener
-//                onSliderChangeListener
-//            }
-            
             binding.slFrequency.clearOnSliderTouchListeners()
             binding.slFrequency.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
                 override fun onStartTrackingTouch(p0: Slider) {}
 
                 override fun onStopTrackingTouch(p0: Slider) {
-                    val value = p0.value
-                    val newGain = MIN_GAIN + (value * (MAX_GAIN - MIN_GAIN))
-                    val roundedGain = (newGain * 10).roundToInt() / 10f
+                    val roundedGain = (p0.value * 10).roundToInt() / 10f
                     data.gain = roundedGain
                     // chartStorage的起始資料是從1開始
                     onSliderStopChangeListener?.invoke(p0, data.index, data)
@@ -111,6 +106,10 @@ class BandAdapter: AppAdapter<EQData, ViewHolder<ItemEqBinding>>() {
 
     override fun onRecycled(holder: ViewHolder<ItemEqBinding>) {
         holder.binding.slFrequency.clearOnChangeListeners()
+        (holder.binding.etQValue.tag as? TextWatcher)?.let { holder.binding.etQValue.removeTextChangedListener(it) }
+        holder.binding.etQValue.tag = null
+        (holder.binding.etFreqValue.tag as? TextWatcher)?.let { holder.binding.etFreqValue.removeTextChangedListener(it) }
+        holder.binding.etFreqValue.tag = null
     }
 
     override fun onCreateViewHolder(

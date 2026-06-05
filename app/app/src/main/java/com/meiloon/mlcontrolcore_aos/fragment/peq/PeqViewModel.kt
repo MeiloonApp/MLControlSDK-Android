@@ -1,22 +1,23 @@
 package com.meiloon.mlcontrolcore_aos.fragment.peq
 
 import android.util.Log
-import com.meiloon.mlcontrolcore_aos.adapter.BandAdapter
-import com.meiloon.mlcontrolcore_aos.adapter.ChannelAdapter
-import com.meiloon.mlcontrolcore_aos.data.ChipChannel
-import com.meiloon.mlcontrolcore_aos.data.EQDataType
+import com.meiloon.controlcore.auth.MLNativeManager
 import com.meiloon.controlcore.global.activity.GlobalViewModel
 import com.meiloon.controlcore.global.database.repository.DeviceRepository
 import com.meiloon.controlcore.main.api.APIData
 import com.meiloon.controlcore.main.api.CmdDone
-import com.meiloon.controlcore.main.api.EQMode
 import com.meiloon.controlcore.main.api.EQParas
-import com.meiloon.controlcore.main.api.PreEQMode
 import com.meiloon.controlcore.main.api.enums.APIMethod
 import com.meiloon.controlcore.main.container.chart.data.EQData
 import com.meiloon.controlcore.main.container.chart.widget.ChartStorage
-import com.meiloon.controlcore.main.widget.ble.BleControlManager
 import com.meiloon.controlcore.widget.app.android.AppViewModel
+import com.meiloon.controlcore.widget.app.method.Method
+import com.meiloon.mlcontrolcore_aos.adapter.BandAdapter
+import com.meiloon.mlcontrolcore_aos.adapter.ChannelAdapter
+import com.meiloon.mlcontrolcore_aos.data.ChipChannel
+import com.meiloon.mlcontrolcore_aos.data.EQDataType
+import kotlin.math.log10
+
 
 class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
     var channelAdapter: ChannelAdapter = ChannelAdapter()
@@ -45,20 +46,10 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
 
     fun parseReceiveCommand(command: ByteArray?, currentTime: String, notify: (APIMethod, String) -> Unit) {
         val apiData = APIData(command)
-        val method: APIMethod = apiData.getMethod()
+        val method: APIMethod = apiData.method
         Log.e("OtherViewModel", "收到指令: $method ,內容: ${String(apiData.getCustomData())}")
 
         when (method) {
-            APIMethod.EQMode -> {
-                val eqMode = apiData.getData(EQMode::class.java)
-//                connectedDeviceInfo.isLFEQOn.value = eqMode.lfeq
-//                connectedDeviceInfo.isHFEQOn.value = eqMode.hfeq
-//                connectedDeviceInfo.isDeskEQOn.value = eqMode.deskEQ
-            }
-
-            APIMethod.PreEQMode -> {
-                val preEQMode = apiData.getData(PreEQMode::class.java)
-            }
             APIMethod.EQParas -> {
                 val eqParas: EQParas = apiData.getData(EQParas::class.java)
                 val tempChannels = mutableSetOf<ChipChannel>()
@@ -117,10 +108,6 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
         return chipChannelList
     }
 
-    fun send(macAddress: String, command: String) {
-        BleControlManager.getInstance().send(macAddress, command.toByteArray())
-    }
-
     @Suppress("UNCHECKED_CAST")
     fun syncGlobalViewModelChartStorage() {
         val field = chartStorage.javaClass.getDeclaredField("dataMap").apply { isAccessible = true }
@@ -139,4 +126,40 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
     fun syncGlobalViewModelChartStorage(chip: Int, channel: Int, band: Int, data: EQData) {
         GlobalViewModel.chartStorage.saveData(chip, channel, band, data)
     }
+
+    fun getResponseData(eqDataList: List<EQData>, fs: Double, numPoints: Int = 100): String {
+        val frequencies = DoubleArray(numPoints) { i ->
+            i * 200.0
+        }
+
+        val params = DoubleArray(eqDataList.size * 4)
+
+        eqDataList.forEachIndexed { i, eqData ->
+            val offset = i * 4
+            val typeEnum = EQDataType.fromId(eqData.type)
+
+            params[offset + 0] = if (typeEnum == EQDataType.OFF) 0.0 else eqData.type.toDouble()
+            params[offset + 1] = if (eqData.freq <= 0) 1.0 else eqData.freq.toDouble()
+            params[offset + 2] = if (typeEnum == EQDataType.OFF) 0.0 else eqData.gain.toDouble()
+            params[offset + 3] = if (eqData.q <= 0f) 0.707 else eqData.q.toDouble()
+        }
+
+        val magnitudes = MLNativeManager.getInstance().calculateCombinedResponse(
+            frequencies,
+            params,
+            fs,
+            0.0
+        )
+
+        val sb = StringBuilder()
+        for (i in frequencies.indices) {
+            val mag = magnitudes[i]
+            // 確保 log10 的輸入大於 0 且非 NaN
+            val safeMag = if (mag.isNaN() || mag <= 0.0) 0.0 else mag
+            val dB = 20 * log10(safeMag)
+            sb.append(String.format(java.util.Locale.US, "%.1fHz: %.2f dB\n", frequencies[i], dB))
+        }
+        return sb.toString()
+    }
+
 }

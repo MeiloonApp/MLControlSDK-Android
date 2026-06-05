@@ -18,11 +18,21 @@
     <color name="system_dark_purple">#CB30DF</color>
     <color name="system_light_blue">#F2F9FE</color>
 
+    <color name="system_deep_cyan">#005F73</color>
+    <color name="system_deep_teal">#004D61</color>
+    <color name="system_shallow_cyan">#008EA4</color>
+    <color name="system_glacier_ice">#E0ECF0</color>
+
     <color name="ble_connected">#34C759</color>
     <color name="ble_connecting">#ffcc00</color>
     <color name="ble_disconnect">#FF383C</color>
 
     <color name="switch_on">#59D379</color>
     <color name="unSelected_gray">#D1D1D6</color>
+
+    <color name="blue_slider_thumb">#1A4BCC</color>
+    <color name="blue_slider_active">#3B82F6</color>
+    <color name="blue_slider_inactive">#CBD5E1</color>
+    <color name="blue_slider_hola">#32007AFF</color>
 
 </resources>

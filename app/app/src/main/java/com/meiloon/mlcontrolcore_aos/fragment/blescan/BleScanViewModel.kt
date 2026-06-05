@@ -1,7 +1,9 @@
 package com.meiloon.mlcontrolcore_aos.fragment.blescan
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.controlcore.global.database.entity.BluetoothEntity
 import com.meiloon.controlcore.global.database.repository.DeviceRepository
@@ -23,9 +25,11 @@ import com.meiloon.controlcore.main.api.enums.CommandType.GetVolume
 import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
 import com.polidea.rxandroidble3.scan.ScanResult
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.CompletableEmitter
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
 import okhttp3.ResponseBody
 import java.util.concurrent.TimeUnit
 
@@ -35,12 +39,12 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
         @Volatile
         private var instance: BleScanViewModel? = null
 
-        fun getInstance(): BleScanViewModel? {
-            return instance
-        }
-
         fun setInstance(viewModel: BleScanViewModel) {
             instance = viewModel
+        }
+
+        fun getInstance(): BleScanViewModel? {
+            return instance
         }
     }
     private val bleControlManager: BleControlManager = BleControlManager.getInstance()
@@ -54,23 +58,99 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
         MutableLiveData<MutableMap<String?, ScanResult?>?>(java.util.HashMap<String?, ScanResult?>())
     val refreshNear: MutableLiveData<Long?> = MutableLiveData<Long?>()
     val onConnectBluFi: MutableLiveData<AppBlufiClient?> = MutableLiveData<AppBlufiClient?>()
-    var isScanScheduled: Boolean = false
-    var isScanning: Boolean = false
-    var isStopScan: Boolean = false
+    private val _uiState = MutableStateFlow<ScanUiState>(ScanUiState.Idle)
+    val uiState = _uiState.asStateFlow()
+    private var scanJob: Job? = null
+    private var isStopRequested = false
     val deviceAdapter: DeviceAdapter = DeviceAdapter()
-    var isBonding: Boolean = false
     var isEnd: Boolean = false
-    private var emitter: CompletableEmitter? = null
-    private val logData = MutableLiveData<List<String>>(emptyList())
+    val logData = MutableLiveData<List<String>>(emptyList())
 
     init {
         setInstance(this)
 
-        subscribeObservable(
-            Observable.interval(0, 2, TimeUnit.SECONDS),
-            { tick -> refreshNear.postValue(System.currentTimeMillis()) },
-            { error -> Log.e("BleConnectViewModel error", error.getLocalizedMessage()) })
+        viewModelScope.launch {
+            while (isActive) {
+                refreshNear.postValue(System.currentTimeMillis())
+                delay(2000)
+            }
+        }
     }
+
+    private fun scanResultsFlow(): Flow<ScanResult> = callbackFlow {
+        val disposable = bleManager.startScanUntilStopped { isScan ->
+            scanState.postValue(isScan)
+            // 當 Rx 層級掃描停止時，關閉 Flow 通道以通知外層 collect 結束
+            if (!isScan) channel.close()
+        }.subscribe({ result ->
+            trySend(result)
+        }, { error ->
+            close(error)
+        })
+
+        awaitClose {
+            disposable.dispose()
+            bleManager.stopScan()
+        }
+    }
+
+    fun startScanLoop(onResult: (ScanResult) -> Unit) {
+        isStopRequested = false
+        if (scanJob?.isActive == true) return
+
+        scanJob = viewModelScope.launch {
+            try {
+                _uiState.value = ScanUiState.Scanning
+                // 使用 withTimeout 限制這整個掃描區塊最多執行 15 秒
+                withTimeout(15000L) {
+                    while (isActive && !isStopRequested) {
+                        try {
+                            scanResultsFlow().collect { result ->
+                                onResult(result)
+                            }
+                        } catch (e: Exception) {
+                            if (e is CancellationException) throw e
+                            val msg = "掃描過程發生錯誤: ${e.message}"
+                            Log.e("BleScan", msg)
+                            addLog(msg)
+                        }
+
+                        if (!isStopRequested) {
+                            delay(1000)
+                        }
+                    }
+                }
+            } catch (e: TimeoutCancellationException) {
+                val msg = "已達到 15 秒掃描時限，自動停止"
+                Log.d("BleScan", msg)
+                addLog(msg)
+            } catch (e: CancellationException) {
+                val msg = "掃描已取消"
+                Log.d("BleScan", "掃描已取消")
+                addLog(msg)
+            } catch (e: Exception) {
+                val msg = "掃描發生異常: ${e.message}"
+                Log.e("BleScan", msg)
+                addLog(msg)
+            } finally {
+                stopScanAction()
+            }
+        }
+    }
+
+    fun stopScanAction() {
+        isStopRequested = true
+        scanJob?.cancel()
+        bleManager.stopScan()
+        _uiState.value = ScanUiState.Idle
+        scanState.postValue(false)
+    }
+
+    fun updateState(state: ScanUiState) {
+        _uiState.value = state
+    }
+
+    fun isScanningNow(): Boolean = scanJob?.isActive == true
 
     fun resetAllNearby(): Completable {
         return repository.resetAllNearby()
@@ -86,21 +166,6 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
 
     fun updateNear(address: String?, isNear: Boolean): Completable {
         return repository.updateNear(address, isNear)
-    }
-
-    fun deleteDevice(address: String): Completable {
-        return repository.deleteDevice(address)
-    }
-
-    fun deleteAllDevices(success: Action<Boolean?>) {
-        this.subscribeComplete<Any>(
-            repository.deleteAllDevices(),
-            { success.execute(true) }, // Kotlin 會自動將此 lambda 轉為 RxJava 的 Action
-            { error ->
-                Log.e("Error", "清除設備錯誤: ${error.message}")
-                success.execute(false)
-            }
-        )
     }
 
     fun insertDevice(device: BluetoothEntity): Completable {
@@ -129,7 +194,7 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
     fun updateScanDevices(macAddress: String?, scanResult: ScanResult?) {
         val deviceMap: MutableMap<String?, ScanResult?> =
             LinkedHashMap<String?, ScanResult?>(onScanDevicesMap.getValue())
-        deviceMap.put(macAddress, scanResult)
+        deviceMap[macAddress] = scanResult
         onScanDevicesMap.postValue(deviceMap)
         onScanDevicesChange.postValue(ArrayList<ScanResult?>(deviceMap.values))
     }
@@ -186,14 +251,6 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
         return isConnected
     }
 
-    fun getDevice(address: String): ConnectedDevice? {
-        for (device in bleControlManager.connectedDevices) {
-            if (device.device.address.equals(address)) return device
-        }
-
-        return null
-    }
-
     fun initWhenConnected(address: String) {
         subscribeSingle<BluetoothEntity>(getControlDevice(address), { device ->
             performInit(address, device)
@@ -239,13 +296,8 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
         return repository.getDevice(macAddress)
     }
 
-    fun startScanUntilStopped(): Observable<ScanResult> {
-        return bleManager.startScanUntilStopped(scanState::postValue)
-    }
-
     fun stopScan() {
-        isStopScan = true
-        bleManager.stopScan()
+        stopScanAction()
     }
 
     fun registerMobileDevice(
@@ -301,12 +353,15 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
         return result
     }
 
-    fun addLog(text: String, activity: MainActivity) {
+    fun addLog(text: String) {
         val now = System.currentTimeMillis()
         val currentTime = getDateFormat(now, "HH:mm:ss")
-        val value = "[${currentTime} [${text}]"
+        val value = "[${currentTime}] [${text}]"
         val data = (logData.value ?: emptyList()) + value
-        logData.value = data
-        activity.logDataBridge.value = data.reversed()
+        logData.postValue(data)
+    }
+
+    fun clearLog() {
+        logData.postValue(emptyList())
     }
 }

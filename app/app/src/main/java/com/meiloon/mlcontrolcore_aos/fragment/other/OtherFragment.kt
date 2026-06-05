@@ -7,11 +7,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
-import com.meiloon.mlcontrolcore_aos.activity.MainActivity
-import com.meiloon.mlcontrolcore_aos.data.Command
-import com.meiloon.mlcontrolcore_aos.data.CommandDesc
-import com.meiloon.mlcontrolcore_aos.data.CommandItem
-import com.meiloon.mlcontrolcore_aos.databinding.FragmentOthersBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meiloon.controlcore.main.api.APIData
@@ -24,6 +19,12 @@ import com.meiloon.controlcore.main.widget.ble.event.ConnectionResponse
 import com.meiloon.controlcore.widget.app.android.AppFragment
 import com.meiloon.controlcore.widget.app.method.Method
 import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
+import com.meiloon.mlcontrolcore_aos.activity.MainActivity
+import com.meiloon.mlcontrolcore_aos.data.Command
+import com.meiloon.mlcontrolcore_aos.data.CommandDesc
+import com.meiloon.mlcontrolcore_aos.data.CommandItem
+import com.meiloon.mlcontrolcore_aos.databinding.FragmentOthersBinding
+import com.meiloon.mlcontrolcore_aos.util.toIntOrZero
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -39,7 +40,6 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
     }
 
     override fun initArguments(arguments: Bundle) {
-
     }
 
     override fun oneTimeInit(context: Context) {
@@ -51,7 +51,9 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
         val factory = ViewModelFactory(context, viewModelClasses) as androidx.lifecycle.ViewModelProvider.Factory
         viewModel = getViewModel(OtherViewModel::class.java, factory)
 
-        viewModel.connectedDeviceInfo.selectedResult = (activity as? MainActivity)?.selectedResult?.value
+        val mainActivity = activity as? MainActivity
+        viewModel.initCDeviceInfo(mainActivity?.selectedResult?.value,
+                                    mainActivity?.bottomSheet?.value)
 
         binding.layoutBottomSheetContent.rvLog.setAdapter(viewModel.logAdapter)
     }
@@ -66,17 +68,29 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
     }
 
     override fun initListener(context: Context) {
-        binding.actvSelectCommand.setOnClickListener {
+        binding.tvSelectCommandValue.setOnClickListener {
             getContext()?.let {
-                MaterialAlertDialogBuilder(it)
+                val lastIndex = viewModel.items.indexOf(viewModel.selectedCommandItem)
+                val dialog = MaterialAlertDialogBuilder(it)
                     .setTitle("請選擇")
-                    .setItems(Command.getDisplayNames()) { dialog, index ->
+                    .setItems(Command.getDisplayNames()) { _, index ->
                         val item = viewModel.items[index]
                         viewModel.selectedCommandItem = item
-                        binding.actvSelectCommand.setText(item.name, false)
+                        binding.tvSelectCommandValue.text = item.name
                         setupDescView(true, item)
                     }
-                    .show()
+                    .create()
+                dialog.show()
+
+                // 開啟後將最後點擊的選項拉到畫面中間
+                if (lastIndex != -1) {
+                    dialog.listView?.let { listView ->
+                        listView.post {
+                            val offset = listView.height / 2
+                            listView.setSelectionFromTop(lastIndex, offset)
+                        }
+                    }
+                }
             }
         }
 
@@ -108,6 +122,43 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
             val statusText = if (isChecked) "ON" else "OFF"
             binding.tvSwitchStatus.text = "開關狀態: ${statusText}"
         }
+
+        // Chip Index Stepper
+        binding.btnChipIndexPlus.setOnClickListener {
+            val current = binding.tvChipIndexTitle.text.toString().toIntOrZero()
+            updateStepperUI(binding.tvChipIndexTitle, "Chip Index", current + 1)
+        }
+        binding.btnChipIndexMinus.setOnClickListener {
+            val current = binding.tvChipIndexTitle.text.toString().toIntOrZero()
+            updateStepperUI(binding.tvChipIndexTitle, "Chip Index", current - 1)
+        }
+
+        // Channel Stepper
+        binding.btnChannelPlus.setOnClickListener {
+            val current = binding.tvChannelTitle.text.toString().toIntOrZero()
+            updateStepperUI(binding.tvChannelTitle, "Channel", current + 1)
+        }
+        binding.btnChannelMinus.setOnClickListener {
+            val current = binding.tvChannelTitle.text.toString().toIntOrZero()
+            updateStepperUI(binding.tvChannelTitle, "Channel", current - 1)
+        }
+
+        // Band Index Stepper
+        binding.btnBandIndexPlus.setOnClickListener {
+            val current = binding.tvBandIndexTitle.text.toString().toIntOrZero()
+            updateStepperUI(binding.tvBandIndexTitle, "Band Index", current + 1)
+        }
+        binding.btnBandIndexMinus.setOnClickListener {
+            val current = binding.tvBandIndexTitle.text.toString().toIntOrZero()
+            updateStepperUI(binding.tvBandIndexTitle, "Band Index", current - 1)
+        }
+
+        binding.layoutBottomSheetContent.tvClear.setOnClickListener {
+            com.meiloon.mlcontrolcore_aos.fragment.blescan.BleScanViewModel.getInstance()?.clearLog()
+            (activity as? MainActivity)?.logDataBridge?.postValue(emptyList())
+            viewModel.logAdapter.replaceAllItems(emptyList())
+            binding.layoutBottomSheetContent.tvLogCount.text = "0"
+        }
     }
 
     override fun initValue(savedInstanceState: Bundle?) {
@@ -121,22 +172,25 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
     override fun initLiveData(context: Context) {
         (activity as? MainActivity)?.let {
             observe(it.logDataBridge, { list ->
-                if (viewModel.logAdapter.items.size == 0) {
-                    viewModel.addLogItem(list)
-                } else {
-                    viewModel.logAdapter.replaceAllItems(emptyList())
-                    viewModel.addLogItem(list)
-                }
+                val logList = list ?: emptyList()
+                viewModel.logAdapter.replaceAllItems(logList)
+                binding.layoutBottomSheetContent.tvLogCount.text = logList.size.toString()
             })
         }
 
         observe(viewModel.connectedDeviceInfo.volume, { volume ->
-            binding.slSlider.value = volume.toFloat()
-            binding.tvSliderTitle.text = "數值: ${volume}"
+            volume?.let {
+                binding.slSlider.value = it.toFloat()
+                binding.tvSliderTitle.text = "數值: ${it}"
+            }
         })
 
         observe((activity as? MainActivity)?.selectedResult, { selectedResult ->
             viewModel.connectedDeviceInfo.selectedResult = selectedResult
+        })
+
+        observe(viewModel.connectedDeviceInfo.chipID, { chipId ->
+            chipId?.let { viewModel.setMaxVolum(it) }
         })
     }
 
@@ -165,7 +219,7 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
         val now = System.currentTimeMillis()
         val currentTime = getDateFormat(now, "HH:mm:ss")
 
-        viewModel.parseReceiveCommand(event.command, currentTime) { cmdDone ->
+        viewModel.parseReceiveCommand(event.command, currentTime, context) { cmdDone ->
             // 未判斷時跳出提示
             Method.control.run(getAppActivity()) { context ->
                 val message: String? = cmdDone.getCmdMessage(context)
@@ -202,9 +256,15 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
         binding.cvSwitchBorder.isVisible = false
         binding.cvSliderBorder.isVisible = false
         binding.edText.isVisible = false
+        binding.cvStepperBorder.isVisible = false
 
         binding.tvSliderTitle.text = "數值: 0"
         binding.slSlider.value = 0.toFloat()
+
+        // 重置 Stepper 數值
+        updateStepperUI(binding.tvChipIndexTitle, "Chip Index", 1)
+        updateStepperUI(binding.tvChannelTitle, "Channel", 1)
+        updateStepperUI(binding.tvBandIndexTitle, "Band Index", 1)
 
         if (item == null) return
 
@@ -234,11 +294,12 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
                 binding.cvSliderBorder.isVisible = true
 
                 val info = viewModel.connectedDeviceInfo
-                val volume = (info.volume.value ?: 0)
+                var volume = (info.volume.value ?: 0)
                 var maxVolume = info.maxValue
 
                 // SetRoomCorrectionMode 0-1
                 if (item.commandType is SetRoomCorrectionMode) {
+                    volume = 0
                     maxVolume = 1
                 }
 
@@ -252,8 +313,16 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
             is SetBTDeviceName -> {
                 binding.edText.isVisible = true
             }
-            is SetHFEQ, is SetLFEQ, is SetDeskEQ, is SetSPKMute -> {
+            is SetHFEQ, is SetLFEQ, is SetDeskEQ, is SetSPKMute, is SetEQEngine, is SetEQGroup -> {
                 binding.cvSwitchBorder.isVisible = true
+            }
+            is GetEQPara -> {
+                binding.cvStepperBorder.isVisible = true
+                binding.clBandIndex.isVisible = true
+            }
+            is GetChannelEQPara -> {
+                binding.cvStepperBorder.isVisible = true
+                binding.clBandIndex.isVisible = false
             }
             else -> {
                 Log.d("", item.commandType.toString())
@@ -267,6 +336,11 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
         binding.tvDemoValue.text = commandDesc.demo
     }
 
+    private fun updateStepperUI(textView: android.widget.TextView, title: String, newValue: Int) {
+        val finalValue = if (newValue < 1) 1 else newValue
+        textView.text = "$title: $finalValue"
+    }
+
     fun getSettingValue(commandType: CommandType? = null): Any? {
         var value: Any? = null
 
@@ -276,11 +350,17 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
             value = binding.slSlider.value.toInt()
         } else if (binding.edText.isVisible) {
             value = binding.edText.text.toString()
-        } else if (commandType is SetAllEQPara) {
-            value = viewModel.connectedDeviceInfo.eqParas.value
-        } else if (commandType is SetEQPara) {
-            val eqParas = viewModel.connectedDeviceInfo.eqParas.value?.first() ?: return null
-            value = SetEQPara(eqParas.chipIndex, eqParas.channel, eqParas.toEQData())
+        } else if (binding.cvStepperBorder.isVisible) {
+            if (commandType is GetEQPara) {
+                val chipIndex = binding.tvChipIndexTitle.text.toString().toIntOrZero()
+                val channel = binding.tvChannelTitle.text.toString().toIntOrZero()
+                val bandIndex = binding.tvBandIndexTitle.text.toString().toIntOrZero()
+                value = GetEQPara(chipIndex, channel, bandIndex)
+            } else if (commandType is GetChannelEQPara) {
+                val chipIndex = binding.tvChipIndexTitle.text.toString().toIntOrZero()
+                val channel = binding.tvChannelTitle.text.toString().toIntOrZero()
+                value = GetChannelEQPara(chipIndex, channel)
+            }
         }
 
         return value

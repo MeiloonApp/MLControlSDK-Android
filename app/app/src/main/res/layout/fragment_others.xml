@@ -91,25 +91,23 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
 
-                        <AutoCompleteTextView
-                            android:id="@+id/actvSelectCommand"
+                        <TextView
+                            android:id="@+id/tvSelectCommandValue"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp"
                             android:gravity="center_vertical|end"
                             android:singleLine="true"
-                            android:ellipsize="end"
                             android:text="請選擇..."
                             android:textColor="@color/system_blue"
-                            android:backgroundTint="@color/transparent"
-                            android:textCursorDrawable="@color/transparent"
                             android:clickable="true"
-                            android:inputType="none"
-                            android:focusable="true"
-                            android:focusableInTouchMode="false"
-                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:scrollHorizontally="false"
                             app:autoSizeTextType="uniform"
+                            app:autoSizeMinTextSize="6sp"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeStepGranularity="1sp"
                             app:layout_constraintStart_toEndOf="@+id/tvCommandList"
                             app:layout_constraintEnd_toStartOf="@+id/imageView"
                             app:layout_constraintTop_toTopOf="parent"
@@ -170,7 +168,6 @@
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
                             android:layout_marginTop="10dp"
-                            android:layout_marginBottom="5dp"
                             android:gravity="center_vertical"
                             android:text="此指令不需要額外參數"
                             android:textSize="14sp"
@@ -178,8 +175,7 @@
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/vSplite"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <EditText
                             android:id="@+id/edText"
@@ -192,25 +188,23 @@
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
                             android:layout_marginTop="10dp"
-                            android:layout_marginBottom="5dp"
                             android:visibility="gone"
                             android:background="@color/white"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/vSplite"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cvSwitchBorder"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
                             android:visibility="gone"
                             app:cardElevation="0dp"
                             app:cardMaxElevation="0dp"
                             app:layout_constraintStart_toStartOf="@id/tvSendCommandDesc"
                             app:layout_constraintEnd_toEndOf="@id/tvSendCommandDesc"
-                            app:layout_constraintTop_toTopOf="@id/tvSendCommandDesc"
-                            app:layout_constraintBottom_toBottomOf="@id/tvSendCommandDesc">
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -238,20 +232,203 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/cvStepperBorder"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="visible"
+                            app:cardElevation="0dp"
+                            app:cardMaxElevation="0dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingVertical="4dp">
+
+                                <!-- Chip Index Stepper -->
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/clChipIndex"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingVertical="0dp">
+
+                                    <TextView
+                                        android:id="@+id/tvChipIndexTitle"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:text="Chip Index: 1"
+                                        android:textColor="@color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/layoutChipIndexStepper"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <LinearLayout
+                                        android:id="@+id/layoutChipIndexStepper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="40dp"
+                                        android:background="@color/system_gray"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <ImageButton
+                                            android:id="@+id/btnChipIndexMinus"
+                                            android:layout_width="46dp"
+                                            android:layout_height="match_parent"
+                                            android:background="?attr/selectableItemBackgroundBorderless"
+                                            android:src="@drawable/remove_24px" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_marginTop="8dp"
+                                            android:layout_marginBottom="8dp"
+                                            android:background="#D3D3D3" />
+
+                                        <ImageButton
+                                            android:id="@+id/btnChipIndexPlus"
+                                            android:layout_width="46dp"
+                                            android:layout_height="match_parent"
+                                            android:background="?attr/selectableItemBackgroundBorderless"
+                                            android:src="@drawable/add_24px" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <!-- Channel Stepper -->
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/clChannel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingVertical="2dp">
+
+                                    <TextView
+                                        android:id="@+id/tvChannelTitle"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:text="Channel: 1"
+                                        android:textColor="@color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/layoutChannelStepper"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <LinearLayout
+                                        android:id="@+id/layoutChannelStepper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="40dp"
+                                        android:background="@color/system_gray"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <ImageButton
+                                            android:id="@+id/btnChannelMinus"
+                                            android:layout_width="46dp"
+                                            android:layout_height="match_parent"
+                                            android:background="?attr/selectableItemBackgroundBorderless"
+                                            android:src="@drawable/remove_24px" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_marginTop="8dp"
+                                            android:layout_marginBottom="8dp"
+                                            android:background="#D3D3D3" />
+
+                                        <ImageButton
+                                            android:id="@+id/btnChannelPlus"
+                                            android:layout_width="46dp"
+                                            android:layout_height="match_parent"
+                                            android:background="?attr/selectableItemBackgroundBorderless"
+                                            android:src="@drawable/add_24px" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <!-- Band Index Stepper -->
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/clBandIndex"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingVertical="0dp">
+
+                                    <TextView
+                                        android:id="@+id/tvBandIndexTitle"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:text="Band Index: 1"
+                                        android:textColor="@color/black"
+                                        android:textSize="18sp"
+                                        android:textStyle="bold"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toStartOf="@+id/layoutBandIndexStepper"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <LinearLayout
+                                        android:id="@+id/layoutBandIndexStepper"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="40dp"
+                                        android:background="@color/system_gray"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <ImageButton
+                                            android:id="@+id/btnBandIndexMinus"
+                                            android:layout_width="46dp"
+                                            android:layout_height="match_parent"
+                                            android:background="?attr/selectableItemBackgroundBorderless"
+                                            android:src="@drawable/remove_24px" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_marginTop="8dp"
+                                            android:layout_marginBottom="8dp"
+                                            android:background="#D3D3D3" />
+
+                                        <ImageButton
+                                            android:id="@+id/btnBandIndexPlus"
+                                            android:layout_width="46dp"
+                                            android:layout_height="match_parent"
+                                            android:background="?attr/selectableItemBackgroundBorderless"
+                                            android:src="@drawable/add_24px" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/cvSliderBorder"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:layout_marginBottom="10dp"
                             android:visibility="gone"
                             app:cardElevation="0dp"
                             app:cardMaxElevation="0dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toTopOf="@+id/vSplite">
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -297,43 +474,48 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
+                        <androidx.constraintlayout.widget.Barrier
+                            android:id="@+id/parameterBarrier"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:barrierDirection="bottom"
+                            app:constraint_referenced_ids="tvSendCommandDesc,edText,cvSwitchBorder,cvStepperBorder,cvSliderBorder" />
+
                         <View
                             android:id="@+id/vSplite"
                             android:layout_width="match_parent"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginTop="10dp"
                             android:layout_height="1dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
                             android:background="@color/system_gray"
-                            app:layout_constraintStart_toStartOf="@id/tvSendCommandDesc"
-                            app:layout_constraintEnd_toEndOf="@id/tvSendCommandDesc"
-                            app:layout_constraintTop_toBottomOf="@id/tvSendCommandDesc"
-                            app:layout_constraintBottom_toTopOf="@id/btSendCommand"
-                            />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/parameterBarrier" />
 
                         <com.google.android.material.button.MaterialButton
                             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                             android:id="@+id/btSendCommand"
                             android:layout_width="match_parent"
                             android:layout_height="36dp"
-                            android:text="發送指令"
-                            android:textSize="20dp"
-                            android:textColor="@color/white"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="16dp"
-                            android:layout_marginEnd="20dp"
                             android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="16dp"
+                            android:ellipsize="end"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
+                            android:text="發送指令"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
                             android:textStyle="bold"
-                            android:ellipsize="end"
                             app:backgroundTint="@color/system_blue"
                             app:cornerRadius="22dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/vSplite"
+                            app:elevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:elevation="0dp"/>
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/vSplite" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
