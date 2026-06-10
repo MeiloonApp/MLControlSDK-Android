@@ -3,6 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_peq">PEQ</string>
+    <string name="title_connect">連線</string>
+    <string name="title_others">其他</string>
+    <string name="title_calibration">校正測試</string>
     <string name="permission_mic_rationale_monitoring">需要麥克風權限才能進行監測</string>
     <string name="permission_mic_rationale_recording">需要麥克風權限才能進行錄製</string>
     <string name="permission_mic_rationale_general">需要麥克風權限才能繼續操作</string>
