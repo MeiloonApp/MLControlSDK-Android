@@ -22,4 +22,29 @@
         android:name="com.meiloon.mlcontrolcore_aos.fragment.peq.PeqFragment"
         android:label="PeqFragment"
         tools:layout="@layout/fragment_peq" />
+
+    <fragment
+        android:id="@+id/otherRoomCollection"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.roomcorrection.RoomCorrectionFragment"
+        android:label="RoomCorrectionFragment"
+        tools:layout="@layout/fragment_room_correction">
+        <action
+            android:id="@+id/action_otherRoomCollection_to_tempFileManagementFragment"
+            app:destination="@id/tempFileManagementFragment" />
+        <action
+            android:id="@+id/action_otherRoomCollection_to_peqResultFragment"
+            app:destination="@id/peqResultFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/peqResultFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.roomcorrection.PeqResultFragment"
+        android:label="PeqResultFragment"
+        tools:layout="@layout/fragment_peq_result" />
+
+    <fragment
+        android:id="@+id/tempFileManagementFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.roomcorrection.TempFileManagementFragment"
+        android:label="TempFileManagementFragment"
+        tools:layout="@layout/fragment_temp_file_management" />
 </navigation>

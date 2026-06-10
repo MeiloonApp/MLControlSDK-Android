@@ -18,7 +18,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.ChipChannel
-import com.meiloon.mlcontrolcore_aos.data.Command
 import com.meiloon.mlcontrolcore_aos.data.EQDataType
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentPeqBinding
 import com.meiloon.mlcontrolcore_aos.databinding.DialogPeqConfigBinding
@@ -39,7 +38,6 @@ import com.meiloon.controlcore.main.widget.ble.BleControlManager
 import com.meiloon.controlcore.main.widget.ble.event.ConnectionResponse
 import com.meiloon.controlcore.widget.app.android.AppFragment
 import com.meiloon.controlcore.widget.app.method.Method
-import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -186,18 +184,7 @@ class PeqFragment : AppFragment<FragmentPeqBinding>() {
         }
 
         binding.btnSaveText.setOnClickListener {
-            val allChannels = viewModel.getAllChannels()
-            val fullPeqString = StringBuilder()
-
-            allChannels.forEach { chipChannel ->
-                val eqDatas = viewModel.chartStorage.getData(chipChannel.chip, chipChannel.channel)
-                if (eqDatas.isNotEmpty()) {
-                    if (fullPeqString.isNotEmpty()) {
-                        fullPeqString.append("\n")
-                    }
-                    fullPeqString.append(eqDatas.toPEQString())
-                }
-            }
+            val fullPeqString = viewModel.formateEQDataList()
 
             if (fullPeqString.isEmpty()) {
                 showToast("目前無 PEQ 數據")
@@ -410,10 +397,7 @@ class PeqFragment : AppFragment<FragmentPeqBinding>() {
         val method: APIMethod = apiData.method
         Log.e("","收到指令: " + method + " ,內容: " + String(apiData.getCustomData()))
 
-        val now = System.currentTimeMillis()
-        val currentTime = getDateFormat(now, "HH:mm:ss")
-
-        viewModel.parseReceiveCommand(event.command, currentTime) { apiMethod, toastText ->
+        viewModel.parseReceiveCommand(event.command) { apiMethod, toastText ->
             Method.control.run(activity) { context ->
                 
                 when (apiMethod) {

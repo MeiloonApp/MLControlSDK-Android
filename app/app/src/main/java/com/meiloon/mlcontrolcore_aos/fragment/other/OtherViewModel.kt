@@ -1,7 +1,6 @@
 package com.meiloon.mlcontrolcore_aos.fragment.other
 
 import android.content.Context
-import android.net.wifi.ScanResult
 import android.util.Log
 import com.meiloon.mlcontrolcore_aos.adapter.LogAdapter
 import com.meiloon.mlcontrolcore_aos.data.Command
@@ -43,6 +42,7 @@ import com.meiloon.controlcore.widget.app.android.AppViewModel
 import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet
+import com.meiloon.mlcontrolcore_aos.util.LogManager
 import com.meiloon.mlcontrolcore_aos.util.toIntOrZero
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
@@ -77,22 +77,11 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
         connectedDeviceInfo.volume.value = bottomSheet?.volume?.toIntOrZero()
     }
 
-    fun addLogItem(data: List<String>) {
-        val items = logAdapter.items
-        val temp = mutableListOf<String>()
-
-        for (d in data) {
-            temp.add(d)
-        }
-
-        for (item in items) {
-            temp.add(item)
-        }
-
-        logAdapter.replaceAllItems(temp)
+    fun addLogItem(data: List<String>, addTime: Boolean = true) {
+        LogManager.addLogItem(data, addTime)
     }
 
-    fun parseReceiveCommand(command: ByteArray?, currentTime: String, context: Context?, cmdDoneNotify: (CmdDone) -> Unit) {
+    fun parseReceiveCommand(command: ByteArray?, context: Context?, cmdDoneNotify: (CmdDone) -> Unit) {
         val apiData = APIData(command)
         val method: APIMethod = apiData.getMethod()
         Log.e("OtherViewModel", "收到指令: $method ,內容: ${String(apiData.getCustomData())}")
@@ -101,11 +90,11 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
             APIMethod.FirmwareVer -> {
                 val value = apiData.getData(FirmwareVer::class.java).get()
                 connectedDeviceInfo.firmwareVer.value = value ?: ""
-                addResponseLog(currentTime, "FirmwareVer", value ?: "")
+                addResponseLog("FirmwareVer", value ?: "")
             }
             APIMethod.ChipID -> {
                 val chipID = apiData.getData(ChipID::class.java)
-                addResponseLog(currentTime, "ChipID", "id:${chipID.id()}, name: ${chipID.title()}")
+                addResponseLog("ChipID", "id:${chipID.id()}, name: ${chipID.title()}")
                 connectedDeviceInfo.chipID.value = chipID.idString()
                 connectedDeviceInfo.maxValue = chipID.maxVolume()
             }
@@ -114,64 +103,64 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                 connectedDeviceInfo.isLFEQOn.value = eqMode.lfeq
                 connectedDeviceInfo.isHFEQOn.value = eqMode.hfeq
                 connectedDeviceInfo.isDeskEQOn.value = eqMode.deskEQ
-                addResponseLog(currentTime, "EQMode", "LFEQOn:${eqMode.lfeq}, HFEQOn:${eqMode.hfeq}, DeskEQOn:${eqMode.deskEQ}")
+                addResponseLog("EQMode", "LFEQOn:${eqMode.lfeq}, HFEQOn:${eqMode.hfeq}, DeskEQOn:${eqMode.deskEQ}")
             }
 
             APIMethod.PreEQMode -> {
-                addResponseLog(currentTime, "PreEQMode")
+                addResponseLog("PreEQMode")
             }
 
             APIMethod.RoomCorrectionMode -> {
                 val mode = apiData.getData(RoomCorrectionMode::class.java)
                 connectedDeviceInfo.roomCorrectionMode.value = mode.get()
                 val value = if (mode.get() == 1) "開" else "關"
-                addResponseLog(currentTime, "RoomCorrectionMode", value, "成功")
+                addResponseLog("RoomCorrectionMode", value, "成功")
             }
 
             APIMethod.BTPairing -> {
                 val btPairing = apiData.getData(BTPairing::class.java)
                 val pairing = btPairing.get() == PairingStatus.PAIRING
-                addResponseLog(currentTime, "BTPairing", pairing.toString(), "成功")
+                addResponseLog("BTPairing", pairing.toString(), "成功")
             }
 
             APIMethod.Volume -> {
                 val volume = apiData.getData(Volume::class.java).get()
                 connectedDeviceInfo.volume.value = volume
-                addResponseLog(currentTime, "Volume", volume.toString(), "成功")
+                addResponseLog("Volume", volume.toString(), "成功")
             }
 
             APIMethod.AudioChipID -> {
                 val audioChipID = apiData.getData(AudioChipID::class.java)
                 val value: String = audioChipID.audioChipIDs.joinToString(", ")
                 connectedDeviceInfo.audioChipIDs.value = audioChipID.audioChipIDs
-                addResponseLog(currentTime, "AudioChipID", value, "成功")
+                addResponseLog("AudioChipID", value, "成功")
             }
 
             APIMethod.AudioChipNumbers -> {
                 val chipNumbers = apiData.getData(AudioChipNumbers::class.java)
                 connectedDeviceInfo.audioChipNumber.value = chipNumbers.audioChipNumber
-                addResponseLog(currentTime, "AudioChipNumbers", chipNumbers.audioChipNumber.toString(), "成功")
+                addResponseLog("AudioChipNumbers", chipNumbers.audioChipNumber.toString(), "成功")
             }
 
             APIMethod.AudioChannel -> {
                 val data = apiData.getData(AudioChannel::class.java)
                 val channels = data.allChannels
                 connectedDeviceInfo.audioChannel.value = channels
-                addResponseLog(currentTime, "AudioChannel", channels.toString(), "成功")
+                addResponseLog("AudioChannel", channels.toString(), "成功")
             }
 
             APIMethod.AudioSampleRate -> {
                 val data = apiData.getData(AudioSampleRate::class.java)
                 val audioSampleRates = data.audioSampleRates
                 connectedDeviceInfo.audioSampleRates.value = audioSampleRates
-                addResponseLog(currentTime, "AudioSampleRate", audioSampleRates.joinToString(", "), "成功")
+                addResponseLog("AudioSampleRate", audioSampleRates.joinToString(", "), "成功")
             }
 
             APIMethod.AudioBand -> {
                 val data = apiData.getData(AudioBand::class.java)
                 val bands = data.audioBands
                 connectedDeviceInfo.audioBands.value = bands
-                addResponseLog(currentTime, "AudioBand", bands.joinToString(", "), "成功")
+                addResponseLog("AudioBand", bands.joinToString(", "), "成功")
             }
 
             APIMethod.EQEngine -> {
@@ -179,7 +168,7 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                 val isOn = data.isOn
                 connectedDeviceInfo.eqEngine.value = isOn
                 val value = if (isOn) "開" else "關"
-                addResponseLog(currentTime, "EQEngine", value, "成功")
+                addResponseLog("EQEngine", value, "成功")
             }
 
             APIMethod.EQGroup -> {
@@ -187,7 +176,7 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                 val isOn = data.isOn
                 connectedDeviceInfo.eqEngine.value = isOn
                 val value = if (isOn) "開" else "關"
-                addResponseLog(currentTime, "EQGroup", value, "成功")
+                addResponseLog("EQGroup", value, "成功")
             }
 
             APIMethod.EQRange -> {
@@ -199,16 +188,16 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                     val rangeText = formatEQRange(it)
                     val textList = rangeText.split(",").reversed()
                     for (i in textList.indices) {
-                        if (i == 0) addResponseLog(currentTime, "EQRange", textList[i])
-                        else addLogItem(listOf("[$currentTime] [EQRange: ${textList[i]}}]"))
+                        if (i == 0) addResponseLog("EQRange", textList[i])
+                        else addLogItem(listOf("[EQRange: ${textList[i]}}]"))
                     }
                 }
             }
 
             APIMethod.EQPara -> {
                 val eqPara: EQPara = apiData.getData(EQPara::class.java)
-                addResponseLog(currentTime, "EQPara", "chipIndex=${eqPara.chipIndex}, channel=${eqPara.channel}, band=${eqPara.band}")
-                addLogItem(listOf("[$currentTime] [EQPara: freq=${eqPara.freq}, gain=${eqPara.gain}, q=${eqPara.q}, type=${eqPara.type}]"))
+                addResponseLog("EQPara", "chipIndex=${eqPara.chipIndex}, channel=${eqPara.channel}, band=${eqPara.band}")
+                addLogItem(listOf("[EQPara: freq=${eqPara.freq}, gain=${eqPara.gain}, q=${eqPara.q}, type=${eqPara.type}]"))
             }
 
             APIMethod.EQParas -> {
@@ -218,12 +207,12 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                     chartStorage.saveData(eqPara.chipIndex, eqPara.channel, eqPara.band, eqPoint)
                 }
                 connectedDeviceInfo.eqParas.value = eqParas.get()
-                addResponseLog(currentTime, "EQParas", "數量${eqParas.get().size}")
+                addResponseLog("EQParas", "數量: ${eqParas.get().size}")
             }
             APIMethod.SPKMute -> {
                 val status = apiData.getData(SPKMute::class.java).get()
                 connectedDeviceInfo.isMuteOn.value = (status == SPKMuteStatus.MUTE)
-                addResponseLog(currentTime, "SPKMute", status.name)
+                addResponseLog("SPKMute", "狀態: ${status.name}")
             }
             APIMethod.CmdDone -> {
                 val cmdDone = apiData.getData(CmdDone::class.java)
@@ -234,67 +223,67 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                     when (cmdDone.cmd) {
                         "SetLFEQOn" -> {
                             connectedDeviceInfo.isLFEQOn.value = true
-                            addCMDLog(currentTime, "SetLFEQOn", result)
+                            addCMDLog("SetLFEQOn", result)
                         }
                         "SetLFEQOff" -> {
                             connectedDeviceInfo.isLFEQOn.value = false
-                            addCMDLog(currentTime, "SetLFEQOff", result)
+                            addCMDLog("SetLFEQOff", result)
                         }
                         "SetHFEQOn" -> {
                             connectedDeviceInfo.isHFEQOn.value = true
-                            addCMDLog(currentTime, "SetHFEQOn", result)
+                            addCMDLog("SetHFEQOn", result)
                         }
                         "SetHFEQOff" -> {
                             connectedDeviceInfo.isHFEQOn.value = false
-                            addCMDLog(currentTime, "SetHFEQOff", result)
+                            addCMDLog("SetHFEQOff", result)
                         }
                         "SetDeskEQOn" -> {
                             connectedDeviceInfo.isDeskEQOn.value = true
-                            addCMDLog(currentTime, "SetDeskEQOn", result)
+                            addCMDLog("SetDeskEQOn", result)
                         }
                         "SetDeskEQOff" -> {
                             connectedDeviceInfo.isDeskEQOn.value = false
-                            addCMDLog(currentTime, "SetDeskEQOff", result)
+                            addCMDLog("SetDeskEQOff", result)
                         }
                         "SetMuteOff" -> {
                             connectedDeviceInfo.isMuteOn.value = false
-                            addCMDLog(currentTime, "SetMuteOff", result)
+                            addCMDLog("SetMuteOff", result)
                         }
                         "SetMuteOn" -> {
                             connectedDeviceInfo.isMuteOn.value = true
-                            addCMDLog(currentTime, "SetMuteOn", result)
+                            addCMDLog("SetMuteOn", result)
                         }
-                        "StartBTPairing" -> addCMDLog(currentTime, "StartBTPairing", result)
-                        "SetBTDeviceName" -> addCMDLog(currentTime, "SetBTDeviceName", result)
+                        "StartBTPairing" -> addCMDLog("StartBTPairing", result)
+                        "SetBTDeviceName" -> addCMDLog("SetBTDeviceName", result)
                         "GetMqttInfo" -> {
                             if (cmdDone.cmdResult == 5) {
                                 val message = "設備不支援MQTT"
                                 Log.w("CmdDone GetMqttInfo", "設備不支援MQTT")
-                                addCMDLog(currentTime, "SetLastVolume", message)
+                                addCMDLog("SetLastVolume", message)
                             }
                         }
-                        "SetLastVolume" -> addCMDLog(currentTime, "SetLastVolume", result)
-                        "SetRoomCorrectionMode" -> addCMDLog(currentTime, "SetRoomCorrectionMode", result)
-                        "GetAudioSampleRate" -> addCMDLog(currentTime, "GetAudioSampleRate", result)
-                        "GetEQRange" -> addCMDLog(currentTime, "GetEQRange", result)
-                        "GetAllEQPara" -> addCMDLog(currentTime, "GetAllEQPara", result)
+                        "SetLastVolume" -> addCMDLog("SetLastVolume", result)
+                        "SetRoomCorrectionMode" -> addCMDLog("SetRoomCorrectionMode", result)
+                        "GetAudioSampleRate" -> addCMDLog("GetAudioSampleRate", result)
+                        "GetEQRange" -> addCMDLog("GetEQRange", result)
+                        "GetAllEQPara" -> addCMDLog("GetAllEQPara", result)
                         "GetMute" -> {
                             if (cmdDone.cmdResult == 5)  {
                                 val message = "設備不支援靜音查詢"
                                 Log.w("GetMute", message)
-                                addCMDLog(currentTime, "GetMute", message)
+                                addCMDLog("GetMute", message)
                             }
                         }
                         "GetBattery" -> {
                             if (cmdDone.cmdResult == 5) {
                                 val message = "設備不支援電量查詢"
                                 Log.w("GetBattery", message)
-                                addCMDLog(currentTime, "GetBattery", message)
+                                addCMDLog("GetBattery", message)
                             }
                         }
-                        "SetAllEQPara" -> addCMDLog(currentTime, "SetAllEQPara", result)
-                        "SetEQPara" -> addCMDLog(currentTime, "SetEQPara", result)
-                        "GetEQPara" -> addCMDLog(currentTime, "GetEQPara", result)
+                        "SetAllEQPara" -> addCMDLog("SetAllEQPara", result)
+                        "SetEQPara" -> addCMDLog("SetEQPara", result)
+                        "GetEQPara" -> addCMDLog("GetEQPara", result)
                         else -> {
                             cmdDone?.let { cmdDone -> cmdDoneNotify(cmdDone) }
                         }
@@ -313,14 +302,12 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                 "Quality: ${String.format("%.2f", range.minQ)} ~ ${String.format("%.2f", range.maxQ)}"
     }
 
-    private fun addResponseLog(currentTime: String, method: String, data: String = "", result: String? = null) {
-        val dataPart = if (data.isNotEmpty()) " [$data]" else ""
-        val resultPart = if (result != null) " [結果: $result]" else ""
-        addLogItem(listOf("[$currentTime] 收到回應 [$method] $dataPart $resultPart"))
+    private fun addResponseLog(method: String, data: String = "", result: String? = null) {
+        LogManager.addResponseLog(method, data, result)
     }
 
-    private fun addCMDLog(currentTime: String, type: String, result: String) {
-        addLogItem(listOf("[$currentTime] 收到回應[CmdDone ${type}] [結果: ${result}]"))
+    private fun addCMDLog(type: String, result: String) {
+        LogManager.addCMDLog(type, result)
     }
 
     fun setMaxVolum(chipId: String) {

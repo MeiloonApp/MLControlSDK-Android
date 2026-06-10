@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.meiloon.mlcontrolcore_aos.R
@@ -219,7 +218,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         observe(viewModel.refreshNear, viewModel.deviceAdapter::refreshNear)
 
         observe(viewModel.logData) { data ->
-            (activity as? MainActivity)?.logDataBridge?.value = data.reversed()
+            (activity as? MainActivity)?.logDataBridge?.value = data
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

@@ -1,14 +1,11 @@
 package com.meiloon.mlcontrolcore_aos.fragment.blescan
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.controlcore.global.database.entity.BluetoothEntity
 import com.meiloon.controlcore.global.database.repository.DeviceRepository
 import com.meiloon.controlcore.main.widget.ble.BleControlManager
-import com.meiloon.controlcore.main.widget.ble.ConnectedDevice
 import com.meiloon.controlcore.retrofit.request.RegisterMobileDevice
 import com.meiloon.controlcore.widget.app.action.Action
 import com.meiloon.controlcore.widget.app.android.AppViewModel
@@ -18,20 +15,18 @@ import com.meiloon.controlcore.widget.app.shared.SharedMethod
 import com.meiloon.controlcore.widget.app.widget.blufi.AppBlufiClient
 import com.meiloon.controlcore.widget.app.widget.blufi.BlufiClientManager
 import com.meiloon.mlcontrolcore_aos.adapter.DeviceAdapter
+import com.meiloon.mlcontrolcore_aos.util.LogManager
 import com.meiloon.controlcore.main.api.enums.CommandType
 import com.meiloon.controlcore.main.api.enums.CommandType.GetAllEQPara
 import com.meiloon.controlcore.main.api.enums.CommandType.GetChipID
 import com.meiloon.controlcore.main.api.enums.CommandType.GetVolume
-import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
 import com.polidea.rxandroidble3.scan.ScanResult
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import okhttp3.ResponseBody
-import java.util.concurrent.TimeUnit
 
 class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel() {
 
@@ -64,7 +59,7 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
     private var isStopRequested = false
     val deviceAdapter: DeviceAdapter = DeviceAdapter()
     var isEnd: Boolean = false
-    val logData = MutableLiveData<List<String>>(emptyList())
+    val logData = LogManager.logs
 
     init {
         setInstance(this)
@@ -354,14 +349,10 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
     }
 
     fun addLog(text: String) {
-        val now = System.currentTimeMillis()
-        val currentTime = getDateFormat(now, "HH:mm:ss")
-        val value = "[${currentTime}] [${text}]"
-        val data = (logData.value ?: emptyList()) + value
-        logData.postValue(data)
+        LogManager.addLogItem(listOf(text))
     }
 
     fun clearLog() {
-        logData.postValue(emptyList())
+        LogManager.clearLogs()
     }
 }

@@ -4,30 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/system_gray"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <View
+        android:id="@+id/handle"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_bottom_sheet_handle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="-4dp"
         android:text="通訊日誌"
         android:textStyle="bold"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:background="@color/system_gray"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/handle"/>
 
     <TextView
         android:id="@+id/tvLogCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="8dp"
         android:text="0"
-        android:textSize="10sp"
-        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textColor="@color/system_dark_gray"
+        app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toEndOf="@id/tvTitle"
+        app:layout_constraintTop_toTopOf="@id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvCopy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="複製"
+        android:textSize="16sp"
+        android:textColor="@color/system_blue"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/tvTitle"
         app:layout_constraintEnd_toStartOf="@+id/tvClear"
         app:layout_constraintTop_toTopOf="@id/tvTitle" />
@@ -36,10 +64,11 @@
         android:id="@+id/tvClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="16dp"
         android:text="清除"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textColor="@color/system_blue"
+        android:textStyle="bold"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@id/tvTitle"
@@ -50,7 +79,9 @@
         android:id="@+id/rvLog"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/system_light_gray"
+        android:layout_marginTop="4dp"
+        android:background="@color/white"
+        android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintBottom_toBottomOf="parent"/>

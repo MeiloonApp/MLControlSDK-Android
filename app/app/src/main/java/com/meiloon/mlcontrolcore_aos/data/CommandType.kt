@@ -7,6 +7,8 @@ import com.meiloon.controlcore.main.widget.ble.BleControlManager
 import com.meiloon.controlcore.widget.app.developer.Log
 
 sealed class CommandType {
+    val name: String get() = this::class.simpleName ?: ""
+
     object GetChipID : CommandType()
     object GetAudioChipID : CommandType()
     object GetFirmwareVer : CommandType()
@@ -41,7 +43,7 @@ sealed class CommandType {
     data class SetSPKMute(val isOn: Boolean? = null) : CommandType()
     data class SetRoomCorrectionMode(val mode: Int? = null) : CommandType()
     data class SetAllEQPara(val chipIndex: Int? = null,
-                            val channelIndex: Int? = null,
+                            val channel: Int? = null,
                             val eqData: List<EQData>? = null) : CommandType()
     data class SetEQPara(val chipIndex: Int? = null,
                          val channelIndex: Int? = null,
@@ -109,7 +111,7 @@ sealed class CommandType {
                 is SetHFEQ -> ble.setHFEQ(address, commandType.isOn ?: false)
                 is SetAllEQPara -> ble.sendAllEQPara(address,
                                                         commandType.chipIndex ?: 1,
-                                                        commandType.channelIndex ?: 1,
+                                                        commandType.channel ?: 1,
                                                         commandType.eqData)
                 is SetEQEngine -> ble.setEQEngine(address, commandType.isOn ?: false)
                 is SetEQGroup -> ble.setEQGroup(address, commandType.isOn ?: false)

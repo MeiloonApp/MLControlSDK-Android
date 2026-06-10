@@ -18,7 +18,6 @@ import com.meiloon.controlcore.main.factory.ViewModelFactory
 import com.meiloon.controlcore.main.widget.ble.event.ConnectionResponse
 import com.meiloon.controlcore.widget.app.android.AppFragment
 import com.meiloon.controlcore.widget.app.method.Method
-import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.Command
 import com.meiloon.mlcontrolcore_aos.data.CommandDesc
@@ -104,6 +103,7 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
                     val selectedCommandType = selectedCommandItem.commandType
                     val commandType = CommandType.setValue(selectedCommandType, getSettingValue(selectedCommandType))
                     if (commandType != null) {
+                        viewModel.addLogItem(listOf("發送指令: [${commandType.name}]"))
                         CommandType.send(address, commandType)
                     } else {
                         showToast("請設定CommandType send:TODO")
@@ -213,13 +213,10 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
         if (!event.address.equals(selectedDevceAddress)) return
 
         val apiData = APIData(event.command)
-        val method: APIMethod = apiData.getMethod()
+        val method: APIMethod = apiData.method
         Log.e("","收到指令: " + method + " ,內容: " + String(apiData.getCustomData()))
 
-        val now = System.currentTimeMillis()
-        val currentTime = getDateFormat(now, "HH:mm:ss")
-
-        viewModel.parseReceiveCommand(event.command, currentTime, context) { cmdDone ->
+        viewModel.parseReceiveCommand(event.command, context) { cmdDone ->
             // 未判斷時跳出提示
             Method.control.run(getAppActivity()) { context ->
                 val message: String? = cmdDone.getCmdMessage(context)

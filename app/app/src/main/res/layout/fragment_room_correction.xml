@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/system_light_gray"
+    tools:ignore="HardcodedText">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Room Correction SDK"
+                    android:textColor="@color/black"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp" />
+
+                <!-- Section 1 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1. 環境準備"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="32dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="當前進度"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/tvCurrentProgress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/bg_rounded_gray"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="4dp"
+                                android:text="閒置"
+                                android:textColor="@color/system_dark_gray"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/system_light_gray"
+                            android:layout_marginVertical="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="bottom">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="麥克風電平:"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/tvMicLevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-100.0 dBFS"
+                                android:textColor="@color/ble_connected"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/pbMicLevel"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:progress="0"
+                            android:max="100"
+                            android:progressTint="@color/ble_connected"
+                            android:progressBackgroundTint="@color/system_light_gray"
+                            android:layout_marginTop="12dp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/system_light_gray"
+                            android:layout_marginVertical="16dp" />
+
+                        <TextView
+                            android:id="@+id/btnStartLevelMonitor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="開始電平監測 (達 -45dB 停)"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:paddingVertical="4dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Section 2 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2. 量測參數與獲取"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="32dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <!-- Row 1: 頻段數量 -->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+                            <TextView
+                                android:id="@+id/tvBandsCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="頻段數量 15 段"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/bg_pill_gray"
+                                android:orientation="horizontal"
+                                android:padding="2dp">
+                                <ImageButton
+                                    android:id="@+id/btnRemoveBand"
+                                    android:layout_width="44dp"
+                                    android:layout_height="match_parent"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:src="@drawable/remove_24px"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/black" />
+                                <ImageButton
+                                    android:id="@+id/btnAddBand"
+                                    android:layout_width="44dp"
+                                    android:layout_height="match_parent"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:src="@drawable/add_24px"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/black" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <View android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/system_light_gray" />
+
+                        <!-- Row 2: 校正範圍 -->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="校正範圍 (Hz)"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="50 - 600"
+                                android:textColor="@color/system_blue"
+                                android:textSize="16sp" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/system_light_gray" />
+
+                        <!-- Row 3: 錄製近場 -->
+                        <RelativeLayout
+                            android:id="@+id/btnRecordNF"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="錄製近場 (NF)"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/tvStatusNF"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="未錄製"
+                                android:textColor="@color/system_dark_gray"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/system_light_gray" />
+
+                        <!-- Row 4: 錄製遠場 -->
+                        <RelativeLayout
+                            android:id="@+id/btnRecordFF"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="錄製遠場 (FF)"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/tvStatusFF"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="未錄製"
+                                android:textColor="@color/system_dark_gray"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Section 3 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3. 數據分析與優化"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="32dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <!-- Switches -->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="智慧對齊 (Smart Gain)"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swSmartGain"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:checked="false"
+                                android:scaleX="1.25"
+                                android:scaleY="1.25"
+                                app:thumbTint="@color/white"
+                                app:trackTint="@color/switch_track_selector" />
+                        </RelativeLayout>
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/system_light_gray" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="哈曼曲線 (House Curve)"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swHouseCurve"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:scaleX="1.25"
+                                android:scaleY="1.25"
+                                app:thumbTint="@color/white"
+                                app:trackTint="@color/switch_track_selector" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/system_light_gray" />
+
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="60dp">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:text="深谷保護 (Deep Null)" android:textColor="@color/black" android:textSize="18sp" android:textStyle="bold" />
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swDeepNull"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true"
+                                android:scaleX="1.25"
+                                android:scaleY="1.25"
+                                app:thumbTint="@color/white"
+                                app:trackTint="@color/switch_track_selector" />
+                        </RelativeLayout>
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/system_light_gray" />
+
+                        <LinearLayout
+                            android:id="@+id/btnAnalyze"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/memory_alt_24px"
+                                android:contentDescription="@null"
+                                app:tint="@color/black" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="丟入音檔進行計算"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Section 4 -->
+                <LinearLayout
+                    android:id="@+id/layoutSectionWrite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4. 寫入設備"
+                        android:textColor="@color/system_dark_gray"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="12dp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white"
+                        android:layout_marginBottom="32dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:id="@+id/tvAnalyzeResultTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="已計算完成: 15 段 PEQ"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <RelativeLayout
+                                android:id="@+id/btnViewDetails"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="?attr/selectableItemBackground">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="查看詳細數值對照"
+                                    android:textColor="@color/system_blue"
+                                    android:textSize="14sp" />
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:src="@drawable/keyboard_arrow_down_24px"
+                                    android:rotation="-90"
+                                    app:tint="@color/unSelected_gray" />
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/system_light_gray"
+                                android:layout_marginVertical="16dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnWriteToDevice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="54dp"
+                                android:text="將結果寫入揚聲器"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="27dp"
+                                app:backgroundTint="#34C759"
+                                app:icon="@drawable/upload_24px"
+                                app:iconTint="@color/white"
+                                app:iconSize="24dp"
+                                android:paddingHorizontal="24dp" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- Section 5 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5. 管理"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <RelativeLayout
+                            android:id="@+id/layoutManageTempFiles"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="管理暫存音檔"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/tvTempFileCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0 個"
+                                    android:textColor="@color/system_dark_gray"
+                                    android:textSize="18sp" />
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/keyboard_arrow_down_24px"
+                                    android:rotation="-90"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/unSelected_gray" />
+                            </LinearLayout>
+                        </RelativeLayout>
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/system_light_gray" />
+
+                        <TextView
+                            android:id="@+id/btnClearTempFiles"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:gravity="center_vertical"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:text="立即清空所有暫存"
+                            android:textColor="@color/system_red"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="系統會於進入此頁面時自動清理舊有暫存檔"
+                    android:textColor="@color/system_dark_gray"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="40dp" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Consistent Bottom Sheet -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/persistent_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="16dp"
+        app:behavior_peekHeight="100dp"
+        app:behavior_skipCollapsed="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <include
+            android:id="@+id/layoutBottomSheetContent"
+            layout="@layout/bottom_sheet_log"/>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

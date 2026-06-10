@@ -35,4 +35,13 @@
     <color name="blue_slider_inactive">#CBD5E1</color>
     <color name="blue_slider_hola">#32007AFF</color>
 
+    <color name="status_orange_bg">#FFEDD5</color>
+    <color name="status_orange_text">#F09C58</color>
+
+    <color name="status_blue_bg">#DBEAFE</color>
+    <color name="status_blue_text">#2563EB</color>
+
+    <color name="status_green_bg">#E1F5E5</color>
+    <color name="status_green_text">#34C759</color>
+
 </resources>

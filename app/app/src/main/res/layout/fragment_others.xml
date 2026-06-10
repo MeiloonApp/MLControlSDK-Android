@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/system_gray"
+    android:background="@color/system_light_gray"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.other.OtherFragment">
 
@@ -29,15 +29,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/system_gray">
+                android:background="@color/system_light_gray">
 
                 <TextView
                     android:id="@+id/tVTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:singleLine="true"
                     android:ellipsize="end"
+                    android:singleLine="true"
                     android:text="Command Lab"
                     android:textColor="@color/black"
                     android:textSize="40sp"

@@ -9,13 +9,15 @@ import com.meiloon.controlcore.main.api.CmdDone
 import com.meiloon.controlcore.main.api.EQParas
 import com.meiloon.controlcore.main.api.enums.APIMethod
 import com.meiloon.controlcore.main.container.chart.data.EQData
+import com.meiloon.controlcore.main.container.chart.data.toPEQString
 import com.meiloon.controlcore.main.container.chart.widget.ChartStorage
 import com.meiloon.controlcore.widget.app.android.AppViewModel
-import com.meiloon.controlcore.widget.app.method.Method
 import com.meiloon.mlcontrolcore_aos.adapter.BandAdapter
 import com.meiloon.mlcontrolcore_aos.adapter.ChannelAdapter
+import com.meiloon.mlcontrolcore_aos.adapter.LogAdapter
 import com.meiloon.mlcontrolcore_aos.data.ChipChannel
 import com.meiloon.mlcontrolcore_aos.data.EQDataType
+import com.meiloon.mlcontrolcore_aos.util.LogManager
 import kotlin.math.log10
 
 
@@ -44,7 +46,7 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
         }
     }
 
-    fun parseReceiveCommand(command: ByteArray?, currentTime: String, notify: (APIMethod, String) -> Unit) {
+    fun parseReceiveCommand(command: ByteArray?, notify: (APIMethod, String) -> Unit) {
         val apiData = APIData(command)
         val method: APIMethod = apiData.method
         Log.e("OtherViewModel", "收到指令: $method ,內容: ${String(apiData.getCustomData())}")
@@ -68,22 +70,23 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
             APIMethod.CmdDone -> {
                 val cmdDone = apiData.getData(CmdDone::class.java)
                 when (cmdDone.cmd) {
-                    "GetAllEQPara" -> { val text = "[$currentTime] 收到回應[CmdDone GetAllEQPara] [結果:成功]]"
-                        notify(method, text)
+                    "GetAllEQPara" -> {
+                        addCMDLog("GetAllEQPara", "成功")
+                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
                     }
                     "SetAllEQPara" -> {
-                        val text = "[$currentTime] 收到回應[CmdDone SetAllEQPara] [結果:成功]"
+                        addCMDLog("SetAllEQPara", "成功")
                         //成功後同步
                         syncGlobalViewModelChartStorage()
-                        notify(method, text)
+                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
                     }
                     "SetEQPara" -> {
-                        val text = "[$currentTime] 收到回應[CmdDone SetEQPara] [結果:成功]]"
-                        notify(method, text)
+                        addCMDLog("SetEQPara", "成功")
+                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
                     }
                     "SaveEQPara" -> {
-                        val text = "[$currentTime] 收到回應[CmdDone SaveEQPara] [結果:成功]]"
-                        notify(method, text)
+                        addCMDLog("SaveEQPara", "成功")
+                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
                     }
                     else -> {
                         notify(APIMethod.UNKNOWN ,"未定義CmdDone類別")
@@ -160,6 +163,27 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
             sb.append(String.format(java.util.Locale.US, "%.1fHz: %.2f dB\n", frequencies[i], dB))
         }
         return sb.toString()
+    }
+
+    fun formateEQDataList() : StringBuilder {
+        val allChannels = getAllChannels()
+        var string = StringBuilder()
+
+        allChannels.forEach { chipChannel ->
+            val eqDatas = chartStorage.getData(chipChannel.chip, chipChannel.channel)
+            if (eqDatas.isNotEmpty()) {
+                if (string.isNotEmpty()) {
+                    string.append("\n")
+                }
+                string.append(eqDatas.toPEQString())
+            }
+        }
+
+        return  string
+    }
+
+    private fun addCMDLog(type: String, result: String) {
+        LogManager.addCMDLog(type, result)
     }
 
 }

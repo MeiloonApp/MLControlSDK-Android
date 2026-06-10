@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat.setTint
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,6 +25,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.meiloon.controlcore.MLControlCore
+import com.meiloon.controlcore.main.container.room.MLRoomCorrectionEngine
 import com.polidea.rxandroidble3.scan.ScanResult
 
 
@@ -45,7 +45,12 @@ class MainActivity : AppActivity<ActivityMainBinding>() {
         getViewModel(GlobalViewModel::class.java)
         setContentView(binding.root)
 
+        com.meiloon.mlcontrolcore_aos.util.LogManager.logs.observe(this) {
+            logDataBridge.value = it
+        }
+
         BleManager.getInstance().init(this)
+        MLRoomCorrectionEngine.init(this)
         keepSplash()
 
         setupBottomNavigationView()

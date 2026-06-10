@@ -26,7 +26,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/system_gray">
+                android:background="@color/system_light_gray">
 
                 <TextView
                     android:id="@+id/tVTitle"
@@ -59,7 +59,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/system_gray">
+                        android:background="@color/system_light_gray">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/vwBleStatusLight"

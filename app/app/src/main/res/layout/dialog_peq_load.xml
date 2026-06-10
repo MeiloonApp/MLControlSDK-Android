@@ -36,6 +36,7 @@
         android:background="@drawable/bg_rounded_gray"
         android:gravity="top|start"
         android:hint="在此貼上文字..."
+        android:text="PEQ 1 20 6.0 1.73 PEQ 2 20 6.0 1.32 PEQ 3 20 6.0 1.22 PEQ 4 20 6.0 1.13 PEQ 5 20 6.0 2.51 PEQ 6 20 6.0 2.51 PEQ 7 20 6.0 2.94 PEQ 8 20 6.0 2.94 PEQ 9 31 6.0 1.71 PEQ 10 31 6.0 1.71 PEQ 11 190 -12.0 2.14 PEQ 12 15342 6.0 1.19 PEQ 13 15342 6.0 0.81 PEQ 14 15342 6.0 0.70 PEQ 15 19330 6.0 1.68"
         android:minHeight="300dp"
         android:padding="16dp"
         android:textColor="@color/black"
