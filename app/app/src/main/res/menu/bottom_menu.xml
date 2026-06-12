@@ -5,6 +5,10 @@
         android:icon="@drawable/link_24px"
         android:title="@string/title_connect" />
     <item
+        android:id="@+id/controlFragment"
+        android:icon="@drawable/tune_24px"
+        android:title="@string/title_control" />
+    <item
         android:id="@+id/peqFragment"
         android:icon="@drawable/vital_signs_24px"
         android:title="@string/title_peq" />

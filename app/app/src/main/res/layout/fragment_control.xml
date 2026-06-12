@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/system_light_gray">
+
+    <!-- 1. 未連接設備時的版面 (位於底層) -->
+    <TextView
+        android:id="@+id/tvStableTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/title_control_monitoring"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvNoDevice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/msg_please_connect_device"
+        android:textColor="@color/system_dark_gray"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- 2. 主內容滾動區塊 -->
+    <com.meiloon.mlcontrolcore_aos.widget.DynamicTitleScrollView
+        android:id="@+id/layoutControlContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="180dp"
+        android:background="@color/system_light_gray"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- 大標題 (Large Title) -->
+            <TextView
+                android:id="@+id/tvLargeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/title_control_monitoring"
+                android:textColor="@color/black"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/subtitle_realtime_adjustment"
+                android:textColor="@color/system_dark_gray"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Volume Control -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/ivVolume"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/label_main_volume"
+                            android:src="@drawable/volume_up_24px"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/system_blue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="@string/label_main_volume"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@id/ivVolume"
+                            app:layout_constraintStart_toEndOf="@id/ivVolume"
+                            app:layout_constraintTop_toTopOf="@id/ivVolume" />
+
+                        <TextView
+                            android:id="@+id/tvVolumeValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14"
+                            android:textColor="@color/system_blue"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@id/ivVolume"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/ivVolume" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/slVolume"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:value="14"
+                            android:valueFrom="0"
+                            android:valueTo="100"
+                            app:labelBehavior="gone"
+                            app:haloColor="@android:color/transparent"
+                            app:layout_constraintTop_toBottomOf="@id/ivVolume"
+                            app:thumbColor="@color/white"
+                            app:thumbElevation="4dp"
+                            app:thumbRadius="14dp"
+                            app:trackColorActive="@color/system_blue"
+                            app:trackColorInactive="@color/system_gray"
+                            app:trackHeight="8dp" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/system_gray" />
+
+                    <!-- Mute Mode -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <ImageView
+                            android:id="@+id/ivMute"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/label_mute_mode"
+                            android:src="@drawable/volume_down_24px"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/system_blue" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="@string/label_mute_mode"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/swMute"
+                            app:layout_constraintStart_toEndOf="@id/ivMute"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/swMute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:scaleX="1.25"
+                            android:scaleY="1.25"
+                            app:thumbTint="@color/white"
+                            app:trackTint="@color/switch_track_green"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/system_gray" />
+
+                    <!-- Bluetooth Pairing -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <ImageView
+                            android:id="@+id/ivBT"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/label_bt_pairing"
+                            android:src="@drawable/bigtop_updates_24px"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/system_blue" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="@string/label_bt_pairing"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/swBT"
+                            app:layout_constraintStart_toEndOf="@id/ivBT"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/swBT"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:scaleX="1.25"
+                            android:scaleY="1.25"
+                            app:thumbTint="@color/white"
+                            app:trackTint="@color/switch_track_green"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/system_gray" />
+
+                    <!-- Room Correction Mode -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <ImageView
+                            android:id="@+id/ivRoom"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/label_room_correction"
+                            android:src="@drawable/tune_24px"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/system_blue" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="@string/label_room_correction"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/swRoom"
+                            app:layout_constraintStart_toEndOf="@id/ivRoom"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/swRoom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:scaleX="1.25"
+                            android:scaleY="1.25"
+                            app:thumbTint="@color/white"
+                            app:trackTint="@color/switch_track_green"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/system_gray" />
+
+                    <!-- LF EQ -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <ImageView
+                            android:id="@+id/ivLF"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/label_lf_eq"
+                            android:src="@drawable/queue_music_24px"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/system_blue" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="@string/label_lf_eq"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/swLF"
+                            app:layout_constraintStart_toEndOf="@id/ivLF"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/swLF"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:scaleX="1.25"
+                            android:scaleY="1.25"
+                            app:thumbTint="@color/white"
+                            app:trackTint="@color/switch_track_orange"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/system_gray" />
+
+                    <!-- HF EQ -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <ImageView
+                            android:id="@+id/ivHF"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/label_hf_eq"
+                            android:src="@drawable/queue_music_24px"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/system_blue" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="@string/label_hf_eq"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/swHF"
+                            app:layout_constraintStart_toEndOf="@id/ivHF"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/swHF"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:scaleX="1.25"
+                            android:scaleY="1.25"
+                            app:thumbTint="@color/white"
+                            app:trackTint="@color/switch_track_orange"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/system_gray" />
+
+                    <!-- Desk EQ -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <ImageView
+                            android:id="@+id/ivDesk"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/label_desk_eq"
+                            android:src="@drawable/queue_music_24px"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/system_blue" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="@string/label_desk_eq"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/swDesk"
+                            app:layout_constraintStart_toEndOf="@id/ivDesk"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/swDesk"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:scaleX="1.25"
+                            android:scaleY="1.25"
+                            app:thumbTint="@color/white"
+                            app:trackTint="@color/switch_track_orange"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/title_manual_query"
+                android:textColor="@color/system_dark_gray"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:padding="10dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGetVolume"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="2dp"
+                        android:insetTop="2dp"
+                        android:insetBottom="4dp"
+                        android:insetLeft="4dp"
+                        android:insetRight="2dp"
+                        android:text="@string/btn_get_volume"
+                        android:textColor="@color/system_blue"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/system_gray"
+                        app:cornerRadius="22dp"
+                        app:icon="@drawable/speaker_24px"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/system_blue" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGetVersion"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="2dp"
+                        android:insetTop="2dp"
+                        android:insetBottom="4dp"
+                        android:insetLeft="2dp"
+                        android:insetRight="4dp"
+                        android:text="@string/btn_get_version"
+                        android:textColor="@color/system_blue"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/system_gray"
+                        app:cornerRadius="22dp"
+                        app:icon="@drawable/info_24px"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/system_blue" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGetBattery"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="2dp"
+                        android:insetTop="4dp"
+                        android:insetBottom="2dp"
+                        android:insetLeft="4dp"
+                        android:insetRight="2dp"
+                        android:text="@string/btn_get_battery"
+                        android:textColor="@color/system_blue"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/system_gray"
+                        app:cornerRadius="22dp"
+                        app:icon="@drawable/battery_android_frame_full_24px"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/system_blue" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGetStatus"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="2dp"
+                        android:insetTop="4dp"
+                        android:insetBottom="2dp"
+                        android:insetLeft="2dp"
+                        android:insetRight="4dp"
+                        android:text="@string/btn_get_status"
+                        android:textColor="@color/system_blue"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/system_gray"
+                        app:cornerRadius="22dp"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/system_blue" />
+
+                </GridLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+    </com.meiloon.mlcontrolcore_aos.widget.DynamicTitleScrollView>
+
+    <!-- 4. Consistent Bottom Sheet -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/persistent_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="16dp"
+        app:behavior_peekHeight="180dp"
+        app:behavior_skipCollapsed="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <include
+            android:id="@+id/layoutBottomSheetContent"
+            layout="@layout/bottom_sheet_log"/>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

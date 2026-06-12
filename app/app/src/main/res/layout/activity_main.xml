@@ -14,7 +14,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="0dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,17 +22,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.meiloon.mlcontrolcore_aos.widget.BounceBottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
-        android:layout_height="66dp"
+        android:layout_height="68dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"
-        app:backgroundTint="@color/white"
+        android:layout_marginBottom="4dp"
+        app:backgroundTint="@color/translucent_gray"
         app:labelVisibilityMode="labeled"
-        app:itemActiveIndicatorStyle="@style/IndicatorStyle"
-        app:itemIconSize="34dp"
+        app:itemBackground="@drawable/bg_tab_item_selector"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"
         app:itemTextAppearanceActive="@style/TextAppearance"

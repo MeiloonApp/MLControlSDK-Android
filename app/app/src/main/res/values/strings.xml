@@ -9,4 +9,23 @@
     <string name="permission_mic_rationale_monitoring">需要麥克風權限才能進行監測</string>
     <string name="permission_mic_rationale_recording">需要麥克風權限才能進行錄製</string>
     <string name="permission_mic_rationale_general">需要麥克風權限才能繼續操作</string>
+    <string name="title_control_monitoring">控制與監測</string>
+    <string name="subtitle_realtime_adjustment">即時調整</string>
+    <string name="label_main_volume">主音量控制</string>
+    <string name="label_mute_mode">靜音模式</string>
+    <string name="label_bt_pairing">藍牙配對模式</string>
+    <string name="label_room_correction">房間校正模式 (Mode)</string>
+    <string name="label_lf_eq">LF EQ</string>
+    <string name="label_hf_eq">HF EQ</string>
+    <string name="label_desk_eq">Desk EQ</string>
+    <string name="title_manual_query">手動查詢指令</string>
+    <string name="btn_get_volume">取音量</string>
+    <string name="btn_get_version">取版本</string>
+    <string name="btn_get_battery">取電量</string>
+    <string name="btn_get_status">取狀態</string>
+    <string name="title_communication_log">通訊日誌</string>
+    <string name="btn_copy">複製</string>
+    <string name="btn_clear">清除</string>
+    <string name="title_control">控制</string>
+    <string name="msg_please_connect_device">請先於連接頁面連接設備</string>
 </resources>

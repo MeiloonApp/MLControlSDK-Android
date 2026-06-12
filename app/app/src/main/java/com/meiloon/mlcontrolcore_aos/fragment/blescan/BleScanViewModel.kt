@@ -18,7 +18,13 @@ import com.meiloon.mlcontrolcore_aos.adapter.DeviceAdapter
 import com.meiloon.mlcontrolcore_aos.util.LogManager
 import com.meiloon.controlcore.main.api.enums.CommandType
 import com.meiloon.controlcore.main.api.enums.CommandType.GetAllEQPara
+import com.meiloon.controlcore.main.api.enums.CommandType.GetAudioChipNumbers
+import com.meiloon.controlcore.main.api.enums.CommandType.GetBattery
 import com.meiloon.controlcore.main.api.enums.CommandType.GetChipID
+import com.meiloon.controlcore.main.api.enums.CommandType.GetEQMode
+import com.meiloon.controlcore.main.api.enums.CommandType.GetFirmwareVer
+import com.meiloon.controlcore.main.api.enums.CommandType.GetMute
+import com.meiloon.controlcore.main.api.enums.CommandType.GetRoomCorrectionMode
 import com.meiloon.controlcore.main.api.enums.CommandType.GetVolume
 import com.polidea.rxandroidble3.scan.ScanResult
 import io.reactivex.rxjava3.core.Completable
@@ -258,29 +264,23 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
         if (device.isESP32) {
             BleControlManager.getInstance().getMqttInfo(address)
         } else if (device.isHubSpeaker) {
-            BleControlManager.getInstance().getSPKMute(address)
+            CommandType.send(address, GetMute)
             BleControlManager.getInstance().getMicMute(address)
         } else {
-            BleControlManager.getInstance().getFirmwareVer(address)
-            BleControlManager.getInstance().getVolume(address)
-            BleControlManager.getInstance().getBattery(address)
-            BleControlManager.getInstance().getChipID(address)
-            BleControlManager.getInstance().getAudioChipNumbers(address)
-            BleControlManager.getInstance().getEQMode(address)
-            BleControlManager.getInstance().getMute(address)
-            BleControlManager.getInstance().getRoomCorrectionMode(address)
-            CommandType.send(address, GetChipID)
+            CommandType.send(address, GetFirmwareVer)
             CommandType.send(address, GetVolume)
+            CommandType.send(address, GetBattery)
+            CommandType.send(address, GetChipID)
+            CommandType.send(address, GetAudioChipNumbers)
+            CommandType.send(address, GetEQMode)
+            CommandType.send(address, GetMute)
+            CommandType.send(address, GetRoomCorrectionMode)
             CommandType.send(address, GetAllEQPara)
         }
     }
 
     fun updateDeviceUid(macAddress: String?, deviceUid: String?): Completable {
         return repository.updateDeviceUid(macAddress, deviceUid)
-    }
-
-    fun updateAutoConnect(macAddress: String?, isAuto: Boolean): Completable {
-        return repository.updateAutoConnect(macAddress, isAuto)
     }
 
     fun connectBluFi(device: BluetoothEntity?) {
@@ -314,29 +314,6 @@ class BleScanViewModel(private val repository: DeviceRepository) : AppViewModel(
             response::execute,
             { throwable ->
                 Log.e("error", "registerMobileDevice: " + throwable.message)
-                error.execute(throwable)
-            })
-    }
-
-    fun removeMobileDevice(
-        vid: String,
-        pid: String,
-        deviceUID: String,
-        macAddress: String,
-        response: Action<String>,
-        error: Action<Throwable>
-    ) {
-        val androidId = Method.security.getAndroidId()
-        val fcmToken: String = SharedMethod.getFCMToken()
-        val registerMobileDevice: RegisterMobileDevice =
-            RegisterMobileDevice(vid, pid, deviceUID, macAddress, androidId, fcmToken)
-        val call: retrofit2.Call<ResponseBody?>? = retrofit.apiStores
-            .removeMobileDevice(registerMobileDevice)
-        subscribeSingle(
-            getSingleResponse(call),
-            response::execute,
-            { throwable ->
-                Log.e("error","removeMobileDevice: " + throwable.message)
                 error.execute(throwable)
             })
     }

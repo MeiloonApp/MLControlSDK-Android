@@ -28,6 +28,7 @@ sealed class CommandType {
     object GetBattery: CommandType()
     object GetMute: CommandType()
     object SaveEQPara: CommandType()
+    object GetStatus: CommandType()
     data class GetEQPara(val chipIndex: Int? = null,
                          val channel: Int? = null,
                          val band: Int? = null): CommandType()
@@ -78,6 +79,7 @@ sealed class CommandType {
                 GetEQEngine -> ble.getEQEngine(address)
                 GetEQGroup -> ble.getEQGroup(address)
                 SaveEQPara -> ble.saveEQPara(address)
+                GetStatus -> ble.getStatus(address)
 
                 is GetEQPara -> ble.getEQPara(address, commandType.chipIndex ?: 0, commandType.channel ?: 0, commandType.band ?:0)
                 is GetChannelEQPara -> ble.getChannelEQPara(address, commandType.chipIndex ?: 0, commandType.channel ?: 0)

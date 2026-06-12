@@ -36,7 +36,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:text="FF"
-                android:textColor="@color/ble_connected"
+                android:textColor="@color/system_geeen"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 

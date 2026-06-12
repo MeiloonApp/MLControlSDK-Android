@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_ble_scan" />
 
     <fragment
+        android:id="@+id/controlFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.control.ControlFragment"
+        android:label="fragment_control"
+        tools:layout="@layout/fragment_control" />
+
+    <fragment
         android:id="@+id/otherFragment"
         android:name="com.meiloon.mlcontrolcore_aos.fragment.other.OtherFragment"
         android:label="others"

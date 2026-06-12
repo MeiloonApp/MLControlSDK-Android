@@ -18,7 +18,6 @@ import com.meiloon.mlcontrolcore_aos.databinding.FragmentBleScanBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.meiloon.controlcore.broadcast.BluetoothStateReceiver
 import com.meiloon.controlcore.global.activity.GlobalViewModel
-import com.meiloon.controlcore.global.activity.GlobalViewModel.bleManager
 import com.meiloon.controlcore.global.database.entity.BluetoothEntity
 import com.meiloon.controlcore.main.api.APIData
 import com.meiloon.controlcore.main.api.AudioChipNumbers
@@ -38,7 +37,7 @@ import com.meiloon.controlcore.main.container.event.ReceiveCommandEvent
 import com.meiloon.controlcore.main.factory.ViewModelFactory
 import com.meiloon.controlcore.main.widget.ble.BleControlManager
 import com.meiloon.controlcore.main.widget.ble.event.ConnectionResponse
-import com.meiloon.controlcore.widget.app.android.AppFragment
+import com.meiloon.mlcontrolcore_aos.fragment.BaseFragment
 import com.meiloon.controlcore.widget.app.ble.BleManager
 import com.meiloon.controlcore.widget.app.listener.click.OnAppClickListener
 import com.meiloon.controlcore.widget.app.method.Method
@@ -49,34 +48,21 @@ import com.meiloon.controlcore.widget.library.blufi.params.BlufiParameter
 import com.meiloon.controlcore.widget.library.jieli.JieliManager
 import com.permissionx.guolindev.callback.RequestCallback
 import com.polidea.rxandroidble3.scan.ScanResult
-import kotlinx.coroutines.launch
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.Lifecycle
-import com.meiloon.controlcore.main.api.EQEngine
+import com.meiloon.controlcore.main.api.EQMode
+import com.meiloon.controlcore.main.api.SPKMute
+import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.Locale
 
-class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListener {
+class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListener {
     companion object {
         const val MAC_ADDRESS = "deviceAddress"
     }
     private val jieliManager: JieliManager = JieliManager.getInstance()
     private lateinit var viewModel: BleScanViewModel
     private var isNewConnect = false
-    private var isConnecting = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<CardView>
-    private var clickAddress: String? = ""
-    private var lastClickTime = 0L
-
-    override fun onClick(v: View?) {
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastClickTime >= 500L) {
-            lastClickTime = currentTime
-            avoidFastClick(v)
-        }
-    }
 
     override fun initBinding(
         inflater: LayoutInflater,
@@ -104,9 +90,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         if (adapter != null) checkBleStatus(adapter.state)
 
         // BottomSheet
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.persistentBottomSheet)
-        bottomSheetBehavior.isHideable = true
-        setupBottomSheet(false, true)
+        initBottomSheet()
     }
 
     override fun updateUI(context: Context) {
@@ -139,15 +123,15 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
             val bottomSheet = BottomSheet()
             bottomSheet.name = device.name
             bottomSheet.pID = device.pid
-            setGlobalBottomSheetData(bottomSheet)
+            updateGlobalBottomSheet(bottomSheet)
 
             if (viewModel.isConnected(address)) {
                 showToast("裝置已經連線")
             } else {
                 if (viewModel.deviceAdapter.isNearby(address)) {
-                    clickAddress = address
+                    isNewConnect = true
                     if (!Method.data.isEmpty(device.deviceUid)) {
-                        setupBottomSheet(true, false)
+                        showBottomSheet(true)
                     } else {
                         scanResult?.let {
                             setupConnectStatus(BleConnectStatus.CONNECTING)
@@ -155,7 +139,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
                         }
                     }
                 } else if (!Method.data.isEmpty(device.deviceUid)) {
-                    clickAddress = address
+                    isNewConnect = true
                     scanResult?.let {
                         setupConnectStatus(BleConnectStatus.CONNECTING)
                         connectDevice(it, true)
@@ -221,13 +205,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
             (activity as? MainActivity)?.logDataBridge?.value = data
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    updateScanBtnUI(state)
-                }
-            }
-        }
+        viewModel.uiState.collectWithLifecycle { state -> updateScanBtnUI(state) }
 
         observeCurrentArgument<Any>(
             MAC_ADDRESS,
@@ -285,17 +263,22 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
 
     }
 
+    /**
+     * 重新載入裝置資料。從資料庫獲取所有已儲存的裝置，並更新其「在附近」的狀態。
+     *
+     * 此功能會檢索裝置列表，檢查裝置是否具有有效的 UID 但尚未標記為「在附近」，
+     * 並觸發狀態更新，以確保 UI 呈現最新的裝置資訊。
+     */
     override fun reloadData() {
         super.reloadData()
         subscribeSingleAuto(viewModel.getAllDevices(), SingleObserver({ devices ->
-            for (device in devices) if (!Method.data.isEmpty(device.getDeviceUid()) && !device.isNear()) subscribeCompleteAuto(
-                viewModel.updateNear(device.getAddress(), true)
+            for (device in devices) if (!Method.data.isEmpty(device.deviceUid) && !device.isNear) subscribeCompleteAuto(
+                viewModel.updateNear(device.address, true)
             )
         }))
     }
 
     private fun initValue() {
-        isNewConnect = false
     }
 
     override fun onVisibleChange(visible: Boolean) {
@@ -332,7 +315,6 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
 
     private fun saveDeviceToDatabase(device: BluetoothEntity) {
         subscribeCompleteAuto(viewModel.insertDevice(device), CompletableObserver({
-            initValue()
             dismissProgressDialog()
             viewModel.initWhenConnected(device.address)
             setPreviousStackArgument(MAC_ADDRESS, device.address)
@@ -394,7 +376,6 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
     }
 
     private fun connectDevice(scanResult: ScanResult, isMQTT: Boolean) {
-        isConnecting = true
         addLog("停止掃描")
         viewModel.stopScan()
         //更新選擇的裝置
@@ -407,7 +388,6 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
                     getGlobalSelectedResult()!!.bleDevice.bluetoothDevice
                 )
             ) {
-                isNewConnect = true
                 showProgressDialog()
             }
         } else if (viewModel.isESP32(scanResult)) {
@@ -480,12 +460,10 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         binding.vwBleStatusLight.setCardBackgroundColor(ContextCompat.getColor(binding.root.context, connectStatus.colorResId))
     }
 
-    private fun setupBottomSheet(show: Boolean, isInit: Boolean = false) {
-        bottomSheetBehavior.state = if (show) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_HIDDEN
-
-        // 初始化設定
-        if (!isInit) return
-
+    private fun initBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.persistentBottomSheet)
+        bottomSheetBehavior.isHideable = true
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheetBehavior.isFitToContents = false
 
         binding.root.post {
@@ -508,9 +486,12 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         })
     }
 
+    private fun showBottomSheet(show: Boolean) {
+        bottomSheetBehavior.state = if (show) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_HIDDEN
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: ConnectionResponse) {
-        isConnecting = false
         dismissProgressDialog()
         val address = event.bluetooth.address
         if (event.connected) {
@@ -519,10 +500,12 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
             val address: String = event.bluetooth.getAddress()
 
             Log.e("ConnectionResponse", "onMessageEvent連線時間更新: " + address)
-            if (address == clickAddress) {
-                clickAddress = ""
+            val selectedAddress = (viewModel.uiState.value as? ScanUiState.Connected)?.address
+            if (address == selectedAddress && isNewConnect) {
+                isNewConnect = false
                 updateLastConnectedTime(address)
             }
+            
             for (i in 0..<viewModel.deviceAdapter.items.size) {
                 val itemAddress: String? =
                     viewModel.deviceAdapter.items.get(i).bluetoothDevice.address
@@ -539,7 +522,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: ReceiveCommandEvent) {
         val apiData = APIData(event.command)
-        val method: APIMethod = apiData.getMethod()
+        val method: APIMethod = apiData.method
         val bottomSheet = getGlobalBottomSheetData() ?: BottomSheet()
         Log.e("BleScanFragment", "收到指令: " + method + " ,內容: " + String(apiData.getCustomData()))
 
@@ -558,17 +541,18 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
                 bottomSheet.battery = it
             }
         } else if (method.equals(APIMethod.ChipID)) {
-            apiData.getData(ChipID::class.java)?.id()?.let {
-                bottomSheet.chipID = it.toString()
-            }
+            bottomSheet.chipID = apiData.getData(ChipID::class.java)
         } else if (method.equals(APIMethod.AudioChipNumbers)) {
             apiData.getData(AudioChipNumbers::class.java)?.audioChipNumber?.let {
                 bottomSheet.chipNumbers = it.toString()
             }
         } else if (method.equals(APIMethod.RoomCorrectionMode)) {
             apiData.getData(RoomCorrectionMode::class.java)?.get()?.let {
-                bottomSheet.roomCorrection = if (it == 1) "正常" else "不支援"
+                bottomSheet.roomCorrection = if (it == 1) "開啟" else "關閉"
             }
+        } else if (method.equals(APIMethod.SPKMute)) {
+            val status = apiData.getData(SPKMute::class.java).get()
+            bottomSheet.mute = if (status == SPKMuteStatus.MUTE) "已靜音" else "正常"
         } else if (method.equals(APIMethod.EQParas)) {
             val eqParas: EQParas = apiData.getData(EQParas::class.java)
             for (eqPara in eqParas.get()) {
@@ -604,7 +588,10 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
                     }
                 })
             )
-        } else if (apiData.getMethod().equals(APIMethod.CmdDone)) {
+        } else if (apiData.method.equals(APIMethod.EQMode)) {
+            val eqMode = apiData.getData(EQMode::class.java)
+            bottomSheet.eqMode = eqMode
+        } else if (apiData.method.equals(APIMethod.CmdDone)) {
             apiData.getData(CmdDone::class.java)?.let { cmdDone ->
                 if (cmdDone.cmd.equals("GetEQGroup")) {
                     if (cmdDone.cmdResult == 5) showToast("設備不支援EQGroup")
@@ -616,10 +603,12 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
                     if (cmdDone.cmdResult == 5) showToast("設備不支援電量查詢")
                     bottomSheet.battery = "不支援"
                 } else if (cmdDone.cmd.equals("GetMute")) {
-                    if (cmdDone.cmdResult == 5) showToast("設備不支援電量查詢")
-                    bottomSheet.mute = "不支援"
+                    if (cmdDone.cmdResult == 5) {
+                        showToast("設備不支援靜音查詢")
+                        bottomSheet.mute = "不支援"
+                    }
                 } else {
-                    Method.control.run(getAppActivity()) { context ->
+                    Method.control.run(activity) { context ->
                         val message = cmdDone.getCmdMessage(context)
                         if (message != "success") {
                             Log.d("", "指令: " + cmdDone.cmd + " 結果: " + message)
@@ -632,26 +621,40 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
             }
         }
 
-        setGlobalBottomSheetData(bottomSheet)
-        setBottomSheetValue(bottomSheet)
+        updateGlobalBottomSheet(bottomSheet)
+        setBottomSheetData(bottomSheet)
     }
 
-    fun setBottomSheetValue(data: BottomSheet) {
+    fun setBottomSheetData(data: BottomSheet) {
         val layoutBinding = binding.layoutBottomSheetContent
+        val maxVolume = data.chipID?.maxVolume() ?: 0
         layoutBinding.tvDemoDeviceNameValue.text = data.name
         layoutBinding.tvDemoFirmwareValue.text = data.firmwareVer
-        layoutBinding.tvVolumeValue.text = data.volume
+
+        if (maxVolume > 0) {
+            layoutBinding.tvVolumeValue.text = "${data.volume} / ${maxVolume}"
+        } else {
+            layoutBinding.tvVolumeValue.text = data.volume
+        }
+
         layoutBinding.tvPowerValue.text = data.battery
-        layoutBinding.tvChipIDValue.text = data.chipID
+        layoutBinding.tvChipIDValue.text = data.chipID?.idString() ?: ""
         layoutBinding.tvChipCountValue.text = data.chipNumbers
         layoutBinding.tvProductIDValue.text = data.pID
         layoutBinding.tvMuteValue.text = data.mute
         layoutBinding.tvRoomCorrectionValue.text = data.roomCorrection
+        
+        val muteColor = when (data.mute) {
+            "已靜音" -> R.color.system_red
+            "正常" -> R.color.system_geeen
+            else -> R.color.black
+        }
+        layoutBinding.tvMuteValue.setTextColor(Method.resource.getColor(muteColor))
     }
 
     private fun registerMobileDevice(device: BluetoothEntity) {
         viewModel.registerMobileDevice(
-            device.getVID(), device.getPID(), device.getDeviceUid(), device.getAddress(),
+            device.vid, device.pid, device.deviceUid, device.address,
             { response ->
                 Log.d("response", "registerMobileDevice: $response")
                 dismissProgressDialog()
@@ -666,7 +669,7 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         viewModel.addLog(text)
     }
 
-    fun avoidFastClick(view: View?) {
+    override fun avoidFastClick(view: View?) {
         if (view == binding.btScan) {
             if (!Method.bluetooth.isEnable()) {
                 showToast("請確認藍牙狀態")
@@ -678,8 +681,8 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
                 // 如果目前有連線裝置，點擊按鈕執行「中斷連線」
                 val address = selectedResult.bleDevice.macAddress
                 viewModel.stopScanAction()
-                setGlobalBottomSheetData(BottomSheet())
                 BleControlManager.getInstance().disconnect(address)
+                removeGlobalBottomSheet()
                 setGlobalSelectedResult(null)
             } else {
                 // 沒有連線裝置時，切換「掃描/停止」狀態
@@ -696,36 +699,16 @@ class BleScanFragment : AppFragment<FragmentBleScanBinding>(), View.OnClickListe
         }
     }
 
-    private fun setGlobalSelectedResult(selectedResult: ScanResult?) {
-        val mainActivity = (activity as? MainActivity) ?: return
-        mainActivity.selectedResult.value = selectedResult
-        //沒有設備就清除
-        if (selectedResult == null) {
-            GlobalViewModel.chartStorage.clear()
-        }
-    }
-
-    private fun getGlobalSelectedResult(): ScanResult? {
-        return (activity as? MainActivity)?.selectedResult?.value
-    }
-
-    private fun setGlobalBottomSheetData(bottomSheet: BottomSheet) {
-        (activity as? MainActivity)?.bottomSheet?.value = bottomSheet
-    }
-
-    private fun getGlobalBottomSheetData(): BottomSheet? {
-        return (activity as? MainActivity)?.bottomSheet?.value
-    }
-
     fun setupConnectionStatus(scanResult: ScanResult?, bottomSheet: BottomSheet) {
         val status = if (scanResult != null) BleConnectStatus.CONNECTED else BleConnectStatus.DISCONNECT
 
         updateScanBtnUI(viewModel.uiState.value)
         setupConnectStatus(status)
-        setupBottomSheet(!bottomSheet.isEmpty())
+        showBottomSheet(status == BleConnectStatus.CONNECTED)
 
-        if (status == BleConnectStatus.CONNECTED) else return
-        setBottomSheetValue(bottomSheet)
+        if (status == BleConnectStatus.CONNECTED) {
+            setBottomSheetData(bottomSheet)
+        }
     }
 
 }

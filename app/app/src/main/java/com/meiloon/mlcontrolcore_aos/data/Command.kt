@@ -68,10 +68,9 @@ class Command {
             CommandItem("[PEQ 進階] 取得指定PEQ參數", GetEQPara()),
             CommandItem("[PEQ 進階] 取得通道所有PEQ", GetChannelEQPara()),
 
-
+            CommandItem("[音量狀態] 取得綜合狀態", GetStatus),
 //            CommandItem("[PEQ 進階] 設定所有 PEQ", SetAllEQPara()),
 //            CommandItem("[音量狀態] 設定靜音開關", APIMethod.UNKNOWN),
-//            CommandItem("[音量狀態] 取得綜合狀態", APIMethod.Status),
 //            CommandItem("[音量狀態] 取得藍牙源音量", APIMethod.BTVol),
 //            CommandItem("[音量狀態] 設定藍牙源音量", APIMethod.BTVol),
 //            CommandItem("[音量狀態] 取得 UAC 音量", APIMethod.UACVol),

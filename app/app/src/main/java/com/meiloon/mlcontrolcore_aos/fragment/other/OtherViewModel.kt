@@ -39,11 +39,8 @@ import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
 import com.meiloon.controlcore.main.container.chart.data.EQData
 import com.meiloon.controlcore.main.container.chart.widget.ChartStorage
 import com.meiloon.controlcore.widget.app.android.AppViewModel
-import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
-import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet
 import com.meiloon.mlcontrolcore_aos.util.LogManager
-import com.meiloon.mlcontrolcore_aos.util.toIntOrZero
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
@@ -72,9 +69,7 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
 
     fun initCDeviceInfo(selectedResult: com.polidea.rxandroidble3.scan.ScanResult?,
                         bottomSheet: BottomSheet?) {
-        connectedDeviceInfo.selectedResult = selectedResult
-        connectedDeviceInfo.chipID.value = bottomSheet?.chipID ?: "0"
-        connectedDeviceInfo.volume.value = bottomSheet?.volume?.toIntOrZero()
+        connectedDeviceInfo.updateFrom(selectedResult, bottomSheet)
     }
 
     fun addLogItem(data: List<String>, addTime: Boolean = true) {
@@ -83,7 +78,7 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
 
     fun parseReceiveCommand(command: ByteArray?, context: Context?, cmdDoneNotify: (CmdDone) -> Unit) {
         val apiData = APIData(command)
-        val method: APIMethod = apiData.getMethod()
+        val method: APIMethod = apiData.method
         Log.e("OtherViewModel", "收到指令: $method ,內容: ${String(apiData.getCustomData())}")
 
         when (method) {
@@ -95,15 +90,16 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
             APIMethod.ChipID -> {
                 val chipID = apiData.getData(ChipID::class.java)
                 addResponseLog("ChipID", "id:${chipID.id()}, name: ${chipID.title()}")
-                connectedDeviceInfo.chipID.value = chipID.idString()
-                connectedDeviceInfo.maxValue = chipID.maxVolume()
+                connectedDeviceInfo.chipID.value = chipID
             }
             APIMethod.EQMode -> {
                 val eqMode = apiData.getData(EQMode::class.java)
-                connectedDeviceInfo.isLFEQOn.value = eqMode.lfeq
-                connectedDeviceInfo.isHFEQOn.value = eqMode.hfeq
-                connectedDeviceInfo.isDeskEQOn.value = eqMode.deskEQ
-                addResponseLog("EQMode", "LFEQOn:${eqMode.lfeq}, HFEQOn:${eqMode.hfeq}, DeskEQOn:${eqMode.deskEQ}")
+                if (eqMode != null) {
+                    connectedDeviceInfo.eqMode.value = eqMode
+                    addResponseLog("EQMode", "LFEQOn: ${eqMode.lfeq}, HFEQOn: ${eqMode.hfeq}, DeskEQOn: ${eqMode.deskEQ}")
+                } else {
+                    addResponseLog("EQMode", "null")
+                }
             }
 
             APIMethod.PreEQMode -> {
@@ -222,35 +218,27 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
 
                     when (cmdDone.cmd) {
                         "SetLFEQOn" -> {
-                            connectedDeviceInfo.isLFEQOn.value = true
                             addCMDLog("SetLFEQOn", result)
                         }
                         "SetLFEQOff" -> {
-                            connectedDeviceInfo.isLFEQOn.value = false
                             addCMDLog("SetLFEQOff", result)
                         }
                         "SetHFEQOn" -> {
-                            connectedDeviceInfo.isHFEQOn.value = true
                             addCMDLog("SetHFEQOn", result)
                         }
                         "SetHFEQOff" -> {
-                            connectedDeviceInfo.isHFEQOn.value = false
                             addCMDLog("SetHFEQOff", result)
                         }
                         "SetDeskEQOn" -> {
-                            connectedDeviceInfo.isDeskEQOn.value = true
                             addCMDLog("SetDeskEQOn", result)
                         }
                         "SetDeskEQOff" -> {
-                            connectedDeviceInfo.isDeskEQOn.value = false
                             addCMDLog("SetDeskEQOff", result)
                         }
                         "SetMuteOff" -> {
-                            connectedDeviceInfo.isMuteOn.value = false
                             addCMDLog("SetMuteOff", result)
                         }
                         "SetMuteOn" -> {
-                            connectedDeviceInfo.isMuteOn.value = true
                             addCMDLog("SetMuteOn", result)
                         }
                         "StartBTPairing" -> addCMDLog("StartBTPairing", result)
@@ -284,6 +272,7 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
                         "SetAllEQPara" -> addCMDLog("SetAllEQPara", result)
                         "SetEQPara" -> addCMDLog("SetEQPara", result)
                         "GetEQPara" -> addCMDLog("GetEQPara", result)
+                        "GetStatus" -> addCMDLog("GetStatus", result)
                         else -> {
                             cmdDone?.let { cmdDone -> cmdDoneNotify(cmdDone) }
                         }
@@ -309,18 +298,5 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
     private fun addCMDLog(type: String, result: String) {
         LogManager.addCMDLog(type, result)
     }
-
-    fun setMaxVolum(chipId: String) {
-        if (chipId == "1") {
-            connectedDeviceInfo.maxValue = 15
-        } else if (chipId == "2") {
-            connectedDeviceInfo.maxValue = 46
-        } else if ((chipId == "3")) {
-            connectedDeviceInfo.maxValue = 100
-        } else {
-            connectedDeviceInfo.maxValue = 0
-        }
-    }
-
 
 }

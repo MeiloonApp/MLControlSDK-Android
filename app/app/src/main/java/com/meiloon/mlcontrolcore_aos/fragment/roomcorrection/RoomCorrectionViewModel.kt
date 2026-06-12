@@ -15,9 +15,9 @@ import com.meiloon.mlcontrolcore_aos.data.ConnectedDeviceInfo
 import com.meiloon.mlcontrolcore_aos.data.TempFileItem
 import com.meiloon.mlcontrolcore_aos.util.AppCoroutine
 import com.meiloon.mlcontrolcore_aos.util.LogManager
-import com.meiloon.mlcontrolcore_aos.util.toIntOrZero
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
@@ -32,7 +32,6 @@ class RoomCorrectionViewModel(private val repository: DeviceRepository) : AppVie
     val micLevel = MutableLiveData<Double>(-100.0)
     val progressText = MutableLiveData<String>("閒置")
     val isRecording = MutableLiveData<Boolean>(false)
-    
     val nfStatus = MutableLiveData<String>("未錄製")
     val ffStatus = MutableLiveData<String>("未錄製")
     val tempFileList = MutableLiveData<List<TempFileItem>>(emptyList())
@@ -70,9 +69,7 @@ class RoomCorrectionViewModel(private val repository: DeviceRepository) : AppVie
 
     fun initCDeviceInfo(selectedResult: com.polidea.rxandroidble3.scan.ScanResult?,
                         bottomSheet: BottomSheet?) {
-        connectedDeviceInfo.selectedResult = selectedResult
-        connectedDeviceInfo.chipID.value = bottomSheet?.chipID ?: "0"
-        connectedDeviceInfo.volume.value = bottomSheet?.volume?.toIntOrZero()
+        connectedDeviceInfo.updateFrom(selectedResult, bottomSheet)
     }
 
     fun toggleLevelMonitoring() {

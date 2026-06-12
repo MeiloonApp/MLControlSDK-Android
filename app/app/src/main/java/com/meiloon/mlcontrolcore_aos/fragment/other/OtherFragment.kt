@@ -67,6 +67,8 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
     }
 
     override fun initListener(context: Context) {
+        binding.scrollView.setupTitleAnimation(binding.tvLargeTitle)
+
         binding.tvSelectCommandValue.setOnClickListener {
             getContext()?.let {
                 val lastIndex = viewModel.items.indexOf(viewModel.selectedCommandItem)
@@ -189,9 +191,9 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
             viewModel.connectedDeviceInfo.selectedResult = selectedResult
         })
 
-        observe(viewModel.connectedDeviceInfo.chipID, { chipId ->
-            chipId?.let { viewModel.setMaxVolum(it) }
-        })
+        observe(viewModel.connectedDeviceInfo.chipID) {
+            it?.let { binding.slSlider.valueTo = it.maxVolume().toFloat() }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -209,8 +211,8 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: ReceiveCommandEvent) {
-        val selectedDevceAddress = viewModel.connectedDeviceInfo.macAddress.value ?: ""
-        if (!event.address.equals(selectedDevceAddress)) return
+        val selectedDeviceAddress = viewModel.connectedDeviceInfo.macAddress.value ?: ""
+        if (!event.address.equals(selectedDeviceAddress)) return
 
         val apiData = APIData(event.command)
         val method: APIMethod = apiData.method
@@ -218,7 +220,7 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
 
         viewModel.parseReceiveCommand(event.command, context) { cmdDone ->
             // 未判斷時跳出提示
-            Method.control.run(getAppActivity()) { context ->
+            Method.control.run(activity) { context ->
                 val message: String? = cmdDone.getCmdMessage(context)
                 if (cmdDone.cmdResult != 0) {
                     showToast("${cmdDone.cmd} $message")
@@ -233,13 +235,10 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
 
     fun setupBottomSheet() {
         val bottomSheet: CardView = binding.persistentBottomSheet
-        val behavior = BottomSheetBehavior.from(bottomSheet)
-
-        val displayMetrics = resources.displayMetrics
-        val screenHeight = displayMetrics.heightPixels
-
-        // 將最大高度設定為螢幕的一半
-        behavior.maxHeight = screenHeight / 2
+        val screenHeight = resources.displayMetrics.heightPixels
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = screenHeight / 3
+        bottomSheet.layoutParams = layoutParams
     }
 
     fun setupDescView(show: Boolean = false, item: CommandItem? = null) {
@@ -292,7 +291,7 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
 
                 val info = viewModel.connectedDeviceInfo
                 var volume = (info.volume.value ?: 0)
-                var maxVolume = info.maxValue
+                var maxVolume = info.chipID.value?.maxVolume() ?: 100
 
                 // SetRoomCorrectionMode 0-1
                 if (item.commandType is SetRoomCorrectionMode) {

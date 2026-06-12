@@ -266,6 +266,14 @@ class CommandDesc(var type: String, var desc: String, var demo: String) {
                         "BleControlManager.getInstance().startBTPairing(address)"
                     )
                 }
+
+                CommandType.GetStatus -> {
+                    CommandDesc(
+                        "case GetStatus",
+                        "取得設備當前模式、輸入源等綜合資訊",
+                        "BleControlManager.getInstance().getStatus(address)"
+                    )
+                }
             }
         }
     }

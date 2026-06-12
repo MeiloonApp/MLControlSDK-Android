@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat.setTint
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -95,7 +96,7 @@ class MainActivity : AppActivity<ActivityMainBinding>() {
                 .build()
 
             val shapeDrawable = MaterialShapeDrawable(shapeAppearanceModel).apply {
-                setTint(Color.parseColor("#FFFFFF"))
+                setTint(ContextCompat.getColor(this@MainActivity, R.color.white))
             }
 
             view.background = shapeDrawable

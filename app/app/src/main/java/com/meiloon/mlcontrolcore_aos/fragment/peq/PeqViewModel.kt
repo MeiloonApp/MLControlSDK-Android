@@ -89,7 +89,7 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
                         notify(method, LogManager.logs.value?.firstOrNull() ?: "")
                     }
                     else -> {
-                        notify(APIMethod.UNKNOWN ,"未定義CmdDone類別")
+
                     }
                 }
             }

@@ -38,7 +38,7 @@ class PeqResultAdapter : RecyclerView.Adapter<PeqResultAdapter.ViewHolder>() {
 
             val context = binding.root.context
             if (item.gain >= 0) {
-                binding.tvGain.setTextColor(ContextCompat.getColor(context, R.color.status_orange_text))
+                binding.tvGain.setTextColor(ContextCompat.getColor(context, R.color.system_orange))
             } else {
                 binding.tvGain.setTextColor(ContextCompat.getColor(context, R.color.status_blue_text))
             }

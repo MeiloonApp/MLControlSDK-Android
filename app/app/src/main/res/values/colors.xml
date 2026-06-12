@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="system_orange">#F09C58</color>
     <color name="system_blue">#007AFF</color>
     <color name="system_gray">#ECECEE</color>
     <color name="system_dark_gray">#8f8f93</color>
@@ -17,13 +18,13 @@
     <color name="system_light_purple">#FAEAFB</color>
     <color name="system_dark_purple">#CB30DF</color>
     <color name="system_light_blue">#F2F9FE</color>
+    <color name="system_geeen">#34C759</color>
 
     <color name="system_deep_cyan">#005F73</color>
     <color name="system_deep_teal">#004D61</color>
     <color name="system_shallow_cyan">#008EA4</color>
     <color name="system_glacier_ice">#E0ECF0</color>
 
-    <color name="ble_connected">#34C759</color>
     <color name="ble_connecting">#ffcc00</color>
     <color name="ble_disconnect">#FF383C</color>
 
@@ -36,7 +37,6 @@
     <color name="blue_slider_hola">#32007AFF</color>
 
     <color name="status_orange_bg">#FFEDD5</color>
-    <color name="status_orange_text">#F09C58</color>
 
     <color name="status_blue_bg">#DBEAFE</color>
     <color name="status_blue_text">#2563EB</color>
@@ -44,4 +44,5 @@
     <color name="status_green_bg">#E1F5E5</color>
     <color name="status_green_text">#34C759</color>
 
+    <color name="translucent_gray">#99F2F2F7</color>
 </resources>

@@ -62,6 +62,8 @@ class RoomCorrectionFragment : AppFragment<FragmentRoomCorrectionBinding>() {
     override fun initI18n(context: Context) {}
 
     override fun initListener(context: Context) {
+        binding.scrollView.setupTitleAnimation(binding.tvLargeTitle)
+
         binding.btnStartLevelMonitor.setOnClickListener {
             requestMicPermission(R.string.permission_mic_rationale_monitoring) {
                 viewModel.toggleLevelMonitoring()
@@ -202,7 +204,7 @@ class RoomCorrectionFragment : AppFragment<FragmentRoomCorrectionBinding>() {
             when (text) {
                 "校正音量中" -> {
                     binding.tvCurrentProgress.setBackgroundResource(R.drawable.bg_rounded_orange)
-                    binding.tvCurrentProgress.setTextColor(getColor(R.color.status_orange_text))
+                    binding.tvCurrentProgress.setTextColor(getColor(R.color.system_orange))
                 }
                 "量測中 (Sweep)" -> {
                     binding.tvCurrentProgress.setBackgroundResource(R.drawable.bg_rounded_blue)
@@ -233,12 +235,12 @@ class RoomCorrectionFragment : AppFragment<FragmentRoomCorrectionBinding>() {
             binding.tvStatusNF.text = status
             if (status == "錄製中...") {
                 viewModel.addLogItem(listOf("NF 錄製中..."))
-                binding.tvStatusNF.setTextColor(getColor(R.color.status_orange_text))
+                binding.tvStatusNF.setTextColor(getColor(R.color.system_orange))
                 binding.tvStatusNF.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             } else if (status == "NF 已就緒") {
-                binding.tvStatusNF.setTextColor(getColor(R.color.ble_connected))
+                binding.tvStatusNF.setTextColor(getColor(R.color.system_geeen))
                 val drawable = ContextCompat.getDrawable(context, R.drawable.check_circle_24px)?.apply {
-                    setTint(getColor(R.color.ble_connected))
+                    setTint(getColor(R.color.system_geeen))
                     // 縮小一點圖示
                     setBounds(0, 0, 48, 48)
                 }
@@ -254,12 +256,12 @@ class RoomCorrectionFragment : AppFragment<FragmentRoomCorrectionBinding>() {
             binding.tvStatusFF.text = status
             if (status == "錄製中...") {
                 viewModel.addLogItem(listOf("FF 錄製中..."))
-                binding.tvStatusFF.setTextColor(getColor(R.color.status_orange_text))
+                binding.tvStatusFF.setTextColor(getColor(R.color.system_orange))
                 binding.tvStatusFF.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             } else if (status == "FF 已就緒") {
-                binding.tvStatusFF.setTextColor(getColor(R.color.ble_connected))
+                binding.tvStatusFF.setTextColor(getColor(R.color.system_geeen))
                 val drawable = ContextCompat.getDrawable(context, R.drawable.check_circle_24px)?.apply {
-                    setTint(getColor(R.color.ble_connected))
+                    setTint(getColor(R.color.system_geeen))
                     // 縮小一點圖示
                     setBounds(0, 0, 48, 48)
                 }
@@ -316,12 +318,10 @@ class RoomCorrectionFragment : AppFragment<FragmentRoomCorrectionBinding>() {
 
     private fun setupBottomSheet() {
         val bottomSheet: CardView = binding.persistentBottomSheet
-        val behavior = BottomSheetBehavior.from(bottomSheet)
-
-        val displayMetrics = resources.displayMetrics
-        val screenHeight = displayMetrics.heightPixels
-
-        behavior.maxHeight = screenHeight / 2
+        val screenHeight = resources.displayMetrics.heightPixels
+        val layoutParams = bottomSheet.layoutParams
+        layoutParams.height = screenHeight / 3
+        bottomSheet.layoutParams = layoutParams
     }
 
 }
