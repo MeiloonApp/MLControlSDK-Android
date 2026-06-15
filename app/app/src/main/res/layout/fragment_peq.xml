@@ -213,7 +213,7 @@
         android:layout_height="44sp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="74dp"
         android:visibility="gone"
         android:background="@color/system_light_blue"
         app:layout_constraintBottom_toBottomOf="parent"
