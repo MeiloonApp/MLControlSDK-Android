@@ -51,6 +51,7 @@ import com.polidea.rxandroidble3.scan.ScanResult
 import com.meiloon.controlcore.main.api.EQMode
 import com.meiloon.controlcore.main.api.SPKMute
 import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
+import com.meiloon.mlcontrolcore_aos.util.LogManager
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.Locale
@@ -325,8 +326,9 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
         if (viewModel.isScanningNow()) return
 
         if (Method.permission.checkBluetoothPermission(context)) {
-            addLog("開始掃描(15秒 後自動停止)...")
-            showToast("開始掃描(15秒 後自動停止)")
+            val text = "開始掃描(15秒 後自動停止)..."
+            addLog(text)
+            showToast(text)
             viewModel.startScanLoop { scanResult ->
                 val name: String? = scanResult.scanRecord.deviceName
                 if (!Method.data.isEmpty(name)) {

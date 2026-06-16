@@ -149,7 +149,9 @@ class PeqFragment : AppFragment<FragmentPeqBinding>() {
                 val channelIndex = viewModel.showingChipChannel.channel
                 
                 Log.d("PeqFragment", "Sending EQPara: Address=$address, Chip=$chipIndex, Channel=$channelIndex, Band=${data.index}")
+                // SetEQPara && SetLastEQPara 相同
                 CommandType.send(address, CommandType.SetEQPara(chipIndex, channelIndex, data))
+//                CommandType.send(address, CommandType.SetLastEQPara(chipIndex, channelIndex, data))
             } else {
                 Log.e("PeqFragment", "Cannot send EQPara: Address is null")
             }
@@ -397,18 +399,28 @@ class PeqFragment : AppFragment<FragmentPeqBinding>() {
         val method: APIMethod = apiData.method
         Log.e("","收到指令: " + method + " ,內容: " + String(apiData.getCustomData()))
 
-        viewModel.parseReceiveCommand(event.command) { apiMethod, toastText ->
+        viewModel.parseReceiveCommand(event.command) { apiMethod, toastText, cmdDone ->
             Method.control.run(activity) { context ->
                 
                 when (apiMethod) {
+                    APIMethod.EQPara -> {
+                        setupChannelView(viewModel.showingChipChannel.chip,
+                                        viewModel.showingChipChannel.channel)
+                    }
                     APIMethod.EQParas -> {
                         setupChannelView(viewModel.showingChipChannel.chip,
                                         viewModel.showingChipChannel.channel)
                     }
-                    else -> {}
+                    else -> {
+                        if (cmdDone != null && toastText != "") {
+                            showToast("$toastText ${cmdDone.getCmdMessage(context)}")
+                        } else if (cmdDone != null && toastText == "") {
+                            showToast(cmdDone.getCmdMessage(context))
+                        } else {
+                            showToast(toastText)
+                        }
+                    }
                 }
-                
-                showToast(toastText)
             }
         }
     }

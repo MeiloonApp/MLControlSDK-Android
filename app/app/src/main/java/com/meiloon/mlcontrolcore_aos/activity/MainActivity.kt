@@ -27,6 +27,7 @@ import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.meiloon.controlcore.MLControlCore
 import com.meiloon.controlcore.main.container.room.MLRoomCorrectionEngine
+import com.meiloon.mlcontrolcore_aos.util.LogManager
 import com.polidea.rxandroidble3.scan.ScanResult
 
 
@@ -46,7 +47,7 @@ class MainActivity : AppActivity<ActivityMainBinding>() {
         getViewModel(GlobalViewModel::class.java)
         setContentView(binding.root)
 
-        com.meiloon.mlcontrolcore_aos.util.LogManager.logs.observe(this) {
+        LogManager.logs.observe(this) {
             logDataBridge.value = it
         }
 

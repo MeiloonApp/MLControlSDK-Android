@@ -6,6 +6,7 @@ import com.meiloon.controlcore.global.activity.GlobalViewModel
 import com.meiloon.controlcore.global.database.repository.DeviceRepository
 import com.meiloon.controlcore.main.api.APIData
 import com.meiloon.controlcore.main.api.CmdDone
+import com.meiloon.controlcore.main.api.EQPara
 import com.meiloon.controlcore.main.api.EQParas
 import com.meiloon.controlcore.main.api.enums.APIMethod
 import com.meiloon.controlcore.main.container.chart.data.EQData
@@ -46,12 +47,20 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
         }
     }
 
-    fun parseReceiveCommand(command: ByteArray?, notify: (APIMethod, String) -> Unit) {
+    fun parseReceiveCommand(command: ByteArray?, notify: (APIMethod, String, CmdDone?) -> Unit) {
         val apiData = APIData(command)
         val method: APIMethod = apiData.method
         Log.e("OtherViewModel", "收到指令: $method ,內容: ${String(apiData.getCustomData())}")
 
         when (method) {
+            APIMethod.EQPara -> {
+                val eqPara: EQPara = apiData.getData(EQPara::class.java)
+                val eqData = EQData(eqPara.band, eqPara.freq, eqPara.gain, eqPara.q, eqPara.type)
+                chartStorage.saveData(eqPara.chipIndex, eqPara.channel, eqPara.band, eqData)
+                syncGlobalViewModelChartStorage(eqPara.chipIndex, eqPara.channel, eqPara.band, eqData)
+                notify(method, "成功", null)
+            }
+
             APIMethod.EQParas -> {
                 val eqParas: EQParas = apiData.getData(EQParas::class.java)
                 val tempChannels = mutableSetOf<ChipChannel>()
@@ -65,32 +74,34 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
                 }
 
                 showingChipChannel = getAllChannels().first()
-                notify(method, "")
+                notify(method, "成功", null)
             }
             APIMethod.CmdDone -> {
                 val cmdDone = apiData.getData(CmdDone::class.java)
                 when (cmdDone.cmd) {
                     "GetAllEQPara" -> {
-                        addCMDLog("GetAllEQPara", "成功")
-                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
+                        addCMDLog("GetAllEQPara", "完成")
+                        notify(method, "GetAllEQPara", cmdDone)
                     }
                     "SetAllEQPara" -> {
-                        addCMDLog("SetAllEQPara", "成功")
+                        addCMDLog("SetAllEQPara", "完成")
                         //成功後同步
                         syncGlobalViewModelChartStorage()
-                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
+                        notify(method, "SetAllEQPara", cmdDone)
                     }
                     "SetEQPara" -> {
-                        addCMDLog("SetEQPara", "成功")
-                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
+                        addCMDLog("SetEQPara", "完成")
+                        notify(method, "SetEQPara", cmdDone)
                     }
                     "SaveEQPara" -> {
-                        addCMDLog("SaveEQPara", "成功")
-                        notify(method, LogManager.logs.value?.firstOrNull() ?: "")
+                        addCMDLog("SaveEQPara", "完成")
+                        notify(method, "SaveEQPara", cmdDone)
                     }
-                    else -> {
-
+                    "SetLastEQPara" -> {
+                        addCMDLog("SetLastEQPara", "完成")
+                        notify(method, "SetLastEQPara", cmdDone)
                     }
+                    else -> {}
                 }
             }
             else -> {

@@ -49,6 +49,9 @@ sealed class CommandType {
     data class SetEQPara(val chipIndex: Int? = null,
                          val channelIndex: Int? = null,
                          val eqData: EQData? = null) : CommandType()
+    data class SetLastEQPara(val chipIndex: Int? = null,
+                               val channelIndex: Int? = null,
+                               val eqData: EQData? = null) : CommandType()
     data class SetEQGroup(val isOn: Boolean? = null) : CommandType()
     data class SetEQEngine(val isOn: Boolean? = null) : CommandType()
     data class SetHFEQ(val isOn: Boolean? = null) : CommandType()
@@ -121,6 +124,10 @@ sealed class CommandType {
                                                 commandType.chipIndex ?: 0,
                                                 commandType.channelIndex ?: 0,
                                                 commandType.eqData)
+                is SetLastEQPara -> ble.setLastEQPara(address,
+                                                        commandType.chipIndex ?: 0,
+                                                        commandType.channelIndex ?: 0,
+                                                        commandType.eqData)
             }
         }
 

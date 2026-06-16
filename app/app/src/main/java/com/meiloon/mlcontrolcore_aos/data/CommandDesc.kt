@@ -179,6 +179,13 @@ class CommandDesc(var type: String, var desc: String, var demo: String) {
                         "BleControlManager.getInstance().sendEQPara(address, chipIndex, channelIndex, eqData)"
                     )
                 }
+                is CommandType.SetLastEQPara -> {
+                    CommandDesc(
+                        "case SetLastEQPara",
+                        "設定最後單段EQ參數",
+                        "BleControlManager.getInstance().setLastEQPara(address, chipIndex, channelIndex, eqData)"
+                    )
+                }
                 is CommandType.SetHFEQ -> {
                     CommandDesc(
                         "case SetHFEQ",
