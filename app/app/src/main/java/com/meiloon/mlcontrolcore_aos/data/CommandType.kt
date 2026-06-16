@@ -154,7 +154,7 @@ sealed class CommandType {
                 is SetEQPara -> return value as? SetEQPara
                 is SetHFEQ -> return SetHFEQ((value as Boolean))
                 is SetLFEQ -> return SetLFEQ((value as Boolean))
-                is SetLastVolume -> return value as? SetLastVolume
+                is SetLastVolume -> return SetLastVolume((value as Int))
                 is SetRoomCorrectionMode -> return SetRoomCorrectionMode((value as Int))
                 is SetSPKMute -> return SetSPKMute((value as Boolean))
                 is SetVolume -> return SetVolume((value as Int))

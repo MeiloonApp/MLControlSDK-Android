@@ -42,9 +42,7 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
             showingChipChannel.channel
         ) ?: emptyList()
 
-        if (data.isNotEmpty()) {
-            this.bandAdapter.items = data
-        }
+        this.bandAdapter.items = data
     }
 
     fun parseReceiveCommand(command: ByteArray?, notify: (APIMethod, String, CmdDone?) -> Unit) {
@@ -72,8 +70,7 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
                     chartStorage.saveData(eqPara.chipIndex, eqPara.channel, eqPara.band, eqData)
                     syncGlobalViewModelChartStorage(eqPara.chipIndex, eqPara.channel, eqPara.band, eqData)
                 }
-
-                showingChipChannel = getAllChannels().first()
+                
                 notify(method, "成功", null)
             }
             APIMethod.CmdDone -> {
@@ -176,21 +173,29 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
         return sb.toString()
     }
 
-    fun formateEQDataList() : StringBuilder {
-        val allChannels = getAllChannels()
-        var string = StringBuilder()
+    fun formateEQDataList(allChannels: Boolean = false) : StringBuilder {
+        val string = StringBuilder()
 
-        allChannels.forEach { chipChannel ->
-            val eqDatas = chartStorage.getData(chipChannel.chip, chipChannel.channel)
+        if (!allChannels) {
+            // 直接使用 ViewModel 內的 showingChipChannel
+            val eqDatas = chartStorage.getData(showingChipChannel.chip, showingChipChannel.channel)
             if (eqDatas.isNotEmpty()) {
-                if (string.isNotEmpty()) {
-                    string.append("\n")
-                }
                 string.append(eqDatas.toPEQString())
+            }
+        } else {
+            val allChannelsList = getAllChannels()
+            allChannelsList.forEach { chipChannel ->
+                val eqDatas = chartStorage.getData(chipChannel.chip, chipChannel.channel)
+                if (eqDatas.isNotEmpty()) {
+                    if (string.isNotEmpty()) {
+                        string.append("\n")
+                    }
+                    string.append(eqDatas.toPEQString())
+                }
             }
         }
 
-        return  string
+        return string
     }
 
     private fun addCMDLog(type: String, result: String) {

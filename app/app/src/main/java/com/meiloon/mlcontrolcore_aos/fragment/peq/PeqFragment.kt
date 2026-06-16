@@ -186,12 +186,23 @@ class PeqFragment : AppFragment<FragmentPeqBinding>() {
         }
 
         binding.btnSaveText.setOnClickListener {
-            val fullPeqString = viewModel.formateEQDataList()
+            // 先將 Adapter 中的最新資料同步到 storage，避免正在編輯中的內容遺失
+            viewModel.bandAdapter.items.forEach { data ->
+                viewModel.chartStorage.saveData(
+                    viewModel.showingChipChannel.chip,
+                    viewModel.showingChipChannel.channel,
+                    data.index,
+                    data
+                )
+            }
 
-            if (fullPeqString.isEmpty()) {
+            // 只導出當前選擇的通道
+            val currentPeqString = viewModel.formateEQDataList()
+
+            if (currentPeqString.isEmpty()) {
                 showToast("目前無 PEQ 數據")
             } else {
-                showPeqConfigDialog(fullPeqString.toString())
+                showPeqConfigDialog(currentPeqString.toString())
             }
         }
 
@@ -202,6 +213,19 @@ class PeqFragment : AppFragment<FragmentPeqBinding>() {
 
     private fun showPeqLoadDialog() {
         val dialogBinding = DialogPeqLoadBinding.inflate(layoutInflater)
+
+        viewModel.bandAdapter.items.forEach { data ->
+            viewModel.chartStorage.saveData(
+                viewModel.showingChipChannel.chip,
+                viewModel.showingChipChannel.channel,
+                data.index,
+                data
+            )
+        }
+
+        val currentPeqString = viewModel.formateEQDataList()
+
+        dialogBinding.etPeqInput.setText(currentPeqString)
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)

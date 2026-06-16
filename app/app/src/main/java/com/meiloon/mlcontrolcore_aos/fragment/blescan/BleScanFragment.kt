@@ -32,7 +32,6 @@ import com.meiloon.controlcore.main.api.Volume
 import com.meiloon.controlcore.main.api.bluetooth.BTConfig
 import com.meiloon.controlcore.main.api.enums.APIMethod
 import com.meiloon.controlcore.main.container.chart.data.EQData
-import com.meiloon.controlcore.main.container.chart.widget.ChartStorage
 import com.meiloon.controlcore.main.container.event.ReceiveCommandEvent
 import com.meiloon.controlcore.main.factory.ViewModelFactory
 import com.meiloon.controlcore.main.widget.ble.BleControlManager
@@ -51,7 +50,6 @@ import com.polidea.rxandroidble3.scan.ScanResult
 import com.meiloon.controlcore.main.api.EQMode
 import com.meiloon.controlcore.main.api.SPKMute
 import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
-import com.meiloon.mlcontrolcore_aos.util.LogManager
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.Locale
@@ -326,9 +324,8 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
         if (viewModel.isScanningNow()) return
 
         if (Method.permission.checkBluetoothPermission(context)) {
-            val text = "開始掃描(15秒 後自動停止)..."
-            addLog(text)
-            showToast(text)
+            addLog("開始掃描(15秒 後自動停止)...")
+            showToast("開始掃描(15秒 後自動停止)")
             viewModel.startScanLoop { scanResult ->
                 val name: String? = scanResult.scanRecord.deviceName
                 if (!Method.data.isEmpty(name)) {
