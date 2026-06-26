@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import java.util.Locale
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.meiloon.controlcore.main.factory.ViewModelFactory
 import com.meiloon.controlcore.main.container.room.MLRoomMeasurementType
 import com.meiloon.controlcore.widget.app.android.AppFragment
 import com.meiloon.mlcontrolcore_aos.R
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentRoomCorrectionBinding
-import com.meiloon.mlcontrolcore_aos.util.requestMicPermission
+import com.meiloon.mlcontrolcore_aos.extension.requestMicPermission
 import com.meiloon.controlcore.main.api.APIData
 import com.meiloon.controlcore.main.api.CmdDone
 import com.meiloon.controlcore.main.api.enums.APIMethod

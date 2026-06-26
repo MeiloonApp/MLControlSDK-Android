@@ -48,6 +48,7 @@ databindingRuntime = "8.9.1"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 paging = "3.3.2"
+kotlinxCoroutines = "1.9.0"
 viewpump = "2.0.3"
 lifecycleProcess = "2.8.7"
 room = "2.6.1"
@@ -130,6 +131,7 @@ picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 rxandroidble = { module = "com.polidea.rxandroidble3:rxandroidble", version.ref = "rxandroidble" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+kotlinx-coroutines-rx3 = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-rx3", version.ref = "kotlinxCoroutines" }
 immersionbar = { module = "com.geyifeng.immersionbar:immersionbar", version.ref = "immersionbarComponents" }
 immersionbar-components = { module = "com.geyifeng.immersionbar:immersionbar-components", version.ref = "immersionbarComponents" }
 immersionbar-ktx = { module = "com.geyifeng.immersionbar:immersionbar-ktx", version.ref = "immersionbarComponents" }

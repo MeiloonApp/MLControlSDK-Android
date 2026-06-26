@@ -17,14 +17,13 @@ import com.meiloon.controlcore.main.api.enums.APIMethod
 import com.meiloon.controlcore.main.api.enums.DeviceStatus
 import com.meiloon.controlcore.main.api.enums.PairingStatus
 import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
-import com.meiloon.controlcore.widget.app.android.AppViewModel
-import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.adapter.LogAdapter
+import com.meiloon.mlcontrolcore_aos.base.BaseViewModel
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet
 import com.meiloon.mlcontrolcore_aos.data.ConnectedDeviceInfo
 import com.meiloon.mlcontrolcore_aos.util.LogManager
 
-class ControlViewModel(private val repository: DeviceRepository) : AppViewModel() {
+class ControlViewModel(private val repository: DeviceRepository) : BaseViewModel() {
     var connectedDeviceInfo: ConnectedDeviceInfo = ConnectedDeviceInfo()
     val logAdapter: LogAdapter = LogAdapter()
 
@@ -124,10 +123,6 @@ class ControlViewModel(private val repository: DeviceRepository) : AppViewModel(
             }
             else -> {}
         }
-    }
-
-    fun addLogItem(data: List<String>, addTime: Boolean = true) {
-        LogManager.addLogItem(data, addTime)
     }
 
     private fun addResponseLog(method: String, data: String = "", result: String? = null) {

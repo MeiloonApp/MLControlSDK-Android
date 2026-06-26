@@ -37,6 +37,27 @@ class MainActivity : AppActivity<ActivityMainBinding>() {
     val logDataBridge = MutableLiveData<List<String>>()
     var selectedResult = MutableLiveData<ScanResult>()
     var bottomSheet = MutableLiveData<BottomSheet>()
+    private var loadingDialog: android.app.Dialog? = null
+
+    fun setLoading(isLoading: Boolean) {
+        if (isLoading) {
+            if (loadingDialog == null) {
+                loadingDialog = android.app.Dialog(this, R.style.FullScreenLoadingDialog).apply {
+                    setContentView(R.layout.dialog_loading)
+                    setCancelable(false)
+                    window?.setLayout(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                }
+            }
+            if (loadingDialog?.isShowing == false) {
+                loadingDialog?.show()
+            }
+        } else {
+            loadingDialog?.dismiss()
+        }
+    }
 
     override fun initBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
@@ -87,6 +108,29 @@ class MainActivity : AppActivity<ActivityMainBinding>() {
 
         if (navController != null) {
             binding.bottomNavigationView.setupWithNavController(navController)
+
+            // 修正子頁面選取狀態不同步與顯示控制問題
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                val menu = binding.bottomNavigationView.menu
+                
+                // 1. 控制顯示/隱藏：進入深層功能頁面時隱藏 BottomNavigationView
+                val shouldHideBottomNav = when (destination.id) {
+                    R.id.peqResultFragment,
+                    R.id.tempFileManagementFragment -> true
+                    else -> false
+                }
+                binding.bottomNavigationView.visibility = if (shouldHideBottomNav) android.view.View.GONE else android.view.View.VISIBLE
+
+                // 2. 修正二級頁面選取狀態同步問題
+                when (destination.id) {
+                    R.id.settingToolFragment, R.id.OTAFragment, R.id.firmwareUpdateFragment -> {
+                        menu.findItem(R.id.bleScanFragment)?.isChecked = true
+                    }
+                    R.id.peqResultFragment, R.id.tempFileManagementFragment -> {
+                        menu.findItem(R.id.otherRoomCollection)?.isChecked = true
+                    }
+                }
+            }
         }
 
         binding.bottomNavigationView.doOnLayout { view ->

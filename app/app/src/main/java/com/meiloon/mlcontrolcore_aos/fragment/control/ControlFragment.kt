@@ -10,7 +10,7 @@ import com.google.android.material.slider.Slider
 import com.meiloon.controlcore.main.api.enums.CommandType
 import com.meiloon.controlcore.main.container.event.ReceiveCommandEvent
 import com.meiloon.controlcore.main.factory.ViewModelFactory
-import com.meiloon.mlcontrolcore_aos.fragment.BaseFragment
+import com.meiloon.mlcontrolcore_aos.base.BaseFragment
 import com.meiloon.mlcontrolcore_aos.R
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet

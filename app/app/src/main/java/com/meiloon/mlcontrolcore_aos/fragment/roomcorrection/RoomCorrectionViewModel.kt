@@ -8,8 +8,8 @@ import com.meiloon.controlcore.main.container.chart.data.EQData
 import com.meiloon.controlcore.main.container.room.MLRoomCorrectionEngine
 import com.meiloon.controlcore.main.container.room.MLRoomCorrectionOptions
 import com.meiloon.controlcore.main.container.room.MLRoomMeasurementType
-import com.meiloon.controlcore.widget.app.android.AppViewModel
 import com.meiloon.mlcontrolcore_aos.adapter.LogAdapter
+import com.meiloon.mlcontrolcore_aos.base.BaseViewModel
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet
 import com.meiloon.mlcontrolcore_aos.data.ConnectedDeviceInfo
 import com.meiloon.mlcontrolcore_aos.data.TempFileItem
@@ -25,7 +25,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.stream.Collectors
 
-class RoomCorrectionViewModel(private val repository: DeviceRepository) : AppViewModel() {
+class RoomCorrectionViewModel(private val repository: DeviceRepository) : BaseViewModel() {
     var connectedDeviceInfo: ConnectedDeviceInfo = ConnectedDeviceInfo()
     val logAdapter: LogAdapter = LogAdapter()
     val isMonitoring = MutableLiveData<Boolean>(false)
@@ -215,10 +215,6 @@ class RoomCorrectionViewModel(private val repository: DeviceRepository) : AppVie
 
     fun addCMDLog(type: String, result: String) {
         LogManager.addCMDLog(type, result)
-    }
-
-    fun addLogItem(data: List<String>, addTime: Boolean = true) {
-        LogManager.addLogItem(data, addTime)
     }
 
     fun updateTempFileCount(cacheDir: File) {

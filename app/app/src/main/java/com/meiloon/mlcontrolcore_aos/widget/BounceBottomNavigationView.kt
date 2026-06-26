@@ -16,6 +16,7 @@ class BounceBottomNavigationView @JvmOverloads constructor(
 ) : BottomNavigationView(context, attrs, defStyleAttr) {
 
     private var externalListener: OnItemSelectedListener? = null
+    private var externalReselectedListener: OnItemReselectedListener? = null
 
     init {
         // 初始樣式設定
@@ -25,6 +26,12 @@ class BounceBottomNavigationView @JvmOverloads constructor(
         super.setOnItemSelectedListener { item ->
             animateItem(item.itemId)
             externalListener?.onNavigationItemSelected(item) ?: true
+        }
+
+        // 監聽重複選取事件
+        super.setOnItemReselectedListener { item ->
+            animateItem(item.itemId)
+            externalReselectedListener?.onNavigationItemReselected(item)
         }
     }
 
@@ -59,6 +66,10 @@ class BounceBottomNavigationView @JvmOverloads constructor(
 
     override fun setOnItemSelectedListener(listener: NavigationBarView.OnItemSelectedListener?) {
         this.externalListener = listener
+    }
+
+    override fun setOnItemReselectedListener(listener: NavigationBarView.OnItemReselectedListener?) {
+        this.externalReselectedListener = listener
     }
 
     private fun animateItem(itemId: Int) {

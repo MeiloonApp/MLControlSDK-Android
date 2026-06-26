@@ -9,7 +9,11 @@
         android:id="@+id/bleScanFragment"
         android:name="com.meiloon.mlcontrolcore_aos.fragment.blescan.BleScanFragment"
         android:label="fragment_ble_scan"
-        tools:layout="@layout/fragment_ble_scan" />
+        tools:layout="@layout/fragment_ble_scan" >
+        <action
+            android:id="@+id/action_bleScanFragment_to_settingToolFragment"
+            app:destination="@id/settingToolFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/controlFragment"
@@ -53,4 +57,29 @@
         android:name="com.meiloon.mlcontrolcore_aos.fragment.roomcorrection.TempFileManagementFragment"
         android:label="TempFileManagementFragment"
         tools:layout="@layout/fragment_temp_file_management" />
+
+    <fragment
+        android:id="@+id/settingToolFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.setting.SettingToolFragment"
+        android:label="SettingToolFragment"
+        tools:layout="@layout/fragment_settings_and_tools" >
+        <action
+            android:id="@+id/action_settingToolFragment_to_OTAFragment"
+            app:destination="@id/OTAFragment" />
+        <action
+            android:id="@+id/action_settingToolFragment_to_firmwareUpdateFragment"
+            app:destination="@id/firmwareUpdateFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/OTAFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.setting.OTAFragment"
+        android:label="OTAFragment"
+        tools:layout="@layout/fragment_ota" />
+
+    <fragment
+        android:id="@+id/firmwareUpdateFragment"
+        android:name="com.meiloon.mlcontrolcore_aos.fragment.setting.FirmwareUpdateFragment"
+        android:label="FirmwareUpdateFragment"
+        tools:layout="@layout/fragment_firmware_update" />
 </navigation>

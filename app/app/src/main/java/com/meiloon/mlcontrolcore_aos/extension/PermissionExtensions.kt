@@ -1,7 +1,6 @@
-package com.meiloon.mlcontrolcore_aos.util
+package com.meiloon.mlcontrolcore_aos.extension
 
 import android.Manifest
-import androidx.fragment.app.Fragment
 import com.meiloon.controlcore.widget.app.android.AppFragment
 import com.meiloon.mlcontrolcore_aos.R
 import com.permissionx.guolindev.PermissionX

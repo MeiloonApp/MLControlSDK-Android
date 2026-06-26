@@ -92,6 +92,7 @@ dependencies {
     implementation(libs.bundles.glide)
     // rxjava
     implementation(libs.bundles.rxjava)
+    implementation(libs.kotlinx.coroutines.rx3)
     // immersionbar
     implementation(libs.bundles.immersionbar)
     // basic

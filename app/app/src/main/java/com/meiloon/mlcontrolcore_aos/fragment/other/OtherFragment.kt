@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meiloon.controlcore.main.api.APIData
 import com.meiloon.controlcore.main.api.enums.APIMethod
@@ -23,7 +23,7 @@ import com.meiloon.mlcontrolcore_aos.data.Command
 import com.meiloon.mlcontrolcore_aos.data.CommandDesc
 import com.meiloon.mlcontrolcore_aos.data.CommandItem
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentOthersBinding
-import com.meiloon.mlcontrolcore_aos.util.toIntOrZero
+import com.meiloon.mlcontrolcore_aos.extension.toIntOrZero
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -68,6 +68,10 @@ class OtherFragment : AppFragment<FragmentOthersBinding>() {
 
     override fun initListener(context: Context) {
         binding.scrollView.setupTitleAnimation(binding.tvLargeTitle)
+
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(com.meiloon.mlcontrolcore_aos.R.id.settingToolFragment)
+        }
 
         binding.tvSelectCommandValue.setOnClickListener {
             getContext()?.let {

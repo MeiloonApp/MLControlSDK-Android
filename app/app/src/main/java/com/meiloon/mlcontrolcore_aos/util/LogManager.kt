@@ -3,16 +3,39 @@ package com.meiloon.mlcontrolcore_aos.util
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.meiloon.controlcore.widget.app.method.Method.date.getDateFormat
+import kotlinx.coroutines.*
 
 /**
  * Log 管理類別，負責處理日誌的格式化與顯示
- * 改為單例模式 (object)，使其生命週期不隨 ViewModel 銷毀
+ * 優化：加入節流機制，每 500ms 才更新一次 UI，並限制最大日誌量
  */
 object LogManager {
 
     private val _logs = MutableLiveData<List<String>>(emptyList())
     val logs: LiveData<List<String>> = _logs
     private val logsList = mutableListOf<String>()
+    
+    // --- 優化：節流相關設定 ---
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private var needsUpdate = false
+    private const val UPDATE_INTERVAL_MS = 500L
+    private const val MAX_LOG_SIZE = 100 // 限制最大條數
+
+    init {
+        // 啟動背景循環，定期刷新 UI
+        scope.launch {
+            while (isActive) {
+                if (needsUpdate) {
+                    val snapshot = synchronized(logsList) {
+                        needsUpdate = false
+                        ArrayList(logsList) // 只有在這裡才執行昂貴的複製操作
+                    }
+                    _logs.postValue(snapshot)
+                }
+                delay(UPDATE_INTERVAL_MS)
+            }
+        }
+    }
 
     /**
      * 加入命令回應的日誌 (CmdDone)
@@ -57,7 +80,14 @@ object LogManager {
 
             // 將新日誌放在最前面 (最新在最上)
             logsList.addAll(0, temp)
-            _logs.postValue(ArrayList(logsList))
+            
+            // --- 優化：使用 removeAt 進行高效截斷，避免昂貴的 take/addAll 操作 ---
+            while (logsList.size > MAX_LOG_SIZE) {
+                logsList.removeAt(logsList.size - 1)
+            }
+            
+            // 標記需要更新，不立刻觸發 postValue
+            needsUpdate = true
         }
     }
 
@@ -67,7 +97,7 @@ object LogManager {
     fun clearLogs() {
         synchronized(logsList) {
             logsList.clear()
-            _logs.postValue(emptyList())
+            needsUpdate = true
         }
     }
 }

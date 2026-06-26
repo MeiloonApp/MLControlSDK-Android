@@ -1,4 +1,4 @@
-package com.meiloon.mlcontrolcore_aos.util
+package com.meiloon.mlcontrolcore_aos.extension
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

@@ -11,7 +11,7 @@ import com.meiloon.controlcore.main.api.enums.PairingStatus
 import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
 import com.meiloon.controlcore.main.api.enums.SampleRate
 import com.meiloon.controlcore.main.api.enums.UACMuteStatus
-import com.meiloon.mlcontrolcore_aos.util.toIntOrZero
+import com.meiloon.mlcontrolcore_aos.extension.toIntOrZero
 import com.polidea.rxandroidble3.scan.ScanResult
 import kotlin.collections.emptyList
 

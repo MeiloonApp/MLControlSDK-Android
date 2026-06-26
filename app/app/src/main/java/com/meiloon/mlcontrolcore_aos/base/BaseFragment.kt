@@ -1,24 +1,23 @@
-package com.meiloon.mlcontrolcore_aos.fragment
+package com.meiloon.mlcontrolcore_aos.base
 
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.meiloon.controlcore.global.activity.GlobalViewModel
 import com.meiloon.controlcore.widget.app.android.AppFragment
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet
+import com.meiloon.mlcontrolcore_aos.extension.collectWithLifecycle
 import com.polidea.rxandroidble3.scan.ScanResult
-import com.meiloon.controlcore.global.activity.GlobalViewModel
-import com.meiloon.mlcontrolcore_aos.util.collectWithLifecycle
 import kotlinx.coroutines.flow.Flow
 
 abstract class BaseFragment<B : ViewBinding> : AppFragment<B>() {
 
     val mainActivity: MainActivity?
         get() = activity as? MainActivity
-    
+
     fun updateGlobalBottomSheet(newSheet: BottomSheet) {
         val currentSheet = getGlobalBottomSheetData() ?: BottomSheet()
-        
+
         currentSheet.apply {
             if (newSheet.name.isNotEmpty()) name = newSheet.name
             if (newSheet.firmwareVer.isNotEmpty()) firmwareVer = newSheet.firmwareVer

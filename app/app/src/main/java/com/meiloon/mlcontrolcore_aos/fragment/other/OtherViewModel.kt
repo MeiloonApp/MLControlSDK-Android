@@ -32,19 +32,17 @@ import com.meiloon.controlcore.main.api.RoomCorrectionMode
 import com.meiloon.controlcore.main.api.SPKMute
 import com.meiloon.controlcore.main.api.Volume
 import com.meiloon.controlcore.main.api.enums.APIMethod
-import com.meiloon.controlcore.main.api.enums.CommandType
-import com.meiloon.controlcore.main.api.enums.Mp3PlayerState
 import com.meiloon.controlcore.main.api.enums.PairingStatus
 import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
 import com.meiloon.controlcore.main.container.chart.data.EQData
 import com.meiloon.controlcore.main.container.chart.widget.ChartStorage
-import com.meiloon.controlcore.widget.app.android.AppViewModel
+import com.meiloon.mlcontrolcore_aos.base.BaseViewModel
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet
 import com.meiloon.mlcontrolcore_aos.util.LogManager
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
-class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() {
+class OtherViewModel(private val repository: DeviceRepository) : BaseViewModel() {
     var chartStorage: ChartStorage = GlobalViewModel.chartStorage
     var selectedCommandItem: CommandItem? = null
     var connectedDeviceInfo: ConnectedDeviceInfo = ConnectedDeviceInfo()
@@ -70,10 +68,6 @@ class OtherViewModel(private val repository: DeviceRepository) : AppViewModel() 
     fun initCDeviceInfo(selectedResult: com.polidea.rxandroidble3.scan.ScanResult?,
                         bottomSheet: BottomSheet?) {
         connectedDeviceInfo.updateFrom(selectedResult, bottomSheet)
-    }
-
-    fun addLogItem(data: List<String>, addTime: Boolean = true) {
-        LogManager.addLogItem(data, addTime)
     }
 
     fun parseReceiveCommand(command: ByteArray?, context: Context?, cmdDoneNotify: (CmdDone) -> Unit) {

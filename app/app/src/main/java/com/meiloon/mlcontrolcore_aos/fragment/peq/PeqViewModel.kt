@@ -12,17 +12,16 @@ import com.meiloon.controlcore.main.api.enums.APIMethod
 import com.meiloon.controlcore.main.container.chart.data.EQData
 import com.meiloon.controlcore.main.container.chart.data.toPEQString
 import com.meiloon.controlcore.main.container.chart.widget.ChartStorage
-import com.meiloon.controlcore.widget.app.android.AppViewModel
 import com.meiloon.mlcontrolcore_aos.adapter.BandAdapter
 import com.meiloon.mlcontrolcore_aos.adapter.ChannelAdapter
-import com.meiloon.mlcontrolcore_aos.adapter.LogAdapter
+import com.meiloon.mlcontrolcore_aos.base.BaseViewModel
 import com.meiloon.mlcontrolcore_aos.data.ChipChannel
 import com.meiloon.mlcontrolcore_aos.data.EQDataType
 import com.meiloon.mlcontrolcore_aos.util.LogManager
 import kotlin.math.log10
 
 
-class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
+class PeqViewModel(private val repository: DeviceRepository) : BaseViewModel() {
     var channelAdapter: ChannelAdapter = ChannelAdapter()
     var bandAdapter: BandAdapter = BandAdapter()
     var chartStorage: ChartStorage = GlobalViewModel.chartStorage
@@ -201,5 +200,4 @@ class PeqViewModel(private val repository: DeviceRepository) : AppViewModel() {
     private fun addCMDLog(type: String, result: String) {
         LogManager.addCMDLog(type, result)
     }
-
 }

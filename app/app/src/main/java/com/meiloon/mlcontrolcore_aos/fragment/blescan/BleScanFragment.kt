@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.meiloon.mlcontrolcore_aos.R
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.BleConnectStatus
@@ -36,7 +37,7 @@ import com.meiloon.controlcore.main.container.event.ReceiveCommandEvent
 import com.meiloon.controlcore.main.factory.ViewModelFactory
 import com.meiloon.controlcore.main.widget.ble.BleControlManager
 import com.meiloon.controlcore.main.widget.ble.event.ConnectionResponse
-import com.meiloon.mlcontrolcore_aos.fragment.BaseFragment
+import com.meiloon.mlcontrolcore_aos.base.BaseFragment
 import com.meiloon.controlcore.widget.app.ble.BleManager
 import com.meiloon.controlcore.widget.app.listener.click.OnAppClickListener
 import com.meiloon.controlcore.widget.app.method.Method
@@ -57,6 +58,8 @@ import java.util.Locale
 class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListener {
     companion object {
         const val MAC_ADDRESS = "deviceAddress"
+        private var lastTitleHeight = 0 // 靜態變數，用於跨 Fragment 重建保留高度
+        private var lastState = BottomSheetBehavior.STATE_HIDDEN // 記錄上一次的展開狀態
     }
     private val jieliManager: JieliManager = JieliManager.getInstance()
     private lateinit var viewModel: BleScanViewModel
@@ -106,6 +109,9 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
         }
 
         binding.btScan.setOnClickListener(this)
+        binding.cvSetting.setOnClickListener {
+            findNavController().navigate(R.id.action_bleScanFragment_to_settingToolFragment)
+        }
 
         viewModel.deviceAdapter.setOnNearChangeListener ({ device ->
             updateNear(
@@ -462,20 +468,43 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
     private fun initBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.persistentBottomSheet)
         bottomSheetBehavior.isHideable = true
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheetBehavior.isFitToContents = false
+        // 禁用狀態保存，避免返回時自動恢復到錯誤的狀態（例如 offset 為 0 的 EXPANDED）
+        bottomSheetBehavior.saveFlags = BottomSheetBehavior.SAVE_NONE
 
-        binding.root.post {
+        // 如果已有記錄的高度，立即套用，防止返回時產生從 0 開始的跳動
+        if (lastTitleHeight > 0) {
+            bottomSheetBehavior.expandedOffset = lastTitleHeight
+        }
+
+        // 初始化時優先恢復上一次的狀態
+        if (getGlobalSelectedResult() != null) {
+            // 如果有連線，恢復上次狀態，若無記錄則預設展開
+            bottomSheetBehavior.state = if (lastState != BottomSheetBehavior.STATE_HIDDEN) lastState else BottomSheetBehavior.STATE_EXPANDED
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        // 監聽標題欄高度，確保展開時不會遮擋頂部按鈕，並解決從其他頁面返回時 offset 失效的問題
+        binding.cvTitle.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             val titleHeight = binding.cvTitle.height
-            bottomSheetBehavior.expandedOffset = titleHeight
+            if (titleHeight > 0) {
+                lastTitleHeight = titleHeight
+                if (bottomSheetBehavior.expandedOffset != titleHeight) {
+                    bottomSheetBehavior.expandedOffset = titleHeight
+                }
+            }
         }
 
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState != BottomSheetBehavior.STATE_SETTLING && newState != BottomSheetBehavior.STATE_DRAGGING) {
+                    lastState = newState // 記錄使用者手動操作後的狀態
+                }
                 when (newState) {
                     BottomSheetBehavior.STATE_EXPANDED -> { }
                     BottomSheetBehavior.STATE_COLLAPSED -> { }
-                    BottomSheetBehavior.STATE_HIDDEN -> { }
+                    BottomSheetBehavior.STATE_HIDDEN -> { lastState = newState }
                 }
             }
 
@@ -486,7 +515,24 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
     }
 
     private fun showBottomSheet(show: Boolean) {
-        bottomSheetBehavior.state = if (show) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_HIDDEN
+        if (show) {
+            // 使用 post 確保在執行展開前，cvTitle 的高度已經計算完成並套用到 expandedOffset
+            binding.cvTitle.post {
+                if (!isAdded) return@post
+                val titleHeight = binding.cvTitle.height
+                if (titleHeight > 0) {
+                    bottomSheetBehavior.expandedOffset = titleHeight
+                }
+
+                // 如果目前是隱藏的（例如剛連線），則根據記錄恢復狀態
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetBehavior.state = if (lastState != BottomSheetBehavior.STATE_HIDDEN) lastState else BottomSheetBehavior.STATE_EXPANDED
+                }
+            }
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            lastState = BottomSheetBehavior.STATE_HIDDEN // 斷線或隱藏時重置記錄
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
