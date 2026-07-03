@@ -87,35 +87,9 @@ class OTAFragment : BaseFragment<FragmentOtaBinding>() {
             viewModel.startOTA(requireContext())
         }
 
-        viewModel.deviceAdapter.onConnectClickListener = label@{ bleItem ->
-            val device = bleItem.device
-            val connectedAddress = viewModel.otaManager?.connectedDevice?.address
-
-            if (device.address == connectedAddress) {
-                viewModel.addLog("中斷與 ${device.getSafeName(requireContext()).replace("\n", " ")} 的連線")
-                viewModel.stopScanAction()
-                viewModel.disconnectDevice()
-            } else {
-                viewModel.stopScanAction()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    if (connectedAddress != null) {
-                        viewModel.addLog("更換連線，先中斷目前連線: $connectedAddress")
-                        viewModel.disconnectDevice()
-                    }
-
-                    delay(500)
-                    viewModel.addLog("開始連線到 ${device.getSafeName(requireContext()).replace("\n", " ")}")
-                    viewModel.connectDevice(device.address)
-                }
-            }
-        }
-
-        viewModel.otaManager?.errorReport?.collectIn(lifecycleScope) { msg ->
-            if (msg != "") {
-                showToast(msg)
-                // 重新刷新
-                viewModel.otaManager?.errorReport?.value = ""
-            }
+        viewModel.deviceAdapter.onConnectClickListener = { bleItem ->
+            val name = bleItem.device.getSafeName(requireContext()).replace("\n", " ")
+            viewModel.toggleConnection(bleItem.device, name)
         }
     }
 
@@ -138,10 +112,7 @@ class OTAFragment : BaseFragment<FragmentOtaBinding>() {
                 }
             }
         } else {
-            val permissions: Array<String?> = viewModel.merge(
-                Method.permission.getNotificationsPermissions(),
-                Method.permission.getBluetoothPermissions()
-            )
+            val permissions = Method.permission.getNotificationsPermissions() + Method.permission.getBluetoothPermissions()
             requestPermissions(permissions, RequestCallback { allGranted, grantedList, deniedList ->
                 if (Method.permission.checkBluetoothPermission(requireContext())) scan()
             })
@@ -164,14 +135,14 @@ class OTAFragment : BaseFragment<FragmentOtaBinding>() {
 
     override fun initLiveData(context: Context) {
         observe(viewModel.onScanDevicesChange, { results ->
-            // 改用 ViewModel 維護的位址作為唯一勾勾判斷標準
-            val connectedAddress = viewModel.otaManager?.connectedDevice?.address
+
+            val connectedAddress = viewModel.connectedDevice()?.address
             val devices = results.map { result ->
                 val address = result.device.address
                 BleDeviceItem(result.device, isConnected = address == connectedAddress)
             }
             viewModel.deviceAdapter.replaceAllItems(devices)
-            
+
             // Auto show the list if devices found
             if (devices.isNotEmpty()) {
                 binding.rvDevices.visibility = View.VISIBLE
@@ -208,18 +179,12 @@ class OTAFragment : BaseFragment<FragmentOtaBinding>() {
             binding.tvStatus.setTextColor(requireContext().getColor(color))
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.fileName.collect { name ->
-                binding.tvSelectedFile.text = name
-            }
+        viewModel.fileName.collectWithLifecycle { name ->
+            binding.tvSelectedFile.text = name
         }
 
         viewModel.toastEvent.collectWithLifecycle { message ->
             showToast(message)
-        }
-
-        viewModel.isLoading.collectWithLifecycle { isLoading ->
-            mainActivity?.setLoading(isLoading)
         }
 
         viewModel.deviceBankMode.collectWithLifecycle { mode ->
@@ -229,17 +194,15 @@ class OTAFragment : BaseFragment<FragmentOtaBinding>() {
 
         viewModel.fileBankMode.collectWithLifecycle { mode ->
             binding.tvFileInfo.text = "檔案: ${mode.text}"
-            if (mode == UpdateMode.DOUBLE) {
-                binding.tvFileInfo.setTextColor(requireContext().getColor(R.color.system_red))
-            } else {
-                binding.tvFileInfo.setTextColor(requireContext().getColor(R.color.tv_text_gray))
-            }
+            val color = if (mode == UpdateMode.DOUBLE) R.color.system_red else R.color.tv_text_gray
+            binding.tvFileInfo.setTextColor(requireContext().getColor(color))
             reloadUpdateBtn(viewModel.checkCanUpdate())
         }
 
-        viewModel.otaProgress.collectWithLifecycle { progress ->
+        viewModel.otaProgress.collectWithLifecycle { data ->
+            val progress = data.progress.toInt()
             binding.tvProgressPercent.text = "$progress%"
-            if (progress > 0 && progress < 100) {
+            if (progress in 1..<100) {
                 binding.tvProgressState.text = "升級中..."
             } else if (progress == 100) {
                 binding.tvProgressState.text = "升級完成"

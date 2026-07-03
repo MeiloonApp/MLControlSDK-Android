@@ -53,7 +53,11 @@ class SettingToolFragment : AppFragment<FragmentSettingsAndToolsBinding>() {
         }
 
         binding.cvOTAUpgrade.setOnClickListener {
-            findNavController().navigate(R.id.action_settingToolFragment_to_firmwareUpdateFragment)
+            val connectedDevice = BleControlManager.getInstance().getConnectedDevices().firstOrNull()
+            val bundle = Bundle().apply {
+                putString("device_address", connectedDevice?.device?.address)
+            }
+            findNavController().navigate(R.id.action_settingToolFragment_to_firmwareUpdateFragment, bundle)
         }
 
         binding.swLowLevelLog.setOnCheckedChangeListener { _, isChecked ->

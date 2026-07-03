@@ -37,27 +37,6 @@ class MainActivity : AppActivity<ActivityMainBinding>() {
     val logDataBridge = MutableLiveData<List<String>>()
     var selectedResult = MutableLiveData<ScanResult>()
     var bottomSheet = MutableLiveData<BottomSheet>()
-    private var loadingDialog: android.app.Dialog? = null
-
-    fun setLoading(isLoading: Boolean) {
-        if (isLoading) {
-            if (loadingDialog == null) {
-                loadingDialog = android.app.Dialog(this, R.style.FullScreenLoadingDialog).apply {
-                    setContentView(R.layout.dialog_loading)
-                    setCancelable(false)
-                    window?.setLayout(
-                        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                        android.view.ViewGroup.LayoutParams.MATCH_PARENT
-                    )
-                }
-            }
-            if (loadingDialog?.isShowing == false) {
-                loadingDialog?.show()
-            }
-        } else {
-            loadingDialog?.dismiss()
-        }
-    }
 
     override fun initBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)

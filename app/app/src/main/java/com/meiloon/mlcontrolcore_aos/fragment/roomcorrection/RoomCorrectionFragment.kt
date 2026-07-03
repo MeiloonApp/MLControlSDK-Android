@@ -237,9 +237,9 @@ class RoomCorrectionFragment : AppFragment<FragmentRoomCorrectionBinding>() {
                 binding.tvStatusNF.setTextColor(getColor(R.color.system_orange))
                 binding.tvStatusNF.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             } else if (status == "NF 已就緒") {
-                binding.tvStatusNF.setTextColor(getColor(R.color.system_geeen))
+                binding.tvStatusNF.setTextColor(getColor(R.color.system_green))
                 val drawable = ContextCompat.getDrawable(context, R.drawable.check_circle_24px)?.apply {
-                    setTint(getColor(R.color.system_geeen))
+                    setTint(getColor(R.color.system_green))
                     // 縮小一點圖示
                     setBounds(0, 0, 48, 48)
                 }
@@ -258,9 +258,9 @@ class RoomCorrectionFragment : AppFragment<FragmentRoomCorrectionBinding>() {
                 binding.tvStatusFF.setTextColor(getColor(R.color.system_orange))
                 binding.tvStatusFF.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             } else if (status == "FF 已就緒") {
-                binding.tvStatusFF.setTextColor(getColor(R.color.system_geeen))
+                binding.tvStatusFF.setTextColor(getColor(R.color.system_green))
                 val drawable = ContextCompat.getDrawable(context, R.drawable.check_circle_24px)?.apply {
-                    setTint(getColor(R.color.system_geeen))
+                    setTint(getColor(R.color.system_green))
                     // 縮小一點圖示
                     setBounds(0, 0, 48, 48)
                 }

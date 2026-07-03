@@ -48,6 +48,11 @@ import com.meiloon.controlcore.widget.library.blufi.params.BlufiParameter
 import com.meiloon.controlcore.widget.library.jieli.JieliManager
 import com.permissionx.guolindev.callback.RequestCallback
 import com.polidea.rxandroidble3.scan.ScanResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.launchIn
+import androidx.lifecycle.lifecycleScope
 import com.meiloon.controlcore.main.api.EQMode
 import com.meiloon.controlcore.main.api.SPKMute
 import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
@@ -183,6 +188,8 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
                 if (viewModel.isMeiLoonDevice(scanResult)) {
                     val macAddress = scanResult.bleDevice.bluetoothDevice.address
 
+                    viewModel.deviceAdapter.markNearby(macAddress)
+
                     for (old in viewModel.deviceAdapter.items) {
                         if (old?.bluetoothDevice?.address == macAddress) {
                             return@observe
@@ -190,7 +197,6 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
                     }
 
                     viewModel.scanResultMap[macAddress] = scanResult
-                    viewModel.deviceAdapter.markNearby(macAddress)
                     viewModel.updateScanDevices(macAddress, scanResult)
                 }
             }
@@ -691,7 +697,7 @@ class BleScanFragment : BaseFragment<FragmentBleScanBinding>(), OnAppClickListen
         
         val muteColor = when (data.mute) {
             "已靜音" -> R.color.system_red
-            "正常" -> R.color.system_geeen
+            "正常" -> R.color.system_green
             else -> R.color.black
         }
         layoutBinding.tvMuteValue.setTextColor(Method.resource.getColor(muteColor))

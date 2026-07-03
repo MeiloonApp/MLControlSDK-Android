@@ -11,7 +11,7 @@ enum class BleConnectStatus(val text: String,
                             @ColorRes val colorResId: Int) {
     CONNECTING("連線中...", R.color.ble_connecting),
     DISCONNECT("已斷線", R.color.ble_disconnect),
-    CONNECTED("已連線", R.color.system_geeen);
+    CONNECTED("已連線", R.color.system_green);
 
     fun getColor(context: Context): Int {
         return ContextCompat.getColor(context, colorResId)

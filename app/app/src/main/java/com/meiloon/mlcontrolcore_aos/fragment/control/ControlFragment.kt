@@ -10,6 +10,8 @@ import com.google.android.material.slider.Slider
 import com.meiloon.controlcore.main.api.enums.CommandType
 import com.meiloon.controlcore.main.container.event.ReceiveCommandEvent
 import com.meiloon.controlcore.main.factory.ViewModelFactory
+import com.meiloon.controlcore.main.widget.ble.BleControlManager
+import com.meiloon.controlcore.widget.app.shared.SharedMethod
 import com.meiloon.mlcontrolcore_aos.base.BaseFragment
 import com.meiloon.mlcontrolcore_aos.R
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
@@ -50,7 +52,28 @@ class ControlFragment : BaseFragment<FragmentControlBinding>() {
         }
 
         setupBottomSheet()
+
+        // 檢查是否有 OTA 後的待處理重連任務
+//        checkPendingReconnect()
     }
+
+//    private fun checkPendingReconnect() {
+//        mainActivity?.pendingReconnectAddress?.let { address ->
+//            mainActivity?.pendingReconnectAddress = null
+//            viewModel.addLogItem(listOf("偵測到 OTA 完畢，自動恢復連線: $address"))
+//
+//            binding.root.postDelayed({
+//                if (!isAdded) return@postDelayed
+//
+//                viewModel.getDevice(address).subscribe({ device ->
+//                    val isMQTT = SharedMethod.isMQTT(address)
+//                    BleControlManager.getInstance().connect(device, isMQTT)
+//                }, {
+//                    it.printStackTrace()
+//                })
+//            }, 5000)
+//        }
+//    }
 
     override fun updateUI(context: Context) {}
 

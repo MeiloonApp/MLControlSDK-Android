@@ -10,15 +10,18 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.jieli.bluetooth.utils.ParseDataUtil
 import com.jieli.jl_bt_ota.constant.BluetoothConstant
-import com.jieli.jl_bt_ota.constant.JL_Constant
 import com.jieli.jl_bt_ota.constant.StateCode
 import com.jieli.jl_bt_ota.impl.BluetoothOTAManager
+import com.jieli.jl_bt_ota.interfaces.IUpgradeCallback
 import com.jieli.jl_bt_ota.model.BluetoothOTAConfigure
+import com.meiloon.controlcore.global.database.entity.BluetoothEntity
+import com.meiloon.controlcore.main.widget.ble.BleControlManager
+import com.meiloon.controlcore.widget.app.shared.SharedMethod
 import com.meiloon.mlcontrolcore_aos.fragment.blescan.ScanUiState
 import com.meiloon.mlcontrolcore_aos.ota.data.OTAUUIDs
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -29,27 +32,23 @@ import kotlinx.coroutines.flow.asStateFlow
 class OTAManager(val context: Context) : BluetoothOTAManager(context) {
     private var mBluetoothGatt: BluetoothGatt? = null
     private var mTargetDevice: BluetoothDevice? = null
-    private var currentMtu = BluetoothConstant.BLE_MTU_MIN
 
+    // 儲存目標設備實體，以便在 OTA 結束後恢復連線
+    private var mTargetEntity: BluetoothEntity? = null
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-
     private val mainHandler = Handler(Looper.getMainLooper())
 
     private val bleDataSender = BleDataSender(
         scope = scope,
-        getMtu = { currentMtu },
+        getMtu = { bluetoothOption.mtu },
         getGatt = { mBluetoothGatt },
         getWriteChar = {
             mBluetoothGatt?.getService(OTAUUIDs.SERVICE)?.getCharacteristic(OTAUUIDs.WRITE)
         }
     )
 
-    private val bluetoothManager: BluetoothManager? by lazy {
-        context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
-    }
-
     private val bluetoothAdapter: BluetoothAdapter? by lazy {
-        bluetoothManager?.adapter
+        (context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager)?.adapter
     }
 
     // 掃描相關
@@ -63,8 +62,7 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
     val isBusy = _isBusy.asStateFlow()
 
     private var isHandshakeDone = false
-
-    val errorReport = MutableStateFlow("")
+    val errorReport = MutableSharedFlow<String>(0)
 
     init {
         var config = BluetoothOTAConfigure().apply {
@@ -72,6 +70,7 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
             isNeedChangeMtu = false
             isUseAuthDevice = true
             isUseReconnect = true
+            mtu = BluetoothConstant.BLE_MTU_MIN
             timeoutMs = 20000
         }
 
@@ -128,6 +127,10 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
         }
     }
 
+    fun setTargetEntity(entity: BluetoothEntity) {
+        this.mTargetEntity = entity
+    }
+
     override fun connectBluetoothDevice(device: BluetoothDevice?) {
         if (device == null) return
         performConnect(device)
@@ -156,6 +159,7 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
             val transport: Int = BluetoothDevice.TRANSPORT_LE
             val phyMask = 1
 
+            // 參考demo
             mBluetoothGatt = when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                     // Android 8.0+：傳入 6 個參數，包含 mainHandler
@@ -183,7 +187,6 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
             val foundAddr = result.device.address
             
             if (isLoaderAddressMatch(targetAddress, foundAddr)) {
-                Log.i("OTAManager", "找到目標設備 (完整邏輯驗證通過): $foundAddr")
                 stopScan()
 
                 // 如果是地址變了，必須通知 SDK
@@ -219,9 +222,27 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
         }
     }
 
+    /**
+     * 重連控制通道 (用於 OTA 結束後恢復正常控制)
+     * 優先使用儲存的 mTargetEntity 進行重連，避免重新查詢資料庫
+     */
+    fun reconnectControlDevice() {
+        Log.d("reconnectControlDevice", "${mTargetEntity == null}")
+        mTargetEntity?.let { entity ->
+            scope.launch {
+                val macAddress = entity.address
+                val isMQTT = SharedMethod.isMQTT(macAddress)
+
+                BleControlManager.getInstance().disconnectAll()
+                delay(1000)
+
+                BleControlManager.getInstance().connect(entity, isMQTT)
+            }
+        }
+    }
+
     private fun closeGatt() {
         val gatt = mBluetoothGatt ?: return
-        Log.i("OTAManager", "closeGatt: 執行斷線與關閉")
         gatt.disconnect()
         gatt.close()
         clearAllConnectionState()
@@ -229,7 +250,6 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
     }
 
     override fun disconnectBluetoothDevice(device: BluetoothDevice?) {
-        Log.w("OTAManager", "主動發起斷線流程")
         _isBusy.value = true
 
         if (isScanningNow()) {
@@ -237,7 +257,6 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
         }
 
         // 恢復初始的 MTU 設定
-        currentMtu = BluetoothConstant.BLE_MTU_MIN
         bluetoothOption.mtu = BluetoothConstant.BLE_MTU_MIN
 
         closeGatt()
@@ -270,8 +289,6 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
 
     override fun getConnectedDevice(): BluetoothDevice? = mTargetDevice
     override fun getConnectedBluetoothGatt(): BluetoothGatt? = mBluetoothGatt
-
-
 
     private val mGattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
@@ -306,43 +323,29 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
         }
 
         override fun onMtuChanged(gatt: BluetoothGatt, mtu: Int, status: Int) {
-            Log.d("OTAManager", "物理 MTU 變更成功: $mtu")
+            Log.d("OTAManager", "MTU 變更成功: $mtu")
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                val maxMtu = mtu - 6
-                currentMtu = maxMtu
-                bluetoothOption.mtu = maxMtu
+                bluetoothOption.mtu = mtu - 6
             }
 
-            // 只有在握手尚未完成時才發起服務搜尋，避免 SDK 觸發 MTU 變更導致無限迴圈
             if (!isHandshakeDone) {
-                Log.d("OTAManager", "尚未完成握手，執行服務搜尋 (discoverServices)")
                 gatt.discoverServices()
-            } else {
-                Log.d("OTAManager", "已完成握手，僅更新 MTU 資訊")
             }
-            super@OTAManager.onMtuChanged(gatt, mtu, status)
 
+            super@OTAManager.onMtuChanged(gatt, mtu, status)
         }
 
         override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                Log.d("OTAManager", "服務搜尋完成，正在驗證服務...")
+
                 val service = gatt.getService(OTAUUIDs.SERVICE)
                 val notifyChar = service?.getCharacteristic(OTAUUIDs.NOTIFY)
 
-//                val writeChar = service.getCharacteristic(OTAUUIDs.WRITE)
-//                // 檢查寫入特徵值
-//                if (writeChar == null) {
-//                    Log.e("OTAManager", "錯誤: 寫入特徵值無效！(UUID: ${OTAUUIDs.WRITE})")
-//                    // 這裡可以報錯，因為沒有寫入通道無法進行 OTA
-//                } else {
-//                    Log.i("OTAManager", "寫入特徵值確認有效")
-//                }
-
                 if (notifyChar == null) {
-                    val msg = "錯誤: 該設備不是認證的設備"
-                    Log.e("OTAManager", msg)
-                    errorReport.value = msg
+                    scope.launch {
+                        errorReport.emit("錯誤: 該設備不是認證的設備")
+                    }
+
                     disconnectBluetoothDevice(gatt.device)
                     return
                 } else {
@@ -388,9 +391,9 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
         }
     }
 
-    override fun startOTA(callback: com.jieli.jl_bt_ota.interfaces.IUpgradeCallback?) {
+    override fun startOTA(callback: IUpgradeCallback?) {
         _isBusy.value = true
-        super.startOTA(object : com.jieli.jl_bt_ota.interfaces.IUpgradeCallback {
+        super.startOTA(object : IUpgradeCallback {
             override fun onStartOTA() {
                 callback?.onStartOTA()
             }
@@ -421,7 +424,6 @@ class OTAManager(val context: Context) : BluetoothOTAManager(context) {
     }
 
     override fun release() {
-        Log.i("OTAManager", "release: 開始釋放資源")
         bleDataSender.release()
 
         if (mBluetoothGatt != null) {

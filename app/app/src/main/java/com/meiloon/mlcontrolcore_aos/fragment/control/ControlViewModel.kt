@@ -2,6 +2,7 @@ package com.meiloon.mlcontrolcore_aos.fragment.control
 
 import android.content.Context
 import android.util.Log
+import com.meiloon.controlcore.global.database.entity.BluetoothEntity
 import com.meiloon.controlcore.global.database.repository.DeviceRepository
 import com.meiloon.controlcore.main.api.APIData
 import com.meiloon.controlcore.main.api.BTPairing
@@ -30,6 +31,10 @@ class ControlViewModel(private val repository: DeviceRepository) : BaseViewModel
     fun initCDeviceInfo(selectedResult: com.polidea.rxandroidble3.scan.ScanResult?,
                         bottomSheet: BottomSheet?) {
         connectedDeviceInfo.updateFrom(selectedResult, bottomSheet)
+    }
+
+    fun getDevice(address: String): io.reactivex.rxjava3.core.Single<BluetoothEntity> {
+        return repository.getDevice(address)
     }
 
     fun parseReceiveCommand(command: ByteArray?, context: Context?, cmdDoneNotify: (CmdDone) -> Unit) {
