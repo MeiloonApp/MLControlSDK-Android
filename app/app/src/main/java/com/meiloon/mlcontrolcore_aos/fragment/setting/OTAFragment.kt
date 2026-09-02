@@ -7,23 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.meiloon.controlcore.main.factory.ViewModelFactory
+import com.meiloon.controlcore.ota.ScanUiState
 import com.meiloon.controlcore.widget.app.method.Method
 import com.meiloon.mlcontrolcore_aos.R
 import com.meiloon.mlcontrolcore_aos.adapter.BleDeviceItem
 import com.meiloon.mlcontrolcore_aos.data.UpdateMode
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentOtaBinding
 import com.meiloon.mlcontrolcore_aos.base.BaseFragment
-import com.meiloon.mlcontrolcore_aos.extension.collectIn
-import com.meiloon.mlcontrolcore_aos.fragment.blescan.ScanUiState
 import com.meiloon.mlcontrolcore_aos.extension.getFileName
 import com.meiloon.mlcontrolcore_aos.extension.getSafeName
 import com.permissionx.guolindev.callback.RequestCallback
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class OTAFragment : BaseFragment<FragmentOtaBinding>() {
     private lateinit var viewModel: OTAViewModel

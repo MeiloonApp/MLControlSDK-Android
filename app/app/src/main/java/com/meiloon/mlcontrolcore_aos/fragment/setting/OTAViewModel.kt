@@ -23,8 +23,8 @@ import com.meiloon.mlcontrolcore_aos.base.BaseViewModel
 import com.meiloon.mlcontrolcore_aos.data.OTAProgress
 import com.meiloon.mlcontrolcore_aos.data.UpdateMode
 import com.meiloon.mlcontrolcore_aos.extension.collectIn
-import com.meiloon.mlcontrolcore_aos.fragment.blescan.ScanUiState
-import com.meiloon.mlcontrolcore_aos.ota.OTAManager
+import com.meiloon.controlcore.ota.OTAManager
+import com.meiloon.controlcore.ota.ScanUiState
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

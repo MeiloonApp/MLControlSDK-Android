@@ -56,6 +56,7 @@ import androidx.lifecycle.lifecycleScope
 import com.meiloon.controlcore.main.api.EQMode
 import com.meiloon.controlcore.main.api.SPKMute
 import com.meiloon.controlcore.main.api.enums.SPKMuteStatus
+import com.meiloon.controlcore.ota.ScanUiState
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.Locale

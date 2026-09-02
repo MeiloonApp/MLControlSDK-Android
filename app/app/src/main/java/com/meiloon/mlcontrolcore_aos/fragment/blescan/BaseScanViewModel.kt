@@ -3,6 +3,7 @@ package com.meiloon.mlcontrolcore_aos.fragment.blescan
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.meiloon.controlcore.ota.ScanUiState
 import com.meiloon.controlcore.widget.app.android.AppViewModel
 import com.meiloon.controlcore.widget.app.ble.BleManager
 import com.meiloon.mlcontrolcore_aos.util.LogManager

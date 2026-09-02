@@ -15,6 +15,7 @@ import com.meiloon.controlcore.widget.app.widget.blufi.BlufiClientManager
 import com.meiloon.mlcontrolcore_aos.adapter.DeviceAdapter
 import com.meiloon.controlcore.main.api.enums.CommandType
 import com.meiloon.controlcore.main.api.enums.CommandType.*
+import com.meiloon.controlcore.ota.ScanUiState
 import com.polidea.rxandroidble3.scan.ScanResult
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
