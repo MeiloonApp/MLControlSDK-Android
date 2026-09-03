@@ -13,8 +13,8 @@ import com.meiloon.controlcore.main.widget.ble.event.ConnectionResponse
 import com.meiloon.mlcontrolcore_aos.base.BaseFragment
 import com.meiloon.mlcontrolcore_aos.data.UpdateMode.*
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentFirmwareUpdateBinding
-import com.meiloon.mlcontrolcore_aos.extension.getFileName
-import com.meiloon.mlcontrolcore_aos.util.StatusAnimationHelper
+import com.meiloon.controlcore.extension.getFileName
+import com.meiloon.controlcore.util.StatusAnimationHelper
 import kotlinx.coroutines.flow.combine
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

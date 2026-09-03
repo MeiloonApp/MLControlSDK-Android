@@ -8,7 +8,7 @@ import android.view.View
 import com.meiloon.controlcore.widget.app.adapter.ViewHolder
 import com.meiloon.controlcore.widget.app.android.AppAdapter
 import com.meiloon.mlcontrolcore_aos.databinding.ItemBleDeviceJlBinding
-import com.meiloon.mlcontrolcore_aos.extension.getSafeName
+import com.meiloon.controlcore.extension.getSafeName
 
 data class BleDeviceItem(val device: BluetoothDevice, var isConnected: Boolean = false)
 

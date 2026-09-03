@@ -6,7 +6,7 @@ import com.meiloon.controlcore.global.activity.GlobalViewModel
 import com.meiloon.controlcore.widget.app.android.AppFragment
 import com.meiloon.mlcontrolcore_aos.activity.MainActivity
 import com.meiloon.mlcontrolcore_aos.data.BottomSheet
-import com.meiloon.mlcontrolcore_aos.extension.collectWithLifecycle
+import com.meiloon.controlcore.extension.collectWithLifecycle
 import com.polidea.rxandroidble3.scan.ScanResult
 import kotlinx.coroutines.flow.Flow
 

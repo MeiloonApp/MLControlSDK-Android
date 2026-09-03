@@ -20,11 +20,11 @@ import com.meiloon.controlcore.global.database.repository.DeviceRepository
 import com.meiloon.mlcontrolcore_aos.adapter.BleDeviceAdapter
 import com.meiloon.mlcontrolcore_aos.adapter.LogAdapter
 import com.meiloon.mlcontrolcore_aos.base.BaseViewModel
-import com.meiloon.mlcontrolcore_aos.data.OTAProgress
 import com.meiloon.mlcontrolcore_aos.data.UpdateMode
-import com.meiloon.mlcontrolcore_aos.extension.collectIn
+import com.meiloon.controlcore.extension.collectIn
 import com.meiloon.controlcore.ota.OTAManager
 import com.meiloon.controlcore.ota.ScanUiState
+import com.meiloon.controlcore.ota.data.OTAProgress
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

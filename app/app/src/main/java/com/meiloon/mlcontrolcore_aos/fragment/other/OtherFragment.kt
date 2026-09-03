@@ -23,7 +23,7 @@ import com.meiloon.mlcontrolcore_aos.data.Command
 import com.meiloon.mlcontrolcore_aos.data.CommandDesc
 import com.meiloon.mlcontrolcore_aos.data.CommandItem
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentOthersBinding
-import com.meiloon.mlcontrolcore_aos.extension.toIntOrZero
+import com.meiloon.controlcore.extension.toIntOrZero
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 

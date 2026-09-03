@@ -17,8 +17,8 @@ import com.meiloon.mlcontrolcore_aos.adapter.BleDeviceItem
 import com.meiloon.mlcontrolcore_aos.data.UpdateMode
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentOtaBinding
 import com.meiloon.mlcontrolcore_aos.base.BaseFragment
-import com.meiloon.mlcontrolcore_aos.extension.getFileName
-import com.meiloon.mlcontrolcore_aos.extension.getSafeName
+import com.meiloon.controlcore.extension.getFileName
+import com.meiloon.controlcore.extension.getSafeName
 import com.permissionx.guolindev.callback.RequestCallback
 
 class OTAFragment : BaseFragment<FragmentOtaBinding>() {
