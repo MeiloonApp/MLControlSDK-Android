@@ -1,26 +1,37 @@
 package com.meiloon.mlcontrolcore_aos.fragment.setting
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import autodispose2.androidx.lifecycle.scope
+import com.meiloon.controlcore.extension.collectWithLifecycle
 import com.meiloon.controlcore.main.factory.ViewModelFactory
 import com.meiloon.controlcore.main.widget.ble.event.ConnectionResponse
 import com.meiloon.mlcontrolcore_aos.base.BaseFragment
-import com.meiloon.mlcontrolcore_aos.data.UpdateMode.*
 import com.meiloon.mlcontrolcore_aos.databinding.FragmentFirmwareUpdateBinding
 import com.meiloon.controlcore.extension.getFileName
+import com.meiloon.mlcontrolcore_aos.data.UpdateMode
+import com.meiloon.controlcore.ota.util.DeviceConnectionManager
+import com.meiloon.controlcore.ota.util.RetryConfig
 import com.meiloon.controlcore.util.StatusAnimationHelper
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import kotlin.text.toInt
 
 class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
     private lateinit var viewModel: OTAViewModel
+    private var connectionManager = DeviceConnectionManager(RetryConfig(6))
     private val statusAnimationHelper by lazy {
         StatusAnimationHelper { binding.tvProgressStatus.text = it }
     }
@@ -44,14 +55,14 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
 
     override fun initUI(context: Context) {
         val viewModelClasses = arrayOf(OTAViewModel::class.java)
-        val factory = ViewModelFactory(context, viewModelClasses) as androidx.lifecycle.ViewModelProvider.Factory
+        val factory = ViewModelFactory(context, viewModelClasses) as ViewModelProvider.Factory
         viewModel = getViewModel(OTAViewModel::class.java, factory)
 
         viewModel.initOTAManager(context)
 
         // 如果是從已連線狀態進入，自動觸發 OTA 連線流程
         mainActivity?.selectedResult?.value?.bleDevice?.macAddress?.let { macAddress ->
-            viewModel.connectOTADevice(macAddress)
+            viewModel.connectDeviceOTA(macAddress)
         }
 
         binding.btnCancelOTA.isEnabled = false
@@ -69,11 +80,15 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
         }
 
         binding.btnSelectFile.setOnClickListener {
-            selectFileLauncher.launch(arrayOf("*/*"))
+            if (!viewModel.isOTAing.value && viewModel.otaProgress.value.progress.toInt() != 100) {
+                selectFileLauncher.launch(arrayOf("*/*"))
+            }
         }
 
         binding.cvFileSelection.setOnClickListener {
-            selectFileLauncher.launch(arrayOf("*/*"))
+            if (!viewModel.isOTAing.value && viewModel.otaProgress.value.progress.toInt() != 100) {
+                selectFileLauncher.launch(arrayOf("*/*"))
+            }
         }
 
         binding.btnStartOTA.setOnClickListener {
@@ -101,16 +116,16 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
             viewModel.connectionStatus,
             viewModel.deviceBankMode,
             viewModel.isOTAing
-        ) { _, _, _, _, _ -> }.collectWithLifecycle {
+        ) { _, _, _, _, _ -> }.collectWithLifecycle(viewLifecycleOwner) {
             updateStartButtonState()
         }
 
-        viewModel.otaProgress.collectWithLifecycle { data ->
+        viewModel.otaProgress.collectWithLifecycle(viewLifecycleOwner) { data ->
             val progress: Int = data.progress.toInt()
             val type = data.type
             binding.progressBar.progress = progress
             binding.tvProgressPercent.text = "${progress}%"
-            
+
             if (progress in 1..<100) {
                 if (type == 0) {
                     startStatusAnimation("準備中")
@@ -118,18 +133,21 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
                     startStatusAnimation("升級中")
                 }
             } else if (progress == 100 && type == 1) {
-                // 設備資料被清空,判斷檔案
-                val msg = if (viewModel.fileBankMode.value == SINGLE) "重啟中" else "升級中"
+                val deviceBankMode = viewModel.deviceBankMode.value
+                val msg = if (deviceBankMode == UpdateMode.SINGLE) "重啟中" else "升級中"
                 startStatusAnimation(msg)
 
-                // 重連 BleControlManager
-                viewModel.reconnectBleControlDevice()
+                // single bank要在 100％後才能重新連線
+                if (deviceBankMode == UpdateMode.SINGLE) {
+                    Log.d("tryReconnect", "100%")
+                    viewModel.connectDeviceBLE()
+                }
             } else {
 //                stopStatusAnimation("Loader 100%")
             }
         }
 
-        viewModel.isOTAing.collectWithLifecycle { isOTAing ->
+        viewModel.isOTAing.collectWithLifecycle(viewLifecycleOwner) { isOTAing ->
             if (isOTAing) {
                 if (viewModel.otaProgress.value.progress.toInt() == 0) {
                     startStatusAnimation("準備中")
@@ -141,8 +159,8 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
                 }
             }
         }
-        
-        viewModel.toastEvent.collectWithLifecycle { message ->
+
+        viewModel.toastEvent.collectWithLifecycle(viewLifecycleOwner) { message ->
             showToast(message)
         }
     }
@@ -152,17 +170,13 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
         val hasFile = name.isNotEmpty() && name != "尚未選擇檔案"
         val isConnected = viewModel.connectionStatus.value == "已連線"
         val isOTAing = viewModel.isOTAing.value
-        val canUpdate = viewModel.checkCanUpdate()
+        val updateComplete = viewModel.otaProgress.value.progress.toInt() == 100
 
         binding.tvFileName.text = name
         binding.tvDeviceType.text = viewModel.deviceBankMode.value.text
 
-        // 1. 開始升級按鈕：必須有檔案、已連線、模式匹配，且「目前沒在升級」
-        binding.btnStartOTA.isEnabled = hasFile && isConnected && canUpdate && !isOTAing
-
-        // 2. 取消升級按鈕：只有在「正在升級中」才啟動
-        // single: 不能被中止, double: 需要設備支援才能取消。
-//        binding.btnCancelOTA.isEnabled = isOTAing
+        // 1. 開始升級按鈕：必須有檔案、已連線、目前沒在升級 且 不是更新完成
+        binding.btnStartOTA.isEnabled = hasFile && isConnected && !isOTAing && !updateComplete
     }
 
     override fun onVisibleChange(visible: Boolean) {
@@ -184,9 +198,31 @@ class FirmwareUpdateFragment : BaseFragment<FragmentFirmwareUpdateBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: ConnectionResponse) {
+        val mac = event.bluetooth.address
+        val updateComplete = viewModel.otaProgress.value.progress.toInt() == 100
+
+        Log.d("onMessageEvent", "設備: ${event.bluetooth.address}, 連線狀態: ${event.connected}")
+
         if (event.connected) {
-            val msg = if (viewModel.fileBankMode.value == SINGLE) "重啟完成" else "更新完成"
-            stopStatusAnimation(msg)
+            connectionManager.reset(mac)
+            viewModel.connectDeviceOTA(mac)
+
+            if (updateComplete) {
+                val msg = if (viewModel.deviceBankMode.value == UpdateMode.SINGLE) "重啟完成" else "更新完成"
+                stopStatusAnimation(msg)
+            }
+        } else {
+            if (updateComplete) {
+                if (connectionManager.incrementRetry(mac)) {
+                    Log.d("tryReconnect", "嘗試重連設備 [$mac]，第 ${connectionManager.getOrCreateState(mac).count} 次")
+                    viewModel.connectDeviceBLE(mac)
+                } else {
+                    Log.w("tryReconnect", "設備 [$mac] 已達最大重試次數")
+                    viewModel.connectDeviceOTA(mac)
+                }
+            } else {
+                stopStatusAnimation("設備已斷線")
+            }
         }
     }
 

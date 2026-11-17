@@ -22,6 +22,7 @@ import com.meiloon.mlcontrolcore_aos.adapter.LogAdapter
 import com.meiloon.mlcontrolcore_aos.base.BaseViewModel
 import com.meiloon.mlcontrolcore_aos.data.UpdateMode
 import com.meiloon.controlcore.extension.collectIn
+import com.meiloon.controlcore.main.widget.ble.BleControlManager
 import com.meiloon.controlcore.ota.OTAManager
 import com.meiloon.controlcore.ota.ScanUiState
 import com.meiloon.controlcore.ota.data.OTAProgress
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
 
     private var otaManager: OTAManager? = null
+    var otaDvice: BluetoothEntity? = null
     val deviceAdapter = BleDeviceAdapter()
     val logAdapter = LogAdapter()
     private var selectedFileUri: Uri? = null
@@ -68,11 +70,11 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
         override fun onHfpStatus(bluetoothDevice: BluetoothDevice, i: Int) {}
 
         override fun onMandatoryUpgrade(bluetoothDevice: BluetoothDevice) {
-            addLog("提示：設備強制升級")
+//            addLog("提示：設備強制升級")
         }
 
         override fun onError(error: BaseError?) {
-            addLog("SDK 錯誤: ${error?.message}")
+//            addLog("SDK 錯誤: ${error?.message}")
         }
     }
 
@@ -93,14 +95,14 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
 
                 delay(500)
                 addLog("開始連線到 $deviceName")
-                connectOTADevice(device.address)
+                connectDeviceBLE(device.address)
             }
         }
     }
 
     fun updateSelectedFile(context: Context, uri: Uri, name: String) {
         selectedFileUri = uri
-        addLog("已選擇檔案: $name")
+//        addLog("已選擇檔案: $name")
 
         fileBankMode.value = UpdateMode.UNKNOW
         fileName.value = ""
@@ -126,7 +128,7 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
                 fileBankMode.value = if (isDoubleBank) UpdateMode.DOUBLE else UpdateMode.SINGLE
             }
         } catch (e: Exception) {
-            addLog("檔案解析失敗: ${e.message}")
+//            addLog("檔案解析失敗: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -141,7 +143,7 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
         }
 
         connectionStatus.value = stateText
-        addLog("狀態回報: $type $stateText")
+//        addLog("狀態回報: $type $stateText")
 
         if (status == StateCode.CONNECTION_OK) {
             val addr = address ?: otaManager?.connectedDevice?.address
@@ -149,7 +151,7 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
             val info = otaManager?.deviceInfo
             if (info != null) {
                 deviceBankMode.value = if (info.isSupportDoubleBackup) UpdateMode.DOUBLE else UpdateMode.SINGLE
-                addLog("獲得設備資訊：needBootLoader: ${info.isNeedBootLoader} address: ${info.bleAddr}")
+//                Log.d("獲得設備資訊", "needBootLoader: ${info.isNeedBootLoader} address: ${info.bleAddr}")
             }
 
             if (addr != null) {
@@ -167,21 +169,11 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
                 }
                 deviceAdapter.replaceAllItems(newItems)
             }
-            deviceBankMode.value = UpdateMode.UNKNOW
+
+            if (!isOTAing.value) {
+                deviceBankMode.value = UpdateMode.UNKNOW
+            }
         }
-    }
-
-    fun connectOTADevice(address: String) {
-        // 先撈DB符合的設備(BleScan),失敗的話再拿藍牙連線的設備(OTAFragment)
-        subscribeSingle<BluetoothEntity>(getDevice(address), { device ->
-                otaManager?.setTargetEntity(device)
-                otaManager?.connectBluetoothDevice(device.bluetoothDevice)
-        }, { error ->
-            Log.w("connectOTADevice", "Device not in DB yet: ${error.localizedMessage}")
-
-            val bluetoothDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address)
-            otaManager?.connectBluetoothDevice(bluetoothDevice)
-        })
     }
 
     fun disconnectDevice() {
@@ -191,23 +183,23 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
 
     fun startOTA(context: Context) {
         val uri = selectedFileUri ?: run {
-            addLog("錯誤: 尚未選擇檔案")
+//            addLog("錯誤: 尚未選擇檔案")
             return
         }
 
         val device = otaManager?.connectedDevice ?: run {
-            addLog("錯誤: 設備未連線")
+//            addLog("錯誤: 設備未連線")
             return
         }
 
         try {
             val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
             if (bytes == null) {
-                addLog("錯誤: 無法讀取檔案內容")
+//                addLog("錯誤: 無法讀取檔案內容")
                 return
             }
 
-            addLog("準備開始 OTA (${device.address}), 檔案大小: ${bytes.size} bytes")
+//            addLog("準備開始 OTA (${device.address}), 檔案大小: ${bytes.size} bytes")
 
             otaManager?.bluetoothOption?.apply {
                 firmwareFileData = bytes
@@ -217,7 +209,7 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
                 override fun onStartOTA() {
                     isOTAing.value = true
                     otaProgress.value = OTAProgress(0, 0f)
-                    addLog("OTA 已啟動")
+//                    addLog("OTA 已啟動")
                 }
 
                 override fun onNeedReconnect(address: String?, isPaired: Boolean) {
@@ -231,7 +223,7 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
                     val name = if (type == 0) "正在下載引導程序: " else "OTA升級: "
                     // 進度有更新才顯示Log
                     if (p > currentProgress) {
-                        addLog("${name} 進度: $p%")
+//                        addLog("${name} 進度: $p%")
                     }
 
                     otaProgress.value = OTAProgress(type, progress)
@@ -240,12 +232,12 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
                 override fun onStopOTA() {
                     isOTAing.value = false
                     otaProgress.value = OTAProgress(1, 100f)
-                    addLog("OTA 成功完成")
+//                    addLog("OTA 成功完成")
                 }
 
                 override fun onCancelOTA() {
                     isOTAing.value = false
-                    addLog("OTA 已取消")
+//                    addLog("OTA 已取消")
                 }
 
                 override fun onError(error: BaseError?) {
@@ -254,12 +246,12 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
                     viewModelScope.launch {
                         toastEvent.emit(msg)
                     }
-                    addLog(msg)
+//                    addLog(msg)
                 }
             })
 
         } catch (e: Exception) {
-            addLog("啟動 OTA 失敗: ${e.message}")
+//            addLog("啟動 OTA 失敗: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -297,12 +289,7 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
     fun getDevice(address: String): Single<BluetoothEntity> {
         return repository.getDevice(address)
     }
-    
-    fun reconnectBleControlDevice() {
-        otaManager?.reconnectControlDevice()
-    }
 
-    // Standalone Scan methods
     fun isScanningNow(): Boolean = otaManager?.isScanningNow() ?: false
 
     fun startScanLoop(onResult: (ScanResult) -> Unit) {
@@ -312,9 +299,42 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
             addLog("已達到 15 秒獨立掃描時限，自動停止")
         }
     }
+    fun connectDeviceOTA(address: String) {
+        // 若已有目標設備，則僅在 MAC 位址相符時連線；若尚無目標設備，則允許連線並建立目標
+        if (otaDvice?.address == null || otaDvice?.address == address) {
+            subscribeSingle<BluetoothEntity>(getDevice(address), { device ->
+                otaDvice = device
+                otaManager?.setTargetEntity(device)
+                otaManager?.connectBluetoothDevice(device.bluetoothDevice)
+            }, { error ->
+                Log.w("connectDeviceOTA", "Device not in DB yet: ${error.localizedMessage}")
+                val bluetoothDevice = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address)
+                otaManager?.connectBluetoothDevice(bluetoothDevice)
+            })
+        }
+    }
 
     fun connectedDevice(): BluetoothDevice? {
         return otaManager?.connectedDevice
+    }
+
+    fun updateScanDevices(macAddress: String, scanResult: ScanResult) {
+        onScanDevicesMap[macAddress] = scanResult
+        onScanDevicesChange.postValue(onScanDevicesMap.values.toList())
+    }
+
+    fun connectDeviceBLE(address: String = "") {
+        otaDvice?.let { device ->
+            if (address != "" && address != device.address) {
+                subscribeSingle<BluetoothEntity>(getDevice(address), { device ->
+                    BleControlManager.getInstance().connect(device, false)
+                }, { error ->
+                    Log.w("connectDeviceBLE", "error: ${error.localizedMessage}")
+                })
+            } else {
+                BleControlManager.getInstance().connect(device, false)
+            }
+        }
     }
 
     fun stopScanAction() {
@@ -323,11 +343,6 @@ class OTAViewModel(private val repository: DeviceRepository) : BaseViewModel() {
 
     fun cancelOTA() {
         otaManager?.cancelOTA()
-    }
-
-    fun updateScanDevices(macAddress: String, scanResult: ScanResult) {
-        onScanDevicesMap[macAddress] = scanResult
-        onScanDevicesChange.postValue(onScanDevicesMap.values.toList())
     }
 
     override fun onCleared() {
